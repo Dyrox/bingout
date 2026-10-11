@@ -1,4 +1,4 @@
-package me.jfenn.bingo.common.scope
+package me.jfenn.bingo.platform.scope
 
 import net.minecraft.server.MinecraftServer
 

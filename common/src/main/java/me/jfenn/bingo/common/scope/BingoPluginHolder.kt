@@ -2,6 +2,7 @@ package me.jfenn.bingo.common.scope
 
 import me.jfenn.bingo.plugin.IBingoInternalPlugin
 import org.koin.core.Koin
+import org.koin.core.scope.Scope
 import java.util.*
 
 object BingoPluginHolder {
@@ -12,6 +13,10 @@ object BingoPluginHolder {
 
     fun init(koin: Koin) {
         plugins.forEach { it.initialize(koin) }
+    }
+
+    fun initScope(scope: Scope) {
+        plugins.forEach { it.onScopeStarted(scope) }
     }
 
     fun close() {

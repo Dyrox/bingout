@@ -1,6 +1,6 @@
 package me.jfenn.bingo
 
-import me.jfenn.bingo.common.scope.BingoScope
+import me.jfenn.bingo.platform.scope.BingoScope
 import me.jfenn.bingo.impl.*
 import me.jfenn.bingo.impl.dialog.DialogManager
 import me.jfenn.bingo.impl.event.ServerCloseEvent

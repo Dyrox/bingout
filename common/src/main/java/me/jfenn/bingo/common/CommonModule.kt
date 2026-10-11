@@ -51,7 +51,7 @@ import me.jfenn.bingo.common.ready.ReadyTimerState
 import me.jfenn.bingo.common.reset.ResetOnLeaveController
 import me.jfenn.bingo.common.reset.ResetService
 import me.jfenn.bingo.common.scope.BingoPluginHolder
-import me.jfenn.bingo.common.scope.BingoScope
+import me.jfenn.bingo.platform.scope.BingoScope
 import me.jfenn.bingo.common.scope.ScopeManager
 import me.jfenn.bingo.common.scoreboard.ScoreboardController
 import me.jfenn.bingo.common.scoreboard.ScoreboardDataController
@@ -371,7 +371,6 @@ val commonModule = module {
 }
 
 fun Koin.commonInit() {
-    get<BingoPluginHolder>()
     get<DataLoaderManager>()
 
     get<MapColors>()
