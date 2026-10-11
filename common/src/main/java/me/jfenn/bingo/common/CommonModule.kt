@@ -51,7 +51,6 @@ import me.jfenn.bingo.common.ready.ReadyTimerState
 import me.jfenn.bingo.common.reset.ResetOnLeaveController
 import me.jfenn.bingo.common.reset.ResetService
 import me.jfenn.bingo.common.scope.BingoPluginHolder
-import me.jfenn.bingo.platform.scope.BingoScope
 import me.jfenn.bingo.common.scope.ScopeManager
 import me.jfenn.bingo.common.scoreboard.ScoreboardController
 import me.jfenn.bingo.common.scoreboard.ScoreboardDataController
@@ -93,6 +92,7 @@ import me.jfenn.bingo.mixinhandler.PlayerEntityMixinHandler
 import me.jfenn.bingo.mixinhandler.PlayerManagerMixinHelper
 import me.jfenn.bingo.platform.config.IConfigManager
 import me.jfenn.bingo.platform.event.IEventBus
+import me.jfenn.bingo.platform.scope.BingoScope
 import me.jfenn.bingo.platform.scope.IScopeManager
 import org.koin.core.Koin
 import org.koin.core.module.dsl.scopedOf
@@ -402,6 +402,7 @@ fun Koin.commonInit() {
     get<StatsService>()
 
     get<PlaceholdersIntegration>()
+    BingoPluginHolder.init(this)
 }
 
 fun Scope.commonInit() {
@@ -460,4 +461,5 @@ fun Scope.commonInit() {
     get<PlayerAdvancementTrackerMixinHelper>()
     get<PlayerEntityMixinHandler>()
     get<PlayerManagerMixinHelper>()
+    BingoPluginHolder.initScope(this)
 }

@@ -46,8 +46,6 @@ class ScopeManager internal constructor(
     }
 
     init {
-        BingoPluginHolder.init(koin)
-
         eventBus.register(ServerEvent.Starting) { (server) ->
             val isLobbyMode = server.worldData.dataConfiguration.dataPacks.enabled.contains("file/$BINGO.zip")
             if (isLobbyMode) log.info("[ScopeManager] $BINGO.zip datapack exists - starting with isLobbyMode=true")
@@ -76,7 +74,6 @@ class ScopeManager internal constructor(
             val state = scope.get<BingoState>()
 
             scope.commonInit()
-            BingoPluginHolder.initScope(scope)
 
             // re-run state entry listeners
             if (state.state == GameState.UNINITIALIZED) {

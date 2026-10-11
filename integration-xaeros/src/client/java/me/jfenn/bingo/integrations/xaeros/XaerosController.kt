@@ -13,7 +13,6 @@ import java.io.IOException
 import java.nio.file.Path
 import java.util.function.Consumer
 
-
 class XaerosController(
     private val log: Logger,
     environment: IModEnvironment,
