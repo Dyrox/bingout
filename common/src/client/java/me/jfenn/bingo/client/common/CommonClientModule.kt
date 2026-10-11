@@ -20,6 +20,7 @@ import me.jfenn.bingo.client.integrations.JeiIntegration
 import me.jfenn.bingo.client.integrations.YetAnotherConfigLibIntegration
 import me.jfenn.bingo.client.integrations.jei.IJeiApi
 import me.jfenn.bingo.client.integrations.jei.IJeiApiFactory
+import me.jfenn.bingo.common.scope.BingoPluginHolder
 import org.koin.core.module.dsl.createdAtStart
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -29,6 +30,7 @@ import org.koin.dsl.module
 import java.util.*
 
 val commonClientModule = module {
+    includes(BingoPluginHolder.clientModules)
     singleOf(::ClientPacketEvents) withOptions { createdAtStart() }
 
     single { BingoHudState() }

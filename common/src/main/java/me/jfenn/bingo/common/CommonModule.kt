@@ -94,7 +94,6 @@ import me.jfenn.bingo.mixinhandler.PlayerManagerMixinHelper
 import me.jfenn.bingo.platform.config.IConfigManager
 import me.jfenn.bingo.platform.event.IEventBus
 import me.jfenn.bingo.platform.scope.IScopeManager
-import me.jfenn.bingo.plugin.IBingoInternalPlugin
 import org.koin.core.Koin
 import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
@@ -118,6 +117,7 @@ val baseModule = module {
 
 val commonModule = module {
     includes(baseModule)
+    includes(BingoPluginHolder.modules)
 
     singleOf(::MapColors)
     singleOf(::TextProvider)
@@ -178,14 +178,6 @@ val commonModule = module {
         ServiceLoader.load(IVoiceApiFactory::class.java)
             .firstNotNullOfOrNull { it.create(get()) }
             ?: DummyVoiceApi
-    }
-
-    single {
-        BingoPluginHolder(
-            getKoin(),
-            ServiceLoader.load(IBingoInternalPlugin::class.java)
-                .toList()
-        )
     }
 
     singleOf(::TrackedFileService)
