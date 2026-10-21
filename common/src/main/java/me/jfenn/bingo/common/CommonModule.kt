@@ -70,9 +70,6 @@ import me.jfenn.bingo.common.text.PlaceholderService
 import me.jfenn.bingo.common.text.TextProvider
 import me.jfenn.bingo.common.timer.*
 import me.jfenn.bingo.common.utils.Build
-import me.jfenn.bingo.integrations.chunky.ChunkyController
-import me.jfenn.bingo.integrations.chunky.DummyChunky
-import me.jfenn.bingo.integrations.chunky.IChunkyApiFactory
 import me.jfenn.bingo.integrations.permissions.FallbackPermissionsApi
 import me.jfenn.bingo.integrations.permissions.IPermissionsApi
 import me.jfenn.bingo.integrations.permissions.IPermissionsApiFactory
@@ -161,12 +158,6 @@ val commonModule = module {
             ?: DummyPlaceholders
     }
     singleOf(::PlaceholdersIntegration)
-
-    single<IChunkyApiFactory> {
-        ServiceLoader.load(IChunkyApiFactory::class.java).findFirst()
-            .getOrNull()
-            ?: DummyChunky.Factory
-    }
 
     single<IPermissionsApi> {
         ServiceLoader.load(IPermissionsApiFactory::class.java)
@@ -359,9 +350,6 @@ val commonModule = module {
                 ?: DummyVanish
         }
 
-        scoped { get<IChunkyApiFactory>().create(this) }
-        scopedOf(::ChunkyController)
-
         scopedOf(::VoiceGroupController)
 
         scopedOf(::PlayerAdvancementTrackerMixinHelper)
@@ -455,7 +443,6 @@ fun Scope.commonInit() {
     get<ChestController>()
     get<SpawnPreloadingController>()
 
-    get<ChunkyController>()
     get<VoiceGroupController>()
 
     get<PlayerAdvancementTrackerMixinHelper>()

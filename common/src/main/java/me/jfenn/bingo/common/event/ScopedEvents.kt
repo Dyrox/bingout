@@ -14,7 +14,7 @@ import me.jfenn.bingo.platform.packet.IServerPacketHandlerC2S
 import me.jfenn.bingo.platform.packet.ServerPacket
 import org.slf4j.Logger
 
-internal class ScopedEvents(
+class ScopedEvents(
     private val log: Logger,
     private val eventBus: IEventBus,
 ) : BingoComponent() {
@@ -51,7 +51,7 @@ internal class ScopedEvents(
 
     fun onStateChange(callback: (StateChangedEvent) -> Unit) = eventBus.register(StateChangedEvent, callback)
     fun onChangeOptions(callback: (Unit) -> Unit) = eventBus.register(OptionsChangedEvent, callback)
-    fun onChangeTeam(callback: (TeamChangedEvent) -> Unit) {
+    internal fun onChangeTeam(callback: (TeamChangedEvent) -> Unit) {
         eventBus.register(TeamChangedEvent, callback)
     }
 

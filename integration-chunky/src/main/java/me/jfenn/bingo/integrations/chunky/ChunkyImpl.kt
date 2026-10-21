@@ -6,7 +6,7 @@ import org.popcraft.chunky.iterator.PatternType
 import org.popcraft.chunky.shape.ShapeType
 import org.slf4j.Logger
 
-class ChunkyImpl(
+internal class ChunkyImpl(
     private val config: ChunkyConfig,
     private val serverWorldFactory: IServerWorldFactory,
     private val log: Logger,
