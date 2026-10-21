@@ -108,8 +108,10 @@ internal class VoiceGroupController(
     }
 
     init {
-        scopedEvents.onEnter(GameState.STARTING) {
-            onStateChange()
+        scopedEvents.onStateChange { (from, to) ->
+            // If the game enters a starting state
+            if (to.status != from.status && to.status == BingoGameStatus.STARTING)
+                onStateChange()
         }
 
         scopedEvents.onEnter(GameState.POSTGAME) {
