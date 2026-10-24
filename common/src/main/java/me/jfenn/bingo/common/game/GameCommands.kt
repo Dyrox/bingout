@@ -4,6 +4,7 @@ import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.Permission
 import me.jfenn.bingo.common.commands.hasPermission
 import me.jfenn.bingo.common.commands.hasState
+import me.jfenn.bingo.common.ready.VoteType
 import me.jfenn.bingo.common.scope.BingoComponent
 import me.jfenn.bingo.common.state.BingoState
 import me.jfenn.bingo.common.text.TextProvider
@@ -74,6 +75,8 @@ class GameCommands(
                 }
                 executes {
                     val resumeService = scope.get<GameResumeService>()
+                    val state = scope.get<BingoState>()
+                    state.previousPostgameVote = VoteType.KEEP_PLAYING
                     resumeService.resume()
                     sendFeedback(text.string(StringKey.CommandResumeSuccess))
                 }

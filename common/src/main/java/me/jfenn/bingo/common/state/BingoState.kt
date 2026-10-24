@@ -12,6 +12,7 @@ import me.jfenn.bingo.common.menu.MenuState
 import me.jfenn.bingo.common.options.BingoOptions
 import me.jfenn.bingo.common.options.RestoreOption
 import me.jfenn.bingo.common.options.format
+import me.jfenn.bingo.common.ready.VoteType
 import me.jfenn.bingo.common.scoring.GameMessage
 import me.jfenn.bingo.common.spawn.PlayerState
 import me.jfenn.bingo.common.team.BingoTeam
@@ -74,6 +75,10 @@ data class BingoState internal constructor(
      * Stores if the game was ended manually (with "/bingo end")
      */
     var isForfeit: Boolean = false,
+    /**
+     * Stores the last used vote option (shown on the next round if the config.json type is [me.jfenn.bingo.common.ready.PostgameDefaultVoteType.AUTO])
+     */
+    var previousPostgameVote: VoteType? = null,
     var randomSeed: Long = Random.nextLong(),
 ) {
 

@@ -101,17 +101,20 @@ internal class ReadyController(
                 VoteType.RETURN_TO_LOBBY -> {
                     serverTaskExecutor.execute {
                         resetService.resetGame()
+                        state.previousPostgameVote = VoteType.RETURN_TO_LOBBY
                     }
                 }
                 VoteType.KEEP_PLAYING -> {
                     serverTaskExecutor.execute {
                         resumeService.resume()
+                        state.previousPostgameVote = VoteType.KEEP_PLAYING
                     }
                 }
                 VoteType.NEXT_ROUND -> {
                     serverTaskExecutor.execute {
                         resetService.resetGame(ResetOptions(GameState.STARTING_NEXT_ROUND))
                         gameService.start(ignoreWarnings = true, allowSpectators = true)
+                        state.previousPostgameVote = VoteType.NEXT_ROUND
                     }
                 }
                 null -> {}

@@ -7,8 +7,9 @@ import me.jfenn.bingo.common.commands.hasPermission
 import me.jfenn.bingo.common.commands.hasState
 import me.jfenn.bingo.common.commands.runByName
 import me.jfenn.bingo.common.config.BingoConfig
-import me.jfenn.bingo.common.reset.ResetOptions
+import me.jfenn.bingo.common.ready.VoteType
 import me.jfenn.bingo.common.reset.ResetService
+import me.jfenn.bingo.common.state.BingoState
 import me.jfenn.bingo.common.text.TextProvider
 import me.jfenn.bingo.generated.StringKey
 import me.jfenn.bingo.platform.IExecutors
@@ -72,6 +73,10 @@ internal class BingoLobbyCommand(
     private fun IExecutionContext.reset() {
         val resetService = scope.get<ResetService>()
         val serverTaskExecutor = scope.get<IExecutors.IServerTaskExecutor>()
+        val state = scope.get<BingoState>()
+        if (state.state == GameState.POSTGAME) {
+            state.previousPostgameVote = VoteType.RETURN_TO_LOBBY
+        }
         sendFeedback(text.string(StringKey.CommandResetSuccess))
         serverTaskExecutor.execute {
             resetService.resetGame()

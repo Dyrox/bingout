@@ -3,7 +3,7 @@ package me.jfenn.bingo.common.config
 import kotlinx.serialization.Serializable
 import me.jfenn.bingo.common.card.filter.ObjectiveFilterList
 import me.jfenn.bingo.common.card.tierlist.TierLabel
-import me.jfenn.bingo.common.ready.VoteType
+import me.jfenn.bingo.common.ready.PostgameDefaultVoteType
 import me.jfenn.bingo.platform.utils.UuidAsString
 import java.util.*
 
@@ -62,7 +62,7 @@ data class BingoConfig(
     val extendRoundTimeLimitByMinutes: Int = 15,
 
     @Description("The default option to choose after the game ends. This can be `NEXT_ROUND`, `KEEP_PLAYING`, or `RETURN_TO_LOBBY`.")
-    val defaultPostGameReadyOption: VoteType = VoteType.NEXT_ROUND,
+    val defaultPostGameReadyOption: PostgameDefaultVoteType = PostgameDefaultVoteType.AUTO,
 
     @Description("""
         Whether to keep players on the same teams when returning to the lobby after a game has finished.
