@@ -100,6 +100,7 @@ internal class BingoHudScreen(
 
     companion object {
         private val NEW_BEST_DURATION = 2.seconds
+        private const val VOTES_MAX = 8
     }
 
     private val width by helper::width
@@ -511,6 +512,23 @@ internal class BingoHudScreen(
         }
     }
 
+    private fun renderVoteButtonChars(
+        drawService: IDrawService,
+        button: IButton,
+        voteOption: VoteOption,
+        votesChars: Int = voteOption.votes.coerceAtMost(VOTES_MAX),
+    ) {
+        button.active = !voteOption.clientSelected
+
+        if (votesChars > 0) {
+            val votesText = text.literal(List(votesChars) { "·" }.joinToString(" "))
+            val votesWidth = drawService.font.getTextWidth(votesText)
+            val votesX = button.position.x + (button.size.x / 2) - (votesWidth / 2)
+            val votesY = button.position.y + button.size.y - 10
+            drawService.drawText(votesText, x = votesX, y = votesY, -1)
+        }
+    }
+
     private fun renderVoteButtonIndicators(drawService: IDrawService) {
         // If there are no options available, close the screen!
         val voteOptions = state.ready?.voteOptions.orEmpty()
@@ -520,20 +538,16 @@ internal class BingoHudScreen(
         }
 
         val maxVotes = voteOptions.maxOfOrNull { it.votes } ?: 0
-        val voteToCharRatio = maxVotes.coerceAtMost(8).toFloat() / maxVotes.coerceAtLeast(1)
+        val voteToCharRatio = maxVotes.coerceAtMost(VOTES_MAX).toFloat() / maxVotes.coerceAtLeast(1)
 
         for (voteOption in voteOptions) {
             val button = optionButtons[voteOption.id] ?: continue
-            button.active = !voteOption.clientSelected
-
-            val votesChars = (voteOption.votes * voteToCharRatio).roundToInt()
-            if (votesChars > 0) {
-                val votesText = text.literal(List(votesChars) { "·" }.joinToString(" "))
-                val votesWidth = drawService.font.getTextWidth(votesText)
-                val votesX = button.position.x + (button.size.x / 2) - (votesWidth / 2)
-                val votesY = button.position.y + button.size.y - 10
-                drawService.drawText(votesText, x = votesX, y = votesY, -1)
-            }
+            renderVoteButtonChars(
+                drawService = drawService,
+                button = button,
+                voteOption = voteOption,
+                votesChars = (voteOption.votes * voteToCharRatio).roundToInt()
+            )
         }
     }
 
@@ -550,12 +564,6 @@ internal class BingoHudScreen(
 
         val ready = state.ready
         primaryVoteOption = ready?.voteOptions?.find { it.id == ready.votePending }
-        primaryVoteOption?.let {
-            primaryButton.message = it.title
-            primaryButton.active = !it.clientSelected
-        } ?: run {
-            primaryButton.active = ready?.isReady == false
-        }
 
         state.ready?.takeIf { it.isRunning }?.subtitle?.let { title ->
             val titleWidth = drawService.font.getTextWidth(title)
@@ -569,6 +577,17 @@ internal class BingoHudScreen(
 
         if (isMoreOptionsOpen) {
             renderVoteButtonIndicators(drawService)
+        } else {
+            primaryVoteOption?.let {
+                primaryButton.message = it.title
+                renderVoteButtonChars(
+                    drawService = drawService,
+                    button = primaryButton,
+                    voteOption = it,
+                )
+            } ?: run {
+                primaryButton.active = ready?.isReady == false
+            }
         }
 
         val cardTop = (height/2) - (ClientCardBufferRenderer.CARD_HEIGHT /2)
