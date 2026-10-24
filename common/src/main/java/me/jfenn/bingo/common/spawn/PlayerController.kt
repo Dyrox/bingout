@@ -215,6 +215,18 @@ internal class PlayerController(
         }
     }
 
+    private fun teleportAllToLobby() {
+        // if any player is still in the world, teleport to the lobby
+        for (player in playerManager.getPlayers()) {
+            if (player.world.identifier == LOBBY_WORLD_IDENTIFIER) {
+                // hack: teleport the player to the overworld to force reloading the dimension
+                player.teleport(serverWorldFactory.overworld, Vector3d(0.0), 0f, 0f)
+            }
+            spawnService.teleportToLobby(player)
+            state.playersJoinedIds += player.uuid
+        }
+    }
+
     init {
         events.onPlayerInit { (player) ->
             // update vanish status on init, so that players are hidden before the login message
@@ -236,15 +248,11 @@ internal class PlayerController(
         }
 
         events.onEnter(GameState.PREGAME) {
-            // if any player is still in the world, teleport to the lobby
-            for (player in playerManager.getPlayers()) {
-                if (player.world.identifier == LOBBY_WORLD_IDENTIFIER) {
-                    // hack: teleport the player to the overworld to force reloading the dimension
-                    player.teleport(serverWorldFactory.overworld, Vector3d(0.0), 0f, 0f)
-                }
-                spawnService.teleportToLobby(player)
-                state.playersJoinedIds += player.uuid
-            }
+            teleportAllToLobby()
+        }
+
+        events.onEnter(GameState.LOBBY_EDITOR) {
+            teleportAllToLobby()
         }
 
         events.onPlayerRespawn { event ->
