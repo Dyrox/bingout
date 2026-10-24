@@ -7,6 +7,14 @@ configurations {
     shade
 }
 
+loom {
+    runs {
+        client {
+            jvmArguments.addAll("-XX:+UseZGC", "-XX:+PerfDisableSharedMem")
+        }
+    }
+}
+
 dependencies {
     implementation libs.insert.koin.core
     shade libs.insert.koin.core
