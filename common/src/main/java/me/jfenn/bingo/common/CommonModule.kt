@@ -48,6 +48,8 @@ import me.jfenn.bingo.common.ready.ReadyCommand
 import me.jfenn.bingo.common.draft.DraftCommand
 import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.common.draft.DraftoutTriggerController
+import me.jfenn.bingo.common.draft.ProgressFeedbackController
+import me.jfenn.bingo.common.draft.ProgressDetailsService
 import me.jfenn.bingo.common.ready.ReadyController
 import me.jfenn.bingo.common.ready.ReadyService
 import me.jfenn.bingo.common.ready.ReadyTimerState
@@ -345,6 +347,8 @@ val commonModule = module {
         scopedOf(::WaitUntilLoadedController)
         scopedOf(::DraftController)
         scopedOf(::DraftoutTriggerController)
+        scopedOf(::ProgressFeedbackController)
+        scopedOf(::ProgressDetailsService)
 
         scopedOf(::ResetOnLeaveController)
 
@@ -443,6 +447,7 @@ fun Scope.commonInit() {
     get<WaitUntilLoadedController>()
     get<DraftController>()
     get<DraftoutTriggerController>()
+    get<ProgressFeedbackController>()
 
     get<ResetOnLeaveController>()
 

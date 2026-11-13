@@ -1,5 +1,11 @@
 package me.jfenn.bingo.common.map
 
+import me.jfenn.bingo.common.draft.ProgressDetailsService
+import me.jfenn.bingo.common.utils.formatTitle
+import me.jfenn.bingo.platform.IAdvancementManager
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.Identifier
+import net.minecraft.server.MinecraftServer
 import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.Permission
@@ -43,6 +49,9 @@ internal class CardViewService(
     private val packets: ServerPacketEvents,
     private val itemStackFactory: IItemStackFactory,
     private val containerMenuFactory: IContainerMenu.Factory,
+    private val minecraftServer: MinecraftServer,
+    private val advancementManager: IAdvancementManager,
+    private val progressDetails: ProgressDetailsService,
 ) {
 
     companion object {
@@ -262,7 +271,7 @@ internal class CardViewService(
                 StringKey.CardObjectiveProgress,
                 progressCount.toString(),
                 progressTarget.toString(),
-            ).formatted(Formatting.GRAY)
+            ).formatted(Formatting.GRAY) + formatProgressDetails(team?.let { getProgressDetails(it, objective, card) }.orEmpty())
         } else entry.display.lore
 
         val action = when (
@@ -305,11 +314,102 @@ internal class CardViewService(
         )
     }
 
+    /** One thing that counts towards a goal, e.g. a bred animal or an eaten food */
+    internal class ProgressEntry(
+        val id: String,
+        val name: IText,
+        val count: Int,
+        val showCount: Boolean,
+    )
+
+    /** Display name for a registry id (entity, item, block, mob effect, biome), e.g. "minecraft:cow" -> "Cow" */
+    private fun registryName(rawId: String): IText {
+        val id = Identifier.tryParse(if (':' in rawId) rawId else "minecraft:$rawId")
+            ?: return textProvider.literal(rawId)
+        val key = when {
+            BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> BuiltInRegistries.ENTITY_TYPE.getValue(id).descriptionId
+            BuiltInRegistries.ITEM.containsKey(id) -> BuiltInRegistries.ITEM.getValue(id).descriptionId
+            BuiltInRegistries.BLOCK.containsKey(id) -> BuiltInRegistries.BLOCK.getValue(id).descriptionId
+            BuiltInRegistries.MOB_EFFECT.containsKey(id) -> BuiltInRegistries.MOB_EFFECT.getValue(id)?.descriptionId
+            else -> null
+        } ?: "biome.${id.namespace}.${id.path}"
+        return textProvider.translatable(key, id.path.formatTitle())
+    }
+
+    private fun advancementName(id: String): IText {
+        return advancementManager.getAdvancement(minecraftServer, id)?.name
+            ?: textProvider.literal(id.substringAfterLast('/').formatTitle())
+    }
+
+    /** Name of a sub-goal of a "some of" goal, e.g. "Zombie" for the "killed zombie" statistic */
+    private fun innerName(inner: BingoObjective): IText = when (inner) {
+        is BingoObjective.ItemEntry -> registryName(inner.itemId)
+        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryName(it) }
+            ?: inner.display.name ?: textProvider.literal(inner.id)
+        is BingoObjective.AdvancementEntry -> when {
+            // hidden "mine a block" advancements, named after the block
+            inner.advancementId.contains(":draftout/mine/") -> registryName(inner.advancementId.substringAfterLast('/'))
+            else -> inner.advancement?.name ?: inner.display.name ?: textProvider.literal(inner.id)
+        }
+        else -> inner.display.name ?: textProvider.literal(inner.id)
+    }
+
+    /**
+     * Which things the [team] has done so far for a counting goal (e.g. the animals bred for "Breed 6 Unique
+     * Animals"), or null for goals that don't count distinct things.
+     */
+    internal fun getProgressDetails(team: BingoTeam, objective: BingoObjective, card: BingoCard): List<ProgressEntry>? {
+        return when (objective) {
+            is BingoObjective.SomeOfEntry -> {
+                if (objective.valueMin <= 1) return null
+                objective.someOfObjectives
+                    .mapNotNull { card.objectives[it] }
+                    .filter { it.hasTeamAchieved(team.key) }
+                    .map { ProgressEntry(it.id, innerName(it), 1, false) }
+            }
+            is BingoObjective.ScoreboardEntry -> {
+                val details = progressDetails.get(team.players.map { it.uuid }, objective.data.scoreboardName)
+                    ?: return null
+                details.values.map { (id, count) ->
+                    // advancement ids contain a path ("minecraft:story/mine_stone"), registry ids don't
+                    val name = if ('/' in id) advancementName(id) else registryName(id)
+                    ProgressEntry(id, name, count, details.showCounts)
+                }
+            }
+            is BingoObjective.AdvancementEntry -> {
+                val advancement = objective.advancement ?: return null
+                if (advancement.requirementCount <= 1) return null
+                team.players
+                    .mapNotNull { playerManager.getPlayer(it.uuid) }
+                    .flatMap { advancementManager.getCompletedCriteria(it.player, advancement) }
+                    .distinct()
+                    .map { ProgressEntry(it, registryName(it), 1, false) }
+            }
+            else -> null
+        }
+    }
+
+    private fun formatProgressDetails(entries: List<ProgressEntry>): List<IText> {
+        if (entries.isEmpty()) return emptyList()
+        val maxShown = 24
+        val names = entries.take(maxShown).map { entry ->
+            val name = entry.name.copy()
+            if (entry.showCount) name.append(" ×${entry.count}") else name
+        }
+        val lines = names.chunked(3).map { chunk ->
+            textProvider.literal("✔ ").append(textProvider.joinText(chunk, textProvider.literal(", ")))
+                .formatted(Formatting.GRAY)
+        }
+        val more = (entries.size - maxShown).takeIf { it > 0 }
+            ?.let { textProvider.string(StringKey.CardObjectiveMore, it).formatted(Formatting.DARK_GRAY) }
+        return lines + listOfNotNull(more)
+    }
+
     /**
      * Returns the live (count, target) progress of a counting goal for the [team],
      * e.g. (37, 100) for "Craft 100 Unique Items" - or null for goals that aren't counted.
      */
-    private fun getProgressCount(team: BingoTeam, objective: BingoObjective, card: BingoCard): Pair<Int, Int>? {
+    internal fun getProgressCount(team: BingoTeam, objective: BingoObjective, card: BingoCard): Pair<Int, Int>? {
         fun fromProgress(target: Int, scale: Int = 1): Pair<Int, Int>? {
             val scaledTarget = target / scale
             if (scaledTarget <= 1) return null
@@ -327,6 +427,16 @@ internal class CardViewService(
                 Pair(count.coerceAtMost(objective.valueMin), objective.valueMin)
             }
             is BingoObjective.ScoreboardEntry -> fromProgress(objective.valueMin)
+            // advancements with several required criteria, e.g. "Visit All Nether Biomes" (x / 5)
+            is BingoObjective.AdvancementEntry -> {
+                val target = objective.advancement?.requirementCount ?: return null
+                if (target <= 1) return null
+                val count = when {
+                    objective.hasTeamAchieved(team.key) -> target
+                    else -> Math.round(objective.getProgress(team.key) * target)
+                }
+                Pair(count.coerceIn(0, target), target)
+            }
             is BingoObjective.ItemEntry -> fromProgress(objective.itemCount)
             is BingoObjective.StatsEntry -> {
                 // display damage in hearts-points (stat is in tenths) and distances in meters (stat is in cm)

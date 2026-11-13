@@ -40,6 +40,11 @@ class AdvancementManager(
         return player.advancements.getOrStartProgress(advancement.advancement).isDone
     }
 
+    override fun getCompletedCriteria(player: ServerPlayer, advancement: IAdvancementHandle): List<String> {
+        require(advancement is AdvancementHandle)
+        return player.advancements.getOrStartProgress(advancement.advancement).completedCriteria.toList()
+    }
+
     override fun clearAdvancements(player: ServerPlayer) {
         player.level().server.advancements.allAdvancements.forEach { advancement ->
             val progress = player.advancements.getOrStartProgress(advancement)
@@ -63,4 +68,6 @@ class AdvancementHandle(
     override val displayIcon: IItemStack?
         get() = advancement.value.display.getOrNull()?.icon
             ?.let { itemStackFactory.forStack(it.create()) }
+    override val requirementCount: Int
+        get() = advancement.value.requirements().size()
 }

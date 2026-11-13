@@ -19,10 +19,15 @@ interface IAdvancementManager {
 
     fun clearAdvancements(player: ServerPlayer)
 
+    /** Names of the criteria the player has completed for this advancement */
+    fun getCompletedCriteria(player: ServerPlayer, advancement: IAdvancementHandle): List<String> = emptyList()
+
 }
 
 interface IAdvancementHandle {
     val name: IText?
     val description: IText?
     val displayIcon: IItemStack?
+    /** Number of requirement groups that must all be met (e.g. 5 for "visit all 5 nether biomes") */
+    val requirementCount: Int get() = 1
 }

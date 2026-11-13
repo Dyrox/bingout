@@ -371,6 +371,8 @@ private fun PlayerSoundEvent.toSoundEvent() = when (this) {
     PlayerSoundEvent.ITEM_LODESTONE_COMPASS_LOCK -> SoundEvents.LODESTONE_COMPASS_LOCK
     PlayerSoundEvent.BLOCK_PORTAL_TRAVEL -> SoundEvents.PORTAL_TRAVEL
     PlayerSoundEvent.BLOCK_NOTE_BLOCK_PLING -> SoundEvents.NOTE_BLOCK_PLING.value()
+    PlayerSoundEvent.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE -> SoundEvents.NOTE_BLOCK_IRON_XYLOPHONE.value()
+    PlayerSoundEvent.BLOCK_AMETHYST_BLOCK_RESONATE -> SoundEvents.AMETHYST_BLOCK_RESONATE
 }
 
 private fun PlayerSoundCategory.toSoundCategory() = when (this) {

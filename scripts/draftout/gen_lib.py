@@ -42,6 +42,7 @@ UI_STRINGS = {
     "en_us": {
         "bingo.draft.pick_number": "Pick %s / %s",
         "bingo.draft.or": "or",
+        "bingo.card.objective_more": "...and %s more",
         "bingo.list.draftout": "Draftout",
         "bingo.options.mode_draftout": "Draftout",
         "bingo.options.mode_draftout.tooltip": "Two teams take turns drafting the goals on the board before the game starts (Lockout, 13 goals to win).",
@@ -65,6 +66,7 @@ UI_STRINGS = {
     "zh_cn": {
         "bingo.draft.pick_number": "第 %s / %s 选",
         "bingo.draft.or": "或",
+        "bingo.card.objective_more": "……还有 %s 个",
         "bingo.list.draftout": "Draftout",
         "bingo.options.mode_draftout": "Draftout 轮选",
         "bingo.options.mode_draftout.tooltip": "开局前两队轮流选择棋盘上的目标（锁定模式，先拿 13 格获胜）。",

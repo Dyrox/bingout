@@ -56,6 +56,7 @@ internal class DraftoutTriggerController(
     private val teamService: TeamService,
     private val playerManager: IPlayerManager,
     private val scoreboardManager: IScoreboardManager,
+    private val details: ProgressDetailsService,
 ) : BingoComponent() {
 
     companion object {
@@ -87,14 +88,16 @@ internal class DraftoutTriggerController(
     private class Baseline(
         val foodUsed: Map<Item, Int>,
         val crafted: Map<Item, Int>,
-        val undeadKills: Int,
-        val arthropodKills: Int,
+        val undeadKills: Map<EntityType<*>, Int>,
+        val arthropodKills: Map<EntityType<*>, Int>,
     )
 
     private class PlayerState {
         var maxEffects = 0
+        var maxEffectIds = emptyMap<String, Int>()
         var pumpkinTicks = 0
         var maxLeashed = 0
+        var maxLeashedIds = emptyMap<String, Int>()
         var lastDimension: String? = null
     }
 
@@ -174,11 +177,6 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun countCriteria(player: ServerPlayer, name: String): Int {
-        val holder = server.advancements.get(Identifier.parse(DRAFTOUT_PREFIX + name)) ?: return 0
-        return player.advancements.getOrStartProgress(holder).completedCriteria.count { it != "never" }
-    }
-
     /** Whether any card in the game uses draftout goals (otherwise all checks are skipped) */
     private fun hasDraftoutGoals(): Boolean {
         return state.cards.any { card -> card.objectives.keys.any { it.startsWith(DRAFTOUT_PREFIX) } }
@@ -189,8 +187,8 @@ internal class DraftoutTriggerController(
         return Baseline(
             foodUsed = foodItems.associateWith { stats.getValue(Stats.ITEM_USED, it) }.filterValues { it > 0 },
             crafted = BuiltInRegistries.ITEM.associateWith { stats.getValue(Stats.ITEM_CRAFTED, it) }.filterValues { it > 0 },
-            undeadKills = undeadTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) },
-            arthropodKills = arthropodTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) },
+            undeadKills = undeadTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
+            arthropodKills = arthropodTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
         )
     }
 
@@ -308,13 +306,16 @@ internal class DraftoutTriggerController(
             }
         }
 
-        playerState.maxLeashed = maxOf(playerState.maxLeashed, leashedTypes.size)
+        if (leashedTypes.size > playerState.maxLeashed) {
+            playerState.maxLeashed = leashedTypes.size
+            playerState.maxLeashedIds = leashedTypes.associateWith { 1 }
+        }
     }
 
     private fun checkMisc(player: ServerPlayer, playerState: PlayerState) {
         if (player.foodData.foodLevel <= 0) grant(player, "empty_hunger")
 
-        playerState.maxEffects = maxOf(playerState.maxEffects, player.activeEffects.size)
+        updateMaxEffects(player, playerState)
 
         // launched upwards by a geyser (sulfur spike)
         val spike = sulfurSpike
@@ -342,12 +343,37 @@ internal class DraftoutTriggerController(
         }
     }
 
+    private fun updateMaxEffects(player: ServerPlayer, playerState: PlayerState) {
+        val effects = player.activeEffects
+        if (effects.size > playerState.maxEffects) {
+            playerState.maxEffects = effects.size
+            playerState.maxEffectIds = effects
+                .mapNotNull { BuiltInRegistries.MOB_EFFECT.getKey(it.effect.value())?.toString() }
+                .associateWith { 1 }
+        }
+    }
+
+    private fun completedCriteria(player: ServerPlayer, name: String): Map<String, Int> {
+        val holder = server.advancements.get(Identifier.parse(DRAFTOUT_PREFIX + name)) ?: return emptyMap()
+        return player.advancements.getOrStartProgress(holder).completedCriteria
+            .filter { it != "never" }
+            .associate { "minecraft:$it" to 1 }
+    }
+
+    /** Sets the counter score and remembers which things were counted (for the card tooltip) */
+    private fun setCounter(handle: IPlayerHandle, name: String, values: Map<String, Int>, showCounts: Boolean = false) {
+        details.set(handle.uuid, name, values, showCounts)
+        setScore(handle, name, if (showCounts) values.values.sum() else values.size)
+    }
+
     private fun updateScores(handle: IPlayerHandle, player: ServerPlayer, playerState: PlayerState, includeSlow: Boolean) {
-        setScore(handle, SCORE_BRED, countCriteria(player, "counter/bred"))
-        setScore(handle, SCORE_SPY, countCriteria(player, "counter/spy"))
-        setScore(handle, SCORE_COMPOST, countCriteria(player, "counter/compost"))
+        setCounter(handle, SCORE_BRED, completedCriteria(player, "counter/bred"))
+        setCounter(handle, SCORE_SPY, completedCriteria(player, "counter/spy"))
+        setCounter(handle, SCORE_COMPOST, completedCriteria(player, "counter/compost"))
+        details.set(handle.uuid, SCORE_EFFECTS, playerState.maxEffectIds)
         setScore(handle, SCORE_EFFECTS, playerState.maxEffects)
         setScore(handle, SCORE_PUMPKIN, playerState.pumpkinTicks / 20)
+        details.set(handle.uuid, SCORE_LEASH, playerState.maxLeashedIds)
         setScore(handle, SCORE_LEASH, playerState.maxLeashed)
 
         if (!includeSlow) return
@@ -355,18 +381,28 @@ internal class DraftoutTriggerController(
         val baseline = baselines.getOrPut(player.uuid) { createBaseline(player) }
         val stats = player.stats
 
-        setScore(handle, SCORE_FOOD, foodItems.count { stats.getValue(Stats.ITEM_USED, it) > (baseline.foodUsed[it] ?: 0) })
-        setScore(handle, SCORE_CRAFTED, BuiltInRegistries.ITEM.count { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[it] ?: 0) })
-        setScore(handle, SCORE_UNDEAD, undeadTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) } - baseline.undeadKills)
-        setScore(handle, SCORE_ARTHROPOD, arthropodTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) } - baseline.arthropodKills)
+        fun itemId(item: Item) = BuiltInRegistries.ITEM.getKey(item).toString()
 
-        val advancements = countedAdvancements.count { holder ->
-            player.advancements.getOrStartProgress(holder).isDone
-        }
-        setScore(handle, SCORE_ADVANCEMENTS, advancements)
+        setCounter(handle, SCORE_FOOD, foodItems
+            .filter { stats.getValue(Stats.ITEM_USED, it) > (baseline.foodUsed[it] ?: 0) }
+            .associate { itemId(it) to 1 })
+        setCounter(handle, SCORE_CRAFTED, BuiltInRegistries.ITEM
+            .filter { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[it] ?: 0) }
+            .associate { itemId(it) to 1 })
+
+        fun kills(types: List<EntityType<*>>, base: Map<EntityType<*>, Int>) = types
+            .associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) - (base[it] ?: 0) }
+            .filter { (id, count) -> id.isNotEmpty() && count > 0 }
+        setCounter(handle, SCORE_UNDEAD, kills(undeadTypes, baseline.undeadKills), showCounts = true)
+        setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes, baseline.arthropodKills), showCounts = true)
+
+        setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancements
+            .filter { player.advancements.getOrStartProgress(it).isDone }
+            .associate { it.id.toString() to 1 })
     }
 
     private fun resetPlayers() {
+        details.clear()
         baselines.clear()
         playerStates.clear()
         for (player in playerManager.getPlayers()) {
@@ -405,7 +441,7 @@ internal class DraftoutTriggerController(
                         checkMisc(player, playerState)
                         checkDimension(player, playerState)
                     }
-                    playerState.maxEffects = maxOf(playerState.maxEffects, player.activeEffects.size)
+                    updateMaxEffects(player, playerState)
                     updateScores(handle, player, playerState, includeSlow = true)
                 } catch (e: Exception) {
                     log.error("[DraftoutTriggerController] Error while checking ${player.scoreboardName}", e)

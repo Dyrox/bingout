@@ -548,6 +548,7 @@
   "bingo.world.preparing": "生成新的Bingo世界中……",
   "biome.bingo.lobby": "Bingo 大厅",
   "key.category.yet-another-minecraft-bingo.bingo": "Yet Another Bingo",
+  "bingo.card.objective_more": "……还有 %s 个",
   "bingo.draft.complete": "选择完成！棋盘已就绪。",
   "bingo.draft.no_reroll": "你的队伍已经用过重抽了。",
   "bingo.draft.not_drafting": "当前没有进行中的选择阶段。",

@@ -548,6 +548,7 @@
   "bingo.world.preparing": "Preparing a new Bingo world...",
   "biome.bingo.lobby": "Bingo Lobby",
   "key.category.yet-another-minecraft-bingo.bingo": "Yet Another Bingo",
+  "bingo.card.objective_more": "...and %s more",
   "bingo.draft.complete": "Draft complete! The board is ready.",
   "bingo.draft.no_reroll": "Your team has already used its reroll.",
   "bingo.draft.not_drafting": "There is no draft in progress.",
