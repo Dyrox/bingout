@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "yet-another-minecraft-bingo",
-  "name": "Yet Another Minecraft BINGO",
+  "name": "Bingout",
   "version": "$version",
   "environment": "*",
   "icon": "yet-another-minecraft-bingo/icon.png",
@@ -49,7 +49,7 @@
   "authors": [
     "fennifith"
   ],
-  "description": "A multiplayer BINGO item hunt mod + lobby",
+  "description": "Bingout: team drafting and lockout bingo, based on Yet Another Minecraft BINGO",
   "mixins": [
     {
       "config": "mixins.bingo.json",

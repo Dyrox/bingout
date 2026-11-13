@@ -6,7 +6,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "yet-another-minecraft-bingo"
     versionNumber = version
-    versionName = "[${project.minecraft_version}] Yet Another BINGO ${project.mod_version}"
+    versionName = "[${project.minecraft_version}] Bingout ${project.version}"
     if (project.mod_version.contains("alpha")) {
         versionType = "alpha"
     } else if (project.mod_version.contains("beta")) {

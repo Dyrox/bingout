@@ -1,0 +1,23 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_copper_chest",
+      "fallback": "Obtain Copper Chest"
+    },
+    "item": "minecraft:copper_chest",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_copper_chest",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:copper_chest",
+    "minecraft:exposed_copper_chest",
+    "minecraft:weathered_copper_chest",
+    "minecraft:oxidized_copper_chest",
+    "minecraft:waxed_copper_chest",
+    "minecraft:waxed_exposed_copper_chest",
+    "minecraft:waxed_weathered_copper_chest",
+    "minecraft:waxed_oxidized_copper_chest"
+  ]
+}

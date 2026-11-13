@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_8_unique_animals",
+      "fallback": "Breed 8 Unique Animals"
+    },
+    "item": "minecraft:wheat",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_8_unique_animals",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_bred",
+  "min": 8
+}

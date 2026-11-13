@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_heart_of_the_sea",
+      "fallback": "Obtain Heart of the Sea"
+    }
+  },
+  "item": "minecraft:heart_of_the_sea"
+}

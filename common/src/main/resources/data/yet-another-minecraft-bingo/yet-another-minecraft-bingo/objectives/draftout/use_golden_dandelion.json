@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_golden_dandelion",
+      "fallback": "Feed Golden Dandelion to any Baby Mob"
+    },
+    "item": "minecraft:golden_dandelion",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_golden_dandelion",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/golden_dandelion"
+}

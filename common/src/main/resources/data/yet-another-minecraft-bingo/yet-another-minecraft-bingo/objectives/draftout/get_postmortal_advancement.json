@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_postmortal_advancement",
+      "fallback": "Obtain \"Postmortal\""
+    },
+    "item": "minecraft:totem_of_undying",
+    "image": "yet-another-minecraft-bingo:draftout/get_postmortal_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/totem_of_undying"
+}

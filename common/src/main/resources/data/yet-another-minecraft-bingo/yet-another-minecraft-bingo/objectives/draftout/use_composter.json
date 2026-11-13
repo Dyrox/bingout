@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_composter",
+      "fallback": "Fill Composter and get Bone Meal"
+    },
+    "item": "minecraft:composter",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_composter",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/composter_bone_meal"
+}

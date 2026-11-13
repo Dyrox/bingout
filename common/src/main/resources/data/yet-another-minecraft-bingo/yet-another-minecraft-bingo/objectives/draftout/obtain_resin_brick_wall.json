@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_resin_brick_wall",
+      "fallback": "Obtain Resin Brick Wall"
+    }
+  },
+  "item": "minecraft:resin_brick_wall"
+}

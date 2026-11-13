@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_coarse_dirt",
+      "fallback": "Obtain 64 Coarse Dirt"
+    },
+    "item": "minecraft:coarse_dirt",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_coarse_dirt",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:coarse_dirt",
+  "count": 64
+}

@@ -3,6 +3,7 @@ package me.jfenn.bingo.common.timer
 import me.jfenn.bingo.api.state.GameAction
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.config.BingoConfig
+import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.common.event.ScopedEvents
 import me.jfenn.bingo.common.scope.BingoComponent
 import me.jfenn.bingo.common.spawn.SpawnService
@@ -111,7 +112,7 @@ internal class CountdownController(
         }
     }
 
-    fun shouldPreventActions() = state.state == GameState.LOADING || state.state == GameState.COUNTDOWN
+    fun shouldPreventActions() = state.state == GameState.LOADING || state.state == DraftController.DRAFTING || state.state == GameState.COUNTDOWN
 
     init {
         events.onEnter(GameState.COUNTDOWN) {
@@ -128,7 +129,7 @@ internal class CountdownController(
         }
 
         events.onStateChange { (_, toState) ->
-            val isLockedState = toState == GameState.LOADING || toState == GameState.COUNTDOWN || toState == GameState.POSTGAME
+            val isLockedState = toState == GameState.LOADING || toState == DraftController.DRAFTING || toState == GameState.COUNTDOWN || toState == GameState.POSTGAME
 
             if (state.isLobbyMode)
                 tickManager.setFrozen(isLockedState)

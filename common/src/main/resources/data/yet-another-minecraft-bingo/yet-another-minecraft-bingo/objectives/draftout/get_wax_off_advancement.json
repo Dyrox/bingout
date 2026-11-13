@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_wax_off_advancement",
+      "fallback": "Scrape wax off of Copper Block"
+    },
+    "item": "minecraft:stone_axe",
+    "image": "yet-another-minecraft-bingo:draftout/get_wax_off_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:husbandry/wax_off"
+}

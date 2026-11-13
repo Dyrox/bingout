@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_cake",
+      "fallback": "Eat a slice of Cake"
+    },
+    "item": "minecraft:cake",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/eat_cake",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:eat_cake_slice"
+}

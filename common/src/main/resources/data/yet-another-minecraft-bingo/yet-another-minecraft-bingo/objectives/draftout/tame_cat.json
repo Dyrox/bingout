@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tame_cat",
+      "fallback": "Tame a Cat"
+    },
+    "item": "minecraft:cod",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tame_cat",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/tame_cat"
+}

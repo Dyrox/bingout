@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_brush_on_suspicious_block",
+      "fallback": "Use Brush on Suspicious Sand/Gravel"
+    },
+    "item": "minecraft:brush",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_brush_on_suspicious_block",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:brush"
+}

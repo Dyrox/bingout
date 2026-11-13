@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_pig",
+      "fallback": "Breed Pigs"
+    },
+    "item": "minecraft:carrot",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_pig",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_pig"
+}

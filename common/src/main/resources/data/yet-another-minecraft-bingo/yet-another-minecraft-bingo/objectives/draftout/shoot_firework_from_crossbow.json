@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.shoot_firework_from_crossbow",
+      "fallback": "Shoot Firework from Crossbow"
+    },
+    "item": "minecraft:crossbow",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/crossbow_firework"
+}

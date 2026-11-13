@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_diamond_armor",
+      "fallback": "Wear Full Diamond Armor"
+    },
+    "item": "minecraft:diamond_chestplate",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/diamond"
+}

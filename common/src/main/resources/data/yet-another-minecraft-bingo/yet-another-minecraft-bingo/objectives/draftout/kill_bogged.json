@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_bogged",
+      "fallback": "Kill Bogged"
+    },
+    "item": "minecraft:bogged_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_bogged",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:killed",
+  "statName": "minecraft:bogged"
+}

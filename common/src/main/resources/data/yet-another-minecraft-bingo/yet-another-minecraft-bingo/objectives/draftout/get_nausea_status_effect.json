@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_nausea_status_effect",
+      "fallback": "Get Nausea"
+    },
+    "item": "minecraft:pufferfish",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_nausea_status_effect",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/effect/nausea"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_guardian",
+      "fallback": "Kill Guardian"
+    },
+    "item": "minecraft:guardian_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_guardian",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:killed",
+  "statName": "minecraft:guardian"
+}

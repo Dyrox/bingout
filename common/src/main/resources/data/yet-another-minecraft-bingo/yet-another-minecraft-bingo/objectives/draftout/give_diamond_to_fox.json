@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.give_diamond_to_fox",
+      "fallback": "Give a Diamond to a Fox"
+    },
+    "item": "minecraft:diamond",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/give_diamond_to_fox",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/diamond_fox"
+}

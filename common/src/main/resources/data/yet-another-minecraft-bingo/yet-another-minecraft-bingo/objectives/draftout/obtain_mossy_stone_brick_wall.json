@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_mossy_stone_brick_wall",
+      "fallback": "Obtain Mossy Stone Brick Wall"
+    }
+  },
+  "item": "minecraft:mossy_stone_brick_wall"
+}

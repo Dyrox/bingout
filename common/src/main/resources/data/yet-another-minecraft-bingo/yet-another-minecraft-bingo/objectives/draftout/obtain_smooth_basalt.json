@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_smooth_basalt",
+      "fallback": "Obtain Smooth Basalt"
+    }
+  },
+  "item": "minecraft:smooth_basalt"
+}

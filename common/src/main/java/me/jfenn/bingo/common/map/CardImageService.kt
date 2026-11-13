@@ -16,6 +16,8 @@ internal class CardImageService(
     private val state: BingoState,
 ) {
 
+    var draftImages: Set<String> = emptySet()
+
     private val playersWithImages = mutableMapOf<String, Set<UUID>>()
 
     fun readCardImageStream(id: String): InputStream? {
@@ -44,7 +46,7 @@ internal class CardImageService(
     fun sendNecessaryImages() {
         val images = state.cards
             .flatMap { card -> card.objectives.values.mapNotNull { it.display.image } }
-            .toSet()
+            .toSet() + draftImages
 
         val players = playerManager.getPlayers()
 

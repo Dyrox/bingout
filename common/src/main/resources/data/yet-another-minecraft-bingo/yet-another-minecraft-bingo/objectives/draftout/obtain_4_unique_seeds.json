@@ -1,0 +1,22 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_4_unique_seeds",
+      "fallback": "Obtain 4 Unique Seeds"
+    },
+    "item": "minecraft:wheat_seeds",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_4_unique_seeds",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:wheat_seeds",
+    "minecraft:melon_seeds",
+    "minecraft:pumpkin_seeds",
+    "minecraft:beetroot_seeds",
+    "minecraft:torchflower_seeds",
+    "minecraft:pitcher_pod"
+  ],
+  "min": 4
+}

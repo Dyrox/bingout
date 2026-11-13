@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.reach_nether_roof",
+      "fallback": "Get on Nether Roof"
+    },
+    "item": "minecraft:bedrock",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/reach_nether_roof",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/nether_roof"
+}

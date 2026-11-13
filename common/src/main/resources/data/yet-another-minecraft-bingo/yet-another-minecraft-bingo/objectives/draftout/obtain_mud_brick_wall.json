@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_mud_brick_wall",
+      "fallback": "Obtain Mud Brick Wall"
+    }
+  },
+  "item": "minecraft:mud_brick_wall"
+}

@@ -130,6 +130,13 @@ internal class GameService(
                 .also { it.setClickEvent(TextAction.SuggestCommand(BingoOptionsCommands.STALEMATE_DO_NOTHING)) }
         }
 
+        // Draftout mode only works with exactly two teams
+        val teamCount = state.getRegisteredTeams().count { it.players.isNotEmpty() }
+        if (!ignoreWarnings && activeCard.options.isDraftMode && teamCount != 2) {
+            hasWarning = true
+            warnings += text.string(StringKey.DraftRequiresTwoTeams, teamCount)
+        }
+
         if (hasWarning) {
             eventBus.emit(GameWarningEvent, GameWarningEvent.severe(warnings))
             return false

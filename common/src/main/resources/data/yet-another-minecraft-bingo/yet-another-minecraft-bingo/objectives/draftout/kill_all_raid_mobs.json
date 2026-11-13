@@ -1,0 +1,45 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_all_raid_mobs",
+      "fallback": "Kill all Raid Mobs"
+    },
+    "item": "minecraft:ominous_bottle",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_all_raid_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:pillager"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:vindicator"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:ravager"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:witch"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:vex"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:evoker"
+    }
+  ]
+}

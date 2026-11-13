@@ -26,6 +26,8 @@ data class BingoCardOptions(
     var isInventoryMode: Boolean = false,
     var isHiddenItemsMode: Boolean = false,
     var isConsumeItemsMode: Boolean = false,
+    /** Two teams draft the goals on the card before the game starts (see [me.jfenn.bingo.common.draft.DraftController]) */
+    var isDraftMode: Boolean = false,
 ) {
     fun isValid(): Boolean {
         return kotlin.runCatching { assertValid() }.isSuccess
@@ -41,6 +43,7 @@ data class BingoCardOptions(
             if (isInventoryMode) add(StringKey.OptionsModeInventory)
             if (isHiddenItemsMode) add(StringKey.OptionsModeHiddenItems)
             if (isConsumeItemsMode) add(StringKey.OptionsModeConsumeItems)
+            if (isDraftMode) add(StringKey.OptionsModeDraftout)
         }
 
         return gameMode.ifEmpty { listOf(StringKey.OptionsModeStandard) }

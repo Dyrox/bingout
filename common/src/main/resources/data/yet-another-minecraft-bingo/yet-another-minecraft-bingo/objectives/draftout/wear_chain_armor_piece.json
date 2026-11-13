@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_chain_armor_piece",
+      "fallback": "Wear a Chain Armor Piece"
+    },
+    "item": "minecraft:chainmail_chestplate",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/chainmail"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_intentional_game_design",
+      "fallback": "Die to [Intentional Game Design]"
+    },
+    "item": "minecraft:red_bed",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_intentional_game_design",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_intentional_game_design"
+}

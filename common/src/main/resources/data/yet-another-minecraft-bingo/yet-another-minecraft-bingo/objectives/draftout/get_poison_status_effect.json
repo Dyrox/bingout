@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_poison_status_effect",
+      "fallback": "Get Poison"
+    },
+    "item": "minecraft:spider_eye",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_poison_status_effect",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/effect/poison"
+}

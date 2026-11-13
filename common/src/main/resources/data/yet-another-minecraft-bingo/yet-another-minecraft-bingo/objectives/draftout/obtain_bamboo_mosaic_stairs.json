@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_bamboo_mosaic_stairs",
+      "fallback": "Obtain Bamboo Mosaic Stairs"
+    }
+  },
+  "item": "minecraft:bamboo_mosaic_stairs"
+}

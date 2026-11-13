@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_leather_armor",
+      "fallback": "Wear Full Leather Armor"
+    },
+    "item": "minecraft:leather_chestplate",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/leather"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_soul_lantern",
+      "fallback": "Obtain Soul Lantern"
+    }
+  },
+  "item": "minecraft:soul_lantern"
+}

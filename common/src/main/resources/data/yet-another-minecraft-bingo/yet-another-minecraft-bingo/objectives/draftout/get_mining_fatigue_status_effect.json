@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_mining_fatigue_status_effect",
+      "fallback": "Get Mining Fatigue"
+    },
+    "item": "minecraft:prismarine_shard",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_mining_fatigue_status_effect",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/effect/mining_fatigue"
+}

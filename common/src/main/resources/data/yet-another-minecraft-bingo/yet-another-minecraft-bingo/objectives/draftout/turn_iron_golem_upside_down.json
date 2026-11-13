@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.turn_iron_golem_upside_down",
+      "fallback": "Name an Iron Golem 'Dinnerbone'"
+    },
+    "item": "minecraft:name_tag",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/turn_iron_golem_upside_down",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/name_iron_golem_dinnerbone"
+}

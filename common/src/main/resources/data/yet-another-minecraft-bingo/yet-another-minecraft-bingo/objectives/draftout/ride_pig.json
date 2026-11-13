@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.ride_pig",
+      "fallback": "Ride Pig with Carrot on a Stick"
+    },
+    "item": "minecraft:carrot_on_a_stick",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:carrot_on_a_stick"
+}

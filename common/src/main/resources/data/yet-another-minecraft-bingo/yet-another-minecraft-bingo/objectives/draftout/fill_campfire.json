@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_campfire",
+      "fallback": "Fill Campfire with 4 Food Items"
+    },
+    "item": "minecraft:campfire",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/fill_campfire",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/fill_campfire"
+}

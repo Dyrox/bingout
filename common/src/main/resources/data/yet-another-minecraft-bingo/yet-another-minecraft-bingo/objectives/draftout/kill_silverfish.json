@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_silverfish",
+      "fallback": "Kill Silverfish"
+    },
+    "item": "minecraft:silverfish_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_silverfish",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:killed",
+  "statName": "minecraft:silverfish"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_cookie",
+      "fallback": "Eat Cookie"
+    },
+    "item": "minecraft:cookie",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:cookie"
+}

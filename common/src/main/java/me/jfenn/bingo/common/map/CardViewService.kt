@@ -1,5 +1,6 @@
 package me.jfenn.bingo.common.map
 
+import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.Permission
 import me.jfenn.bingo.common.card.BingoCard
@@ -168,7 +169,7 @@ internal class CardViewService(
         )
 
     fun isViewingTeamCard(player: IPlayerHandle, team: BingoTeam) =
-        (state.state == GameState.PLAYING || (options.showPreviewCard && state.state != GameState.POSTGAME)) && team.includesPlayer(player)
+        (state.state == GameState.PLAYING || state.state == DraftController.DRAFTING || (options.showPreviewCard && state.state != GameState.POSTGAME)) && team.includesPlayer(player)
 
     fun isViewingSpectatorCards(player: IPlayerHandle): Boolean {
         val team = teamService.getPlayerTeam(player)
@@ -182,6 +183,7 @@ internal class CardViewService(
             GameState.PRELOADING,
             GameState.LOADING,
             GameState.COUNTDOWN -> options.showPreviewCard && canViewSpectatorCards
+            DraftController.DRAFTING -> canViewSpectatorCards
             GameState.PLAYING -> canViewSpectatorCards
             GameState.POSTGAME -> true
             else -> false

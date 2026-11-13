@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_golden_armor",
+      "fallback": "Wear Full Golden Armor"
+    },
+    "item": "minecraft:golden_chestplate",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/golden"
+}

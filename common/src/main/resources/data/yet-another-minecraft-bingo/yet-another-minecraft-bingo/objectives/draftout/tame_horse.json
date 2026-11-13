@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tame_horse",
+      "fallback": "Tame a Horse"
+    },
+    "item": "minecraft:saddle",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tame_horse",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/tame_horse"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_arrows",
+      "fallback": "Obtain 64 Arrows"
+    },
+    "item": "minecraft:arrow",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_arrows",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:arrow",
+  "count": 64
+}

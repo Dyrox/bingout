@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_colored_sheep__green",
+      "fallback": "Kill Green Sheep"
+    },
+    "item": "minecraft:green_wool",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_colored_sheep__green",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/kill_sheep/green"
+}

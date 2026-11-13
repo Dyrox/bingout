@@ -1,0 +1,22 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_3_horse_armors",
+      "fallback": "Obtain 3 types of Horse Armor"
+    },
+    "item": "minecraft:golden_horse_armor",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_3_horse_armors",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:leather_horse_armor",
+    "minecraft:copper_horse_armor",
+    "minecraft:iron_horse_armor",
+    "minecraft:golden_horse_armor",
+    "minecraft:diamond_horse_armor",
+    "minecraft:netherite_horse_armor"
+  ],
+  "min": 3
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_bullseye_advancement",
+      "fallback": "Obtain \"Bullseye\""
+    },
+    "item": "minecraft:target",
+    "image": "yet-another-minecraft-bingo:draftout/get_bullseye_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/bullseye"
+}

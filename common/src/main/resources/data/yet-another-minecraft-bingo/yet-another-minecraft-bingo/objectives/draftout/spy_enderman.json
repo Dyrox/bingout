@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.spy_enderman",
+      "fallback": "Spy on Enderman"
+    },
+    "item": "minecraft:spyglass",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/spy_enderman",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/spy/enderman"
+}

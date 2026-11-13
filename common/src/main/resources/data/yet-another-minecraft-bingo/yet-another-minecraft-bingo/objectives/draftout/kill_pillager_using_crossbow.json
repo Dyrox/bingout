@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_pillager_using_crossbow",
+      "fallback": "Kill Pillager using Crossbow"
+    },
+    "item": "minecraft:crossbow",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_pillager_using_crossbow",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "minecraft:adventure/whos_the_pillager_now"
+}

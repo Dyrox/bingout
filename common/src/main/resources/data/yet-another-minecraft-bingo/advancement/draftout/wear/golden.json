@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:tick",
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:equipment": {
+              "head": {
+                "items": "minecraft:golden_helmet"
+              },
+              "chest": {
+                "items": "minecraft:golden_chestplate"
+              },
+              "legs": {
+                "items": "minecraft:golden_leggings"
+              },
+              "feet": {
+                "items": "minecraft:golden_boots"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

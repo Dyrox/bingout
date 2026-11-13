@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_colored_glazed_terracotta__gray",
+      "fallback": "Obtain Gray Glazed Terracotta"
+    }
+  },
+  "item": "minecraft:gray_glazed_terracotta"
+}

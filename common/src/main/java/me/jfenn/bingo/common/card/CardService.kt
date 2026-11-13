@@ -1,6 +1,7 @@
 package me.jfenn.bingo.common.card
 
 import me.jfenn.bingo.common.MDC_DEBUG
+import me.jfenn.bingo.common.MOD_ID_BINGO
 import me.jfenn.bingo.common.MDC_FILENAME
 import me.jfenn.bingo.common.MDC_OBJECTIVE
 import me.jfenn.bingo.common.card.data.ObjectiveRequirements
@@ -32,6 +33,8 @@ import org.slf4j.Logger
 import java.util.*
 import kotlin.math.ceil
 import kotlin.random.Random
+
+private const val DRAFTOUT_OBJECTIVE_PREFIX = "$MOD_ID_BINGO:draftout/"
 
 internal class CardService(
     private val log: Logger,
@@ -256,6 +259,60 @@ internal class CardService(
         state.replaceCard(newCard)
     }
 
+    /**
+     * Replaces every entry on the [card] with the given objective ids (in reading order);
+     * missing/unresolvable ids are filled with [placeholderId].
+     *
+     * Used by the draft mode, which fills the card one pick at a time.
+     */
+    fun setEntries(
+        card: BingoCard,
+        objectiveIds: List<String>,
+        placeholderId: String,
+        source: String?,
+    ): BingoCard {
+        val generatorState = CardGeneratorState(Random(card.seed))
+        val entries = mutableListOf<BingoCardEntry>()
+        val objectives = mutableMapOf<String, BingoObjective>()
+
+        for (i in 0 until 25) {
+            val id = objectiveIds.getOrNull(i)
+            val objectiveMap = id?.let { createObjectives(null, it, generatorState) }
+
+            if (id != null && objectiveMap != null) {
+                entries += BingoCardEntry(objectiveId = id, tier = null, source = source)
+                objectives.putAll(objectiveMap)
+            } else {
+                val placeholder = createObjectives(null, placeholderId, generatorState)
+                if (placeholder != null) {
+                    entries += BingoCardEntry(objectiveId = placeholderId, tier = null, source = null)
+                    objectives.putAll(placeholder)
+                } else {
+                    val freeSpace = GeneratedObjective.freeSpace()
+                    entries += freeSpace.entry
+                    objectives.putAll(freeSpace.objectives)
+                }
+            }
+        }
+
+        // Keep any existing objective instances (so that state isn't lost)
+        for (key in objectives.keys.toSet()) {
+            card.objectives[key]?.let { objectives[key] = it }
+        }
+
+        assignTileNames(entries)
+        val newCard = BingoCard(
+            id = card.id,
+            seed = card.seed,
+            entries = entries,
+            objectives = objectives,
+            options = card.options,
+        )
+        objectiveManager.init(newCard)
+        state.replaceCard(newCard, state.getCardIndexOrThrow(card))
+        return newCard
+    }
+
     fun replaceEntries(
         card: BingoCard,
         seed: Long = card.seed + 1L,
@@ -335,7 +392,12 @@ internal class CardService(
             .filterIsInstance<ObjectiveFilter.Include>()
             .any { data.tierLists.containsKey(it.tag) }
 
+        // The draftout list is opt-in: it's only used when explicitly included by a filter
+        val includesDraftout = filterList
+            .any { (it is ObjectiveFilter.Include || it is ObjectiveFilter.Count) && it.tag == ObjectiveFilter.DRAFTOUT }
+
         val lists = data.tierLists
+            .filter { (listName, _) -> listName != ObjectiveFilter.DRAFTOUT || includesDraftout }
             // Only include tier lists that aren't excluded
             .filterNot { (listName, _) ->
                 filterList.filterIsInstance<ObjectiveFilter.Exclude>()
@@ -373,6 +435,8 @@ internal class CardService(
         // Determine the set of uncategorized objectives & add them to the tags for filtering
         val uncategorizedObjectives = supportedObjectiveIds.get(Unit)
             .filterNot { tierList.contains(it) }
+            // draftout objectives should never be included as "uncategorized"
+            .filterNot { it.startsWith(DRAFTOUT_OBJECTIVE_PREFIX) }
             .map { TierListEntry(null, it) }
             .onEach {
                 it.listName = ObjectiveFilter.UNCATEGORIZED

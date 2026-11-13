@@ -1,0 +1,34 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_all_soups",
+      "fallback": "Eat every type of Soup"
+    },
+    "item": "minecraft:rabbit_stew",
+    "decoration": "ADVANCEMENT",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:used",
+      "statName": "minecraft:suspicious_stew"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:used",
+      "statName": "minecraft:mushroom_stew"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:used",
+      "statName": "minecraft:rabbit_stew"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:used",
+      "statName": "minecraft:beetroot_soup"
+    }
+  ]
+}

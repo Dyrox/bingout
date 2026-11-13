@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_bell",
+      "fallback": "Obtain Bell"
+    }
+  },
+  "item": "minecraft:bell"
+}

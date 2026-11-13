@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_powder_snow_bucket",
+      "fallback": "Obtain Powder Snow Bucket"
+    }
+  },
+  "item": "minecraft:powder_snow_bucket"
+}

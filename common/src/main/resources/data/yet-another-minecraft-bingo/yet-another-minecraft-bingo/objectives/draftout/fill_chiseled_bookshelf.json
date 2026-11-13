@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_chiseled_bookshelf",
+      "fallback": "Fill Chiseled Bookshelf"
+    },
+    "item": "minecraft:chiseled_bookshelf",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/fill_chiseled_bookshelf",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/fill_chiseled_bookshelf"
+}

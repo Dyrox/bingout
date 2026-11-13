@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_colored_harness__black",
+      "fallback": "Obtain Black Harness"
+    }
+  },
+  "item": "minecraft:black_harness"
+}

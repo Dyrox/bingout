@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_colored_concrete__lime",
+      "fallback": "Obtain 64 Lime Concrete"
+    },
+    "item": "minecraft:lime_concrete",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_colored_concrete__lime",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:lime_concrete",
+  "count": 64
+}

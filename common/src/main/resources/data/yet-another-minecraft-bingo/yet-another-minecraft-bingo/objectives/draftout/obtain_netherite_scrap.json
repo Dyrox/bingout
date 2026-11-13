@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_netherite_scrap",
+      "fallback": "Obtain Netherite Scrap"
+    }
+  },
+  "item": "minecraft:netherite_scrap"
+}

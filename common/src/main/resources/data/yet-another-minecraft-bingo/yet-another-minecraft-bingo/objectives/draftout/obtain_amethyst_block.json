@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_amethyst_block",
+      "fallback": "Obtain Block of Amethyst"
+    }
+  },
+  "item": "minecraft:amethyst_block"
+}

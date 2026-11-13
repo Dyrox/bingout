@@ -8,6 +8,7 @@ import me.jfenn.bingo.platform.block.BlockPosition
 import me.jfenn.bingo.platform.event.IEventBus
 import me.jfenn.bingo.platform.event.model.*
 import me.jfenn.bingo.platform.item.IItemStack
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -91,6 +92,12 @@ class ServerEventsImpl(
         ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
             val player = getPlayerImpl(handler.player)
             eventBus.emit(PlayerEvent.Disconnect, PlayerEvent(player))
+        }
+
+        ServerLivingEntityEvents.AFTER_DEATH.register { entity, source ->
+            if (entity is ServerPlayer) {
+                eventBus.emit(PlayerDeathEvent, PlayerDeathEvent(getPlayerImpl(entity), source))
+            }
         }
 
         ServerPlayerEvents.AFTER_RESPAWN.register { _, player, _ ->

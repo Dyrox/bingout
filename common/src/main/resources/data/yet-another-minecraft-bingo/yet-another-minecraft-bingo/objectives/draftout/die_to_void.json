@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_to_void",
+      "fallback": "Die by falling in Void"
+    },
+    "item": "minecraft:end_portal_frame",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_to_void",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_to_void"
+}

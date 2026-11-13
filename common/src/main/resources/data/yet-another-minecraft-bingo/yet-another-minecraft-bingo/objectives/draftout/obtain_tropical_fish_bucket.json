@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_tropical_fish_bucket",
+      "fallback": "Obtain Bucket of Tropical Fish"
+    }
+  },
+  "item": "minecraft:tropical_fish_bucket"
+}

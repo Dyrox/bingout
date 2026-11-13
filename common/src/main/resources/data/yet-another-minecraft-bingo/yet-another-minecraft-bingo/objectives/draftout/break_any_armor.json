@@ -1,0 +1,135 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.break_any_armor",
+      "fallback": "Break any Armor Piece"
+    },
+    "item": "minecraft:leather_boots",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/break_any_armor",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:leather_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:leather_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:leather_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:leather_boots"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_boots"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_boots"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:chainmail_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:chainmail_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:chainmail_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:chainmail_boots"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_boots"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_helmet"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_chestplate"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_leggings"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_boots"
+    }
+  ]
+}

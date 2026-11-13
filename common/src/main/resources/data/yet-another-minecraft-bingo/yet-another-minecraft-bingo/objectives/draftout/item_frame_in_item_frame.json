@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.item_frame_in_item_frame",
+      "fallback": "Put Item Frame in an Item Frame"
+    },
+    "item": "minecraft:item_frame",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/item_frame_in_item_frame",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/frame_in_frame"
+}

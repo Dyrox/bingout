@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_soul_campfire",
+      "fallback": "Obtain Soul Campfire"
+    }
+  },
+  "item": "minecraft:soul_campfire"
+}

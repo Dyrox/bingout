@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_3_status_effects_at_once",
+      "fallback": "Get 3 Status Effects at once"
+    },
+    "item": "minecraft:potion",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_3_status_effects_at_once",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_effects",
+  "min": 3
+}

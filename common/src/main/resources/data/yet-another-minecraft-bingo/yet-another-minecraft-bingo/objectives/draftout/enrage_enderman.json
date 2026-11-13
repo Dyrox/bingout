@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.enrage_enderman",
+      "fallback": "Enrage Enderman"
+    },
+    "item": "minecraft:ender_pearl",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/enrage_enderman",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/enrage_enderman"
+}

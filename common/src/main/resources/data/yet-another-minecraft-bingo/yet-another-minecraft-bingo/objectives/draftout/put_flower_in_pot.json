@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.put_flower_in_pot",
+      "fallback": "Pot any plant in Flower Pot"
+    },
+    "item": "minecraft:flower_pot",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/put_flower_in_pot",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/flower_pot"
+}

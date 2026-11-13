@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_smithing_table",
+      "fallback": "Use Smithing Table"
+    },
+    "item": "minecraft:smithing_table",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:interact_with_smithing_table"
+}

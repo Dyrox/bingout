@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.light_candle",
+      "fallback": "Light a Candle"
+    },
+    "item": "minecraft:candle",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/light_candle",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/light_candle"
+}

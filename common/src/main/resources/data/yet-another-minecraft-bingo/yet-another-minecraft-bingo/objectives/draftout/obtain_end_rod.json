@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_end_rod",
+      "fallback": "Obtain End Rod"
+    }
+  },
+  "item": "minecraft:end_rod"
+}

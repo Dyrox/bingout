@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.compost_3_unique_foods",
+      "fallback": "Compost 3 Unique Foods"
+    },
+    "item": "minecraft:composter",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/compost_3_unique_foods",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_compost",
+  "min": 3
+}

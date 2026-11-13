@@ -4,9 +4,9 @@ plugins {
 }
 
 if (project.name.startsWith("mc")) {
-    version = project.mod_version + "+" + project.name
+    version = rootProject.ext.bingoutVersion + "+" + project.name
 } else {
-    version = project.mod_version
+    version = rootProject.ext.bingoutVersion
 }
 group = project.maven_group + "-" + project.name
 

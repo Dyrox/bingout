@@ -1,0 +1,29 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_7_unique_workstations",
+      "fallback": "Obtain 7 Unique Workstations"
+    },
+    "item": "minecraft:smithing_table",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_7_unique_workstations",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:barrel",
+    "minecraft:blast_furnace",
+    "minecraft:brewing_stand",
+    "minecraft:cartography_table",
+    "minecraft:cauldron",
+    "minecraft:composter",
+    "minecraft:fletching_table",
+    "minecraft:grindstone",
+    "minecraft:lectern",
+    "minecraft:loom",
+    "minecraft:smithing_table",
+    "minecraft:smoker",
+    "minecraft:stonecutter"
+  ],
+  "min": 7
+}

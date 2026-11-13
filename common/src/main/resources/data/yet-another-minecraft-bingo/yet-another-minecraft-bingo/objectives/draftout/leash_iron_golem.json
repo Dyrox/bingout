@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.leash_iron_golem",
+      "fallback": "Leash an Iron Golem"
+    },
+    "item": "minecraft:lead",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/leash_iron_golem",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/leash_iron_golem"
+}

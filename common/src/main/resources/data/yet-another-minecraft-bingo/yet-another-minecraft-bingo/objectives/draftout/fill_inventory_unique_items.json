@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_inventory_unique_items",
+      "fallback": "Fill Inventory with unique items"
+    },
+    "item": "minecraft:chest",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/fill_inventory_unique"
+}

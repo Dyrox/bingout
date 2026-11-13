@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.name_sheep_jeb",
+      "fallback": "Name a Sheep 'jeb_'"
+    },
+    "item": "minecraft:name_tag",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/name_sheep_jeb",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/name_sheep_jeb"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_rabbit",
+      "fallback": "Breed Rabbits"
+    },
+    "item": "minecraft:dandelion",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_rabbit",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_rabbit"
+}

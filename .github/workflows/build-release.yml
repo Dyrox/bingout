@@ -1,0 +1,88 @@
+name: Build and release JARs
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jars-${{ github.event.release.tag_name || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.sha }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build all Minecraft versions and run Draftout regression tests
+        run: >-
+          ./gradlew --no-daemon --console=plain --max-workers=2
+          '-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g'
+          -Pkotlin.compiler.execution.strategy=in-process
+          -Pbuild_id=ci-${{ github.run_number }}-${{ github.run_attempt }}
+          :mc26.1:assemble :mc26.2:assemble :mc26.3:assemble
+          :common:test --tests '*DraftControllerTest' --tests '*DraftoutObjectiveDataTest'
+      - name: Validate and collect installable JARs
+        run: python3 scripts/ci/collect_jars.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bingout-jars
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
+      - name: Test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: common/build/reports/tests/test/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  release:
+    if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: bingout-jars
+          path: dist
+      - name: Publish JARs to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name || github.ref_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            cat > notes.md <<'NOTES'
+          Fabric builds for Minecraft 26.1, 26.2 and 26.3. Download the JAR matching your Minecraft version and install the same build on all clients and the server.
+
+          External mod/JAR name: Bingout. In-game draft mode and filter: Draftout.
+          Includes the shared drafting screen, original goal artwork, and turn-validated command submission for picking/rerolling.
+
+          CI runs the 407 objective/resource checks and DraftController regression tests. This is not a replacement for testing physical mouse input in a modpack. Two pre-existing upstream configuration tests are outside this targeted test run.
+          NOTES
+            gh release create "$TAG" dist/* --verify-tag --title "Bingout $TAG" --notes-file notes.md
+          fi

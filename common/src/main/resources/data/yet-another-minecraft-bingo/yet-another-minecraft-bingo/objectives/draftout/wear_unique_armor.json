@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_unique_armor",
+      "fallback": "Wear Full Armor with different materials"
+    },
+    "item": "minecraft:iron_helmet",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear_unique_armor"
+}

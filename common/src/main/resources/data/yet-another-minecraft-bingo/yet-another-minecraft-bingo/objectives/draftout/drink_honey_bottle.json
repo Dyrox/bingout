@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.drink_honey_bottle",
+      "fallback": "Drink Honey Bottle"
+    },
+    "item": "minecraft:honey_bottle",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:honey_bottle"
+}

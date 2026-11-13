@@ -1,0 +1,68 @@
+{
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:location": {
+              "dimension": "minecraft:overworld",
+              "position": {
+                "y": {
+                  "min": 320
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:location": {
+              "dimension": "minecraft:the_nether",
+              "position": {
+                "y": {
+                  "min": 256
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "c2": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:location": {
+              "dimension": "minecraft:the_end",
+              "position": {
+                "y": {
+                  "min": 256
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1",
+      "c2"
+    ]
+  ]
+}

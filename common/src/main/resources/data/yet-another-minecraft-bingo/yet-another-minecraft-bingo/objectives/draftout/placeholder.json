@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.placeholder",
+      "fallback": "Not drafted yet"
+    },
+    "item": "minecraft:light_gray_stained_glass_pane",
+    "decoration": "NONE"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/placeholder"
+}

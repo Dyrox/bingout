@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_sniper_duel_advancement",
+      "fallback": "Obtain \"Sniper Duel\""
+    },
+    "item": "minecraft:arrow",
+    "image": "yet-another-minecraft-bingo:draftout/get_sniper_duel_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/sniper_duel"
+}

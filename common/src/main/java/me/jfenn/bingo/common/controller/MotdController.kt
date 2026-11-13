@@ -28,7 +28,7 @@ internal class MotdController(
 
     private fun updateMotd(state: BingoGameStatus) {
         var motd = server.messageOfTheDay.takeIf { it.isNotBlank() }
-            ?: "Minecraft BINGO"
+            ?: "Draftout"
 
         for (entry in BingoGameStatus.entries) {
             motd = motd.removePrefix(entry.motdPrefix)

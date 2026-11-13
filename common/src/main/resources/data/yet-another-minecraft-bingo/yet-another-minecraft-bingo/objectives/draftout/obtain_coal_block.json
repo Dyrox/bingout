@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_coal_block",
+      "fallback": "Obtain Block of Coal"
+    }
+  },
+  "item": "minecraft:coal_block"
+}

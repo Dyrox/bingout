@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.enter_nether",
+      "fallback": "Enter Nether"
+    },
+    "item": "minecraft:obsidian",
+    "image": "yet-another-minecraft-bingo:draftout/enter_nether",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:story/enter_the_nether"
+}

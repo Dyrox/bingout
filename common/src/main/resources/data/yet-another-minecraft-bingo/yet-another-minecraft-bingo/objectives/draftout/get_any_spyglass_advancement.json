@@ -1,0 +1,27 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_any_spyglass_advancement",
+      "fallback": "Get any Spyglass Advancement"
+    },
+    "item": "minecraft:spyglass",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_any_spyglass_advancement",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "advancement",
+      "advancement": "minecraft:adventure/spyglass_at_parrot"
+    },
+    {
+      "type": "advancement",
+      "advancement": "minecraft:adventure/spyglass_at_ghast"
+    },
+    {
+      "type": "advancement",
+      "advancement": "minecraft:adventure/spyglass_at_dragon"
+    }
+  ]
+}

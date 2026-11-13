@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_ghast",
+      "fallback": "Kill Ghast"
+    },
+    "item": "minecraft:ghast_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_ghast",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:killed",
+  "statName": "minecraft:ghast"
+}

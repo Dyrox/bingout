@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.reach_bedrock",
+      "fallback": "Reach Bedrock"
+    },
+    "item": "minecraft:bedrock",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/reach_bedrock",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/reach_bedrock"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tame_nautilus",
+      "fallback": "Tame a Nautilus"
+    },
+    "item": "minecraft:nautilus_shell",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tame_nautilus",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/tame_nautilus"
+}

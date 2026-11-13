@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.toot_goat_horn",
+      "fallback": "Toot a Goat Horn"
+    },
+    "item": "minecraft:goat_horn",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/toot_goat_horn",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:goat_horn"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_bookshelf",
+      "fallback": "Obtain Bookshelf"
+    }
+  },
+  "item": "minecraft:bookshelf"
+}

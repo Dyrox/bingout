@@ -7,7 +7,7 @@ import me.jfenn.bingo.common.utils.plus
 import me.jfenn.bingo.generated.StringKey
 import org.joml.Vector3d
 
-private const val TILE_HEIGHT = 0.7
+private const val TILE_HEIGHT = 0.6
 private const val TILE_WIDTH = 1.2
 private const val TILE_MARGIN = 0.1
 internal const val GAME_MODES_WIDTH = TILE_WIDTH + TILE_MARGIN + TILE_WIDTH
@@ -16,6 +16,7 @@ internal const val ICON_LOCKOUT = "\uD83D\uDD12"
 internal const val ICON_INVENTORY = "\uD83C\uDF92"
 internal const val ICON_HIDDEN = "❓"
 internal const val ICON_CONSUME = "⬚"
+internal const val ICON_DRAFT = "✍"
 
 internal fun MenuComponent.registerGameModes(
     position: Vector3d,
@@ -96,13 +97,27 @@ internal fun MenuComponent.registerGameModes(
         )
     }
 
-    registerTileButton(
-        position = position + Vector3d(0.0, -(offsetY + 2*TILE_HEIGHT + 2*TILE_MARGIN + 0.4), 0.0),
-        height = 0.4,
-        width = GAME_MODES_WIDTH,
+    registerIconButton(
+        position = position + Vector3d(-offsetX, -(offsetY + 3*TILE_HEIGHT + 2*TILE_MARGIN), 0.0),
+        width = TILE_WIDTH,
+        height = TILE_HEIGHT,
+        icon = ICON_DRAFT,
+        text = text.string(StringKey.OptionsModeDraftout),
+        tooltip = buildTooltip(StringKey.OptionsModeDraftoutTooltip),
+        isActiveProp = computedProperty { cardOptions.isDraftMode },
+    ) {
+        optionsService.toggleCardMode(
+            card = state.getActiveCard(),
+            prop = BingoCardOptions::isDraftMode,
+        )
+    }
+
+    registerIconButton(
+        position = position + Vector3d(offsetX, -(offsetY + 3*TILE_HEIGHT + 2*TILE_MARGIN), 0.0),
+        height = TILE_HEIGHT,
+        width = TILE_WIDTH,
         icon = "⋯",
         text = text.string(StringKey.OptionsFeatures),
-        brightness = MENU_BRIGHTNESS_ALT,
     ) {
         state.menu = MenuState.Features
     }

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.enrage_zombified_piglin",
+      "fallback": "Enrage Zombified Piglin"
+    },
+    "item": "minecraft:golden_sword",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/enrage_zombified_piglin",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/enrage_zombified_piglin"
+}

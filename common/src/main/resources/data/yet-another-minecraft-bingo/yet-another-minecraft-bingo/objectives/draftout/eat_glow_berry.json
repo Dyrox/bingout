@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_glow_berry",
+      "fallback": "Eat Glow Berries"
+    },
+    "item": "minecraft:glow_berries",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:glow_berries"
+}

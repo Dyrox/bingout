@@ -1,0 +1,16 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_pumpkins",
+      "fallback": "Obtain every type of Pumpkin"
+    },
+    "item": "minecraft:jack_o_lantern",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:pumpkin",
+    "minecraft:carved_pumpkin",
+    "minecraft:jack_o_lantern"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_stonecutter",
+      "fallback": "Use Stonecutter"
+    },
+    "item": "minecraft:stonecutter",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:interact_with_stonecutter"
+}

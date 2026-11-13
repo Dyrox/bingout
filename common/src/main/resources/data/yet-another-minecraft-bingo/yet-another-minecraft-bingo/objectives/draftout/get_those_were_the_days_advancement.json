@@ -1,0 +1,11 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_those_were_the_days_advancement",
+      "fallback": "Find a Bastion"
+    },
+    "item": "minecraft:polished_blackstone_bricks"
+  },
+  "advancement": "minecraft:nether/find_bastion"
+}

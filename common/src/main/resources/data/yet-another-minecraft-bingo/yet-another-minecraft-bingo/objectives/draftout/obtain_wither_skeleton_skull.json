@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_wither_skeleton_skull",
+      "fallback": "Obtain Wither Skeleton Skull"
+    }
+  },
+  "item": "minecraft:wither_skeleton_skull"
+}

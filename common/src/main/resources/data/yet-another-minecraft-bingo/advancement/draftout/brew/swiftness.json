@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": {
+          "potions": [
+            "minecraft:swiftness",
+            "minecraft:long_swiftness",
+            "minecraft:strong_swiftness"
+          ]
+        }
+      }
+    }
+  }
+}

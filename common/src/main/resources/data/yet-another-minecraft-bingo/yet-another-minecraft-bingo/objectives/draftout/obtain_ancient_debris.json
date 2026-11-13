@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_ancient_debris",
+      "fallback": "Obtain Ancient Debris"
+    }
+  },
+  "item": "minecraft:ancient_debris"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_bat",
+      "fallback": "Kill Bat"
+    },
+    "item": "minecraft:bat_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_bat",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:killed",
+  "statName": "minecraft:bat"
+}

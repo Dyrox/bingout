@@ -1,0 +1,30 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_cauldron",
+      "fallback": "Use Cauldron to wash something"
+    },
+    "item": "minecraft:cauldron",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_cauldron",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:custom",
+      "statName": "minecraft:clean_armor"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:custom",
+      "statName": "minecraft:clean_banner"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:custom",
+      "statName": "minecraft:clean_shulker_box"
+    }
+  ]
+}

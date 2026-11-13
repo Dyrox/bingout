@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.reach_height_limit",
+      "fallback": "Reach height limit"
+    },
+    "item": "minecraft:scaffolding",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/reach_height_limit",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/height_limit"
+}

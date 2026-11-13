@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_chicken",
+      "fallback": "Breed Chickens"
+    },
+    "item": "minecraft:wheat_seeds",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_chicken",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_chicken"
+}

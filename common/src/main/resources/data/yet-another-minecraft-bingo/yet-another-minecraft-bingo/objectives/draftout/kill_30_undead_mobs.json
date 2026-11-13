@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_30_undead_mobs",
+      "fallback": "Kill 30 Undead Mobs"
+    },
+    "item": "minecraft:zombie_head",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_30_undead_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_undead",
+  "min": 30
+}

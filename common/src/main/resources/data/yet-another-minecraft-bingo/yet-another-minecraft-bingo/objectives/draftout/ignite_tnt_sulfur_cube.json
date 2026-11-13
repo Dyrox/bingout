@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.ignite_tnt_sulfur_cube",
+      "fallback": "Obtain \"Uh Oh\""
+    },
+    "item": "minecraft:tnt",
+    "image": "yet-another-minecraft-bingo:draftout/ignite_tnt_sulfur_cube",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:husbandry/uh_oh"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.empty_hunger_bar",
+      "fallback": "Empty Hunger Bar"
+    },
+    "item": "minecraft:rotten_flesh",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/empty_hunger_bar",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/empty_hunger"
+}

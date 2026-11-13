@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_poisonous_potato",
+      "fallback": "Eat Poisonous Potato"
+    },
+    "item": "minecraft:poisonous_potato",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:poisonous_potato"
+}

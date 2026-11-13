@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.visit_all_nether_biomes",
+      "fallback": "Visit All Nether Biomes"
+    },
+    "item": "minecraft:netherrack",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/visit_all_nether_biomes",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/visit_nether_biomes"
+}

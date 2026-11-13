@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_colored_wool__lime",
+      "fallback": "Obtain 64 Lime Wool"
+    },
+    "item": "minecraft:lime_wool",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_colored_wool__lime",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:lime_wool",
+  "count": 64
+}

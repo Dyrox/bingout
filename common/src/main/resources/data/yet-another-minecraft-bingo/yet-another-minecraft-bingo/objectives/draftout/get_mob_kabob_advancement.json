@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_mob_kabob_advancement",
+      "fallback": "Obtain \"Mob Kabob\""
+    },
+    "item": "minecraft:iron_spear",
+    "image": "yet-another-minecraft-bingo:draftout/get_mob_kabob_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/spear_many_mobs"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.brew_swiftness_potion",
+      "fallback": "Brew a Potion of Swiftness"
+    },
+    "item": "minecraft:potion",
+    "itemComponents": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:swiftness"
+      }
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/brew/swiftness"
+}

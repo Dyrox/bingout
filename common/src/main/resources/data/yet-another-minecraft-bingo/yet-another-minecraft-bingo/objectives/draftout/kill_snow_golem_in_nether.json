@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_snow_golem_in_nether",
+      "fallback": "Kill Snow Golem in The Nether"
+    },
+    "item": "minecraft:snow_golem_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_snow_golem_in_nether",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/kill_snow_golem_in_nether"
+}

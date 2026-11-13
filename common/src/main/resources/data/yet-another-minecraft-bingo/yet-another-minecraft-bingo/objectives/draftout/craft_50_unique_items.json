@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.craft_50_unique_items",
+      "fallback": "Craft 50 Unique Items"
+    },
+    "item": "minecraft:crafting_table",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/craft_50_unique_items",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_crafted",
+  "min": 50
+}

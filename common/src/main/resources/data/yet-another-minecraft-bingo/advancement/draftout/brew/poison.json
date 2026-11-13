@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": {
+          "potions": [
+            "minecraft:poison",
+            "minecraft:long_poison",
+            "minecraft:strong_poison"
+          ]
+        }
+      }
+    }
+  }
+}

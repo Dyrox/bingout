@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_detector_rail",
+      "fallback": "Obtain Detector Rail"
+    }
+  },
+  "item": "minecraft:detector_rail"
+}

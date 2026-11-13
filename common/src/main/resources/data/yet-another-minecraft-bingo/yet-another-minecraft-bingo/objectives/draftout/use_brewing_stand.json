@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_brewing_stand",
+      "fallback": "Use Brewing Stand"
+    },
+    "item": "minecraft:brewing_stand",
+    "image": "yet-another-minecraft-bingo:draftout/use_brewing_stand",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:nether/brew_potion"
+}

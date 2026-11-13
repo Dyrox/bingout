@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_camel",
+      "fallback": "Breed Camels"
+    },
+    "item": "minecraft:cactus",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_camel",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_camel"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_flowering_azalea",
+      "fallback": "Obtain Flowering Azalea"
+    }
+  },
+  "item": "minecraft:flowering_azalea"
+}

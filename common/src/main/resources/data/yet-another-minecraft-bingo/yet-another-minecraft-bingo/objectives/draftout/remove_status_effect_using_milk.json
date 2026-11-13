@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.remove_status_effect_using_milk",
+      "fallback": "Remove Effect using Milk Bucket"
+    },
+    "item": "minecraft:milk_bucket",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/milk_effect"
+}

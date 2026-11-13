@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_bad_omen_status_effect",
+      "fallback": "Get Bad Omen"
+    },
+    "item": "minecraft:ominous_bottle",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_bad_omen_status_effect",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/effect/bad_omen"
+}

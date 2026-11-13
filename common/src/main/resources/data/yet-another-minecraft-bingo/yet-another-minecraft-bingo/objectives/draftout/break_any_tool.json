@@ -1,0 +1,225 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.break_any_tool",
+      "fallback": "Break any Tool"
+    },
+    "item": "minecraft:wooden_pickaxe",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/break_any_tool",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:wooden_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:stone_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:copper_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:golden_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:iron_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_axe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_hoe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_pickaxe"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_sword"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_shovel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:diamond_spear"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:fishing_rod"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:flint_and_steel"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:shears"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:brush"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:carrot_on_a_stick"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:broken",
+      "statName": "minecraft:warped_fungus_on_a_stick"
+    }
+  ]
+}

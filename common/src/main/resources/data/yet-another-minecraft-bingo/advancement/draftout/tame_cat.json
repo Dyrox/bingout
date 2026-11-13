@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:cat"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0"
+    ]
+  ]
+}

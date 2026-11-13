@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.duplicate_allay",
+      "fallback": "Duplicate Allay"
+    },
+    "item": "minecraft:amethyst_shard",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/duplicate_allay",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/duplicate_allay"
+}

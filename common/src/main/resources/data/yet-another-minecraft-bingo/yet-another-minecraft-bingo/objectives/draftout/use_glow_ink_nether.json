@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_glow_ink_nether",
+      "fallback": "Use Glow Ink on Crimson or Warped Sign"
+    },
+    "item": "minecraft:glow_ink_sac",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_glow_ink_nether",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/use_glow_ink_nether"
+}

@@ -67,6 +67,7 @@ data class BingoOptions(
             if (card.options.isInventoryMode) add(StringKey.OptionsModeInventory)
             if (card.options.isHiddenItemsMode) add(StringKey.OptionsModeHiddenItems)
             if (card.options.isConsumeItemsMode) add(StringKey.OptionsModeConsumeItems)
+            if (card.options.isDraftMode) add(StringKey.OptionsModeDraftout)
             if (winCondition is BingoWinCondition.Infinite) add(StringKey.OptionsWinConditionInfinite)
             if (winCondition is BingoWinCondition.ReplaceGoals) add(StringKey.OptionsWinConditionReplaceGoals)
         }
@@ -80,6 +81,7 @@ data class BingoOptions(
             if (card.options.isInventoryMode) add(ICON_INVENTORY)
             if (card.options.isHiddenItemsMode) add(ICON_HIDDEN)
             if (card.options.isConsumeItemsMode) add(ICON_CONSUME)
+            if (card.options.isDraftMode) add(ICON_DRAFT)
             if (winCondition is BingoWinCondition.ReplaceGoals) add("☒")
         }
 
@@ -139,6 +141,7 @@ data class BingoOptions(
                 yield(card.isLockoutMode.toString())
                 yield(card.isInventoryMode.toString())
                 yield(card.isHiddenItemsMode.toString())
+                yield(card.isDraftMode.toString())
                 yield(",")
             }
             // features

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tame_parrot",
+      "fallback": "Tame a Parrot"
+    },
+    "item": "minecraft:wheat_seeds",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tame_parrot",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/tame_parrot"
+}

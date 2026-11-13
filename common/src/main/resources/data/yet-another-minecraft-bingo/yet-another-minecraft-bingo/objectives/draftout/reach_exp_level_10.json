@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.reach_exp_level_10",
+      "fallback": "Reach XP level 10"
+    },
+    "item": "minecraft:experience_bottle",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/reach_exp_level_10",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/xp_10"
+}

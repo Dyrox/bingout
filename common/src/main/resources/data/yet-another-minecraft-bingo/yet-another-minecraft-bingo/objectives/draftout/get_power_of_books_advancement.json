@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_power_of_books_advancement",
+      "fallback": "Obtain \"The Power of Books\""
+    },
+    "item": "minecraft:chiseled_bookshelf",
+    "image": "yet-another-minecraft-bingo:draftout/get_power_of_books_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/read_power_of_chiseled_bookshelf"
+}

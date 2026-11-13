@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_not_quite_nine_lives_advancement",
+      "fallback": "Fully charge a Respawn Anchor"
+    },
+    "item": "minecraft:respawn_anchor",
+    "image": "yet-another-minecraft-bingo:draftout/get_not_quite_nine_lives_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:nether/charge_respawn_anchor"
+}

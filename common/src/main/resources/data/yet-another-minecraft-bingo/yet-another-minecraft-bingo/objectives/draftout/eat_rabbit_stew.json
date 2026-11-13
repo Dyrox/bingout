@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_rabbit_stew",
+      "fallback": "Eat Rabbit Stew"
+    },
+    "item": "minecraft:rabbit_stew",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:rabbit_stew"
+}

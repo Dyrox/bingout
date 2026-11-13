@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.place_hanging_sign",
+      "fallback": "Place a Hanging Sign"
+    },
+    "item": "minecraft:oak_hanging_sign",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/hanging_sign"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.brew_lingering_potion",
+      "fallback": "Brew a Lingering Potion"
+    }
+  },
+  "item": "minecraft:lingering_potion"
+}

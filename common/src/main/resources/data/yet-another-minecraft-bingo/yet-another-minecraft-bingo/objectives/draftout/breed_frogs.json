@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_frogs",
+      "fallback": "Breed Frogs"
+    },
+    "item": "minecraft:slime_ball",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_frogs",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_frogs"
+}

@@ -1,0 +1,25 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tune_noteblock",
+      "fallback": "Tune a Note Block"
+    },
+    "item": "minecraft:note_block",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tune_noteblock",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:custom",
+      "statName": "minecraft:tune_noteblock"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:custom",
+      "statName": "minecraft:play_noteblock"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_ender_chest",
+      "fallback": "Obtain Ender Chest"
+    }
+  },
+  "item": "minecraft:ender_chest"
+}

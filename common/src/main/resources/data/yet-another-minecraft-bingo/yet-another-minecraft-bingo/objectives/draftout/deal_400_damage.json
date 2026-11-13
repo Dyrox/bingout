@@ -1,0 +1,16 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.deal_400_damage",
+      "fallback": "Deal 400 damage"
+    },
+    "item": "minecraft:iron_sword",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/deal_400_damage",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:damage_dealt",
+  "min": 4000
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.ride_geyser",
+      "fallback": "Ride a Geyser"
+    },
+    "item": "minecraft:sulfur_spike",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/ride_geyser",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/ride_geyser"
+}

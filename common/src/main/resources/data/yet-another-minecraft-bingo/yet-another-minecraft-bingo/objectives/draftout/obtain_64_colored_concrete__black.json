@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_colored_concrete__black",
+      "fallback": "Obtain 64 Black Concrete"
+    },
+    "item": "minecraft:black_concrete",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_colored_concrete__black",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:black_concrete",
+  "count": 64
+}

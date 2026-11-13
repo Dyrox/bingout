@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.put_wolf_armor_on_wolf",
+      "fallback": "Put Wolf Armor on Wolf"
+    },
+    "item": "minecraft:wolf_armor",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wolf_armor"
+}

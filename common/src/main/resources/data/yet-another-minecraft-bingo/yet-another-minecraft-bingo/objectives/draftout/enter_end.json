@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.enter_end",
+      "fallback": "Enter The End"
+    },
+    "item": "minecraft:end_stone",
+    "image": "yet-another-minecraft-bingo:draftout/enter_end",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:story/enter_the_end"
+}

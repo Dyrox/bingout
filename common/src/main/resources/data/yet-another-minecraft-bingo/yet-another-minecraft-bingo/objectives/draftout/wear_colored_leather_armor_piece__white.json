@@ -1,0 +1,15 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_colored_leather_armor_piece__white",
+      "fallback": "Wear White Leather Armor Piece"
+    },
+    "item": "minecraft:leather_chestplate",
+    "itemComponents": {
+      "minecraft:dyed_color": 16383998
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/leather_white"
+}

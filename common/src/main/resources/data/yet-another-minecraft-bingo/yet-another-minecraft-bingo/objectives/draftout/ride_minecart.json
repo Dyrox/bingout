@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.ride_minecart",
+      "fallback": "Ride a Minecart"
+    },
+    "item": "minecraft:minecart",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/ride_minecart",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:minecart_one_cm"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_firework",
+      "fallback": "Die to Firework Rocket"
+    },
+    "item": "minecraft:firework_rocket",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_firework",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_firework"
+}

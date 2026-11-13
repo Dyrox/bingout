@@ -1,0 +1,11 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_a_terrible_fortress_advancement",
+      "fallback": "Find a Fortress"
+    },
+    "item": "minecraft:nether_bricks"
+  },
+  "advancement": "minecraft:nether/find_fortress"
+}

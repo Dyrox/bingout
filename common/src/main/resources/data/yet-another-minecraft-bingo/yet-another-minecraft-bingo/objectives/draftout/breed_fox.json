@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_fox",
+      "fallback": "Breed Foxs"
+    },
+    "item": "minecraft:sweet_berries",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_fox",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_fox"
+}

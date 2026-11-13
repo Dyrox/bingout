@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.break_shield",
+      "fallback": "Break Shield"
+    },
+    "item": "minecraft:shield",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/break_shield",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:broken",
+  "statName": "minecraft:shield"
+}

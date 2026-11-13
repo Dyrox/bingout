@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_what_a_deal_advancement",
+      "fallback": "Trade with a Villager"
+    },
+    "item": "minecraft:emerald",
+    "image": "yet-another-minecraft-bingo:draftout/get_what_a_deal_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/trade"
+}

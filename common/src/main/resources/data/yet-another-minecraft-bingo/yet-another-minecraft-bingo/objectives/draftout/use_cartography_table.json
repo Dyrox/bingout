@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_cartography_table",
+      "fallback": "Use Cartography Table"
+    },
+    "item": "minecraft:cartography_table",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:interact_with_cartography_table"
+}

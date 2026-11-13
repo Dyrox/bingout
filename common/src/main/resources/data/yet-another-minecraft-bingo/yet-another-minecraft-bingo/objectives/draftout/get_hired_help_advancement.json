@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_hired_help_advancement",
+      "fallback": "Construct an Iron Golem"
+    },
+    "item": "minecraft:carved_pumpkin",
+    "image": "yet-another-minecraft-bingo:draftout/get_hired_help_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:adventure/summon_iron_golem"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.craft_armor_trim",
+      "fallback": "Duplicate any Armor Trim"
+    },
+    "item": "minecraft:wild_armor_trim_smithing_template",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/craft_armor_trim",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/craft_trim"
+}

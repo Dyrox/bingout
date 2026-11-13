@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.spy_piglin_brute",
+      "fallback": "Spy on Piglin Brute"
+    },
+    "item": "minecraft:spyglass",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/spy_piglin_brute",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/spy/piglin_brute"
+}

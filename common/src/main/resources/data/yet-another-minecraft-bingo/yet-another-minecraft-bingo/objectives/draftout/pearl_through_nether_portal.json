@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.pearl_through_nether_portal",
+      "fallback": "Teleport through Nether Portal using Ender Pearl"
+    },
+    "item": "minecraft:ender_pearl",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/pearl_through_nether_portal",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/pearl_portal"
+}

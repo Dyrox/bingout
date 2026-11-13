@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_jukebox",
+      "fallback": "Play a Music Disc in Jukebox"
+    },
+    "item": "minecraft:jukebox",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:play_record"
+}

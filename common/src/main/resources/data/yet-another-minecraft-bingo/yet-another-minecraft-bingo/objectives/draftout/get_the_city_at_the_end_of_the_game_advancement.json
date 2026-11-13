@@ -1,0 +1,11 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_the_city_at_the_end_of_the_game_advancement",
+      "fallback": "Find an End City"
+    },
+    "item": "minecraft:end_stone_bricks"
+  },
+  "advancement": "minecraft:end/find_end_city"
+}

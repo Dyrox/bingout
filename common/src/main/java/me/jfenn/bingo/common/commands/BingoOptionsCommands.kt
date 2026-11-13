@@ -127,6 +127,11 @@ class BingoOptionsCommands(
                     }
                     executesToggle { toggleCardMode(BingoCardOptions::isConsumeItemsMode, it) }
                 }
+                for (mode in listOf("bingout", "draftout")) {
+                    literal(mode) {
+                        executesToggle { toggleCardMode(BingoCardOptions::isDraftMode, it) }
+                    }
+                }
             }
 
             literal("options") {

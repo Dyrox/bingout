@@ -1,0 +1,18 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_golden_tools",
+      "fallback": "Obtain all Golden Tools"
+    },
+    "item": "minecraft:golden_pickaxe",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:golden_axe",
+    "minecraft:golden_hoe",
+    "minecraft:golden_pickaxe",
+    "minecraft:golden_sword",
+    "minecraft:golden_shovel"
+  ]
+}

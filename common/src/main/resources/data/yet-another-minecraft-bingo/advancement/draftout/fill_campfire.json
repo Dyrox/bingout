@@ -1,0 +1,21 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "type": "minecraft:location_check",
+          "predicate": {
+            "block": {
+              "blocks": [
+                "minecraft:campfire",
+                "minecraft:soul_campfire"
+              ],
+              "nbt": "{Items:[{Slot:0b},{Slot:1b},{Slot:2b},{Slot:3b}]}"
+            }
+          }
+        }
+      }
+    }
+  }
+}

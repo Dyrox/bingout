@@ -1,0 +1,16 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.take_200_damage",
+      "fallback": "Take 200 damage"
+    },
+    "item": "minecraft:iron_chestplate",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/take_200_damage",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:damage_taken",
+  "min": 2000
+}

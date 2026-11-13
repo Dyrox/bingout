@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "c0": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:horse"
+          }
+        }
+      }
+    },
+    "c1": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:zombie_horse"
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "c0",
+      "c1"
+    ]
+  ]
+}

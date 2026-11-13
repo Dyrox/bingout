@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_chorus_fruit",
+      "fallback": "Eat Chorus Fruit"
+    },
+    "item": "minecraft:chorus_fruit",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:chorus_fruit"
+}

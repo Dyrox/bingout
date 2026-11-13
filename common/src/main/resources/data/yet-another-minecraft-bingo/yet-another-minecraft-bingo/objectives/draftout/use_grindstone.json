@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_grindstone",
+      "fallback": "Use Grindstone"
+    },
+    "item": "minecraft:grindstone",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:interact_with_grindstone"
+}

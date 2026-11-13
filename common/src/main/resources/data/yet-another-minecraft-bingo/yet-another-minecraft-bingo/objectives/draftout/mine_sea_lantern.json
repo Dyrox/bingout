@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_sea_lantern",
+      "fallback": "Mine Sea Lantern"
+    },
+    "item": "minecraft:sea_lantern",
+    "image": "yet-another-minecraft-bingo:draftout/mine_sea_lantern",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "statType": "minecraft:mined",
+  "statName": "minecraft:sea_lantern"
+}

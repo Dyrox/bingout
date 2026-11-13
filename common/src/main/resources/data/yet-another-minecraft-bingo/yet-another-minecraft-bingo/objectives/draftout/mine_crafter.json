@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_crafter",
+      "fallback": "Mine Crafter"
+    },
+    "item": "minecraft:crafter",
+    "image": "yet-another-minecraft-bingo:draftout/mine_crafter",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "statType": "minecraft:mined",
+  "statName": "minecraft:crafter"
+}

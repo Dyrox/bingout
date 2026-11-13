@@ -1,0 +1,17 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_suspicious_block",
+      "fallback": "Obtain Suspicious Block"
+    },
+    "item": "minecraft:suspicious_sand",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_suspicious_block",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:suspicious_sand",
+    "minecraft:suspicious_gravel"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_colored_wool__light_gray",
+      "fallback": "Obtain 64 Light Gray Wool"
+    },
+    "item": "minecraft:light_gray_wool",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_colored_wool__light_gray",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:light_gray_wool",
+  "count": 64
+}

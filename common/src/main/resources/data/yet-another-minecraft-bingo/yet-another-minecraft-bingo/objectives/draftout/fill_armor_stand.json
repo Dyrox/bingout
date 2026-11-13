@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_armor_stand",
+      "fallback": "Fill an Armor Stand"
+    },
+    "item": "minecraft:armor_stand",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/fill_armor_stand"
+}

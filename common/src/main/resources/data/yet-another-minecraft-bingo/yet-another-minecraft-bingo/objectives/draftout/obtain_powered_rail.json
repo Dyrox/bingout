@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_powered_rail",
+      "fallback": "Obtain Powered Rail"
+    }
+  },
+  "item": "minecraft:powered_rail"
+}

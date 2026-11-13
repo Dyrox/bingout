@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_gilded_blackstone",
+      "fallback": "Obtain Gilded Blackstone"
+    }
+  },
+  "item": "minecraft:gilded_blackstone"
+}

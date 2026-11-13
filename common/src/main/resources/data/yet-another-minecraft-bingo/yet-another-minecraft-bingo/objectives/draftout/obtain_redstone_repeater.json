@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_redstone_repeater",
+      "fallback": "Obtain Redstone Repeater"
+    }
+  },
+  "item": "minecraft:repeater"
+}

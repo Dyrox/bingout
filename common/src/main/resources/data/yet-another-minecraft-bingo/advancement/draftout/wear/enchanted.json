@@ -1,0 +1,45 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:tick",
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:equipment": {
+              "head": {
+                "predicates": {
+                  "minecraft:enchantments": [
+                    {}
+                  ]
+                }
+              },
+              "chest": {
+                "predicates": {
+                  "minecraft:enchantments": [
+                    {}
+                  ]
+                }
+              },
+              "legs": {
+                "predicates": {
+                  "minecraft:enchantments": [
+                    {}
+                  ]
+                }
+              },
+              "feet": {
+                "predicates": {
+                  "minecraft:enchantments": [
+                    {}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

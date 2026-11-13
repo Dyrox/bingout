@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_daylight_detector",
+      "fallback": "Obtain Daylight Detector"
+    }
+  },
+  "item": "minecraft:daylight_detector"
+}

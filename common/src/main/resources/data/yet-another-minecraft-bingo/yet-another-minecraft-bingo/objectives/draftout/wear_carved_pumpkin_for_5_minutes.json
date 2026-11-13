@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_carved_pumpkin_for_5_minutes",
+      "fallback": "Wear a Carved Pumpkin for 5 minutes"
+    },
+    "item": "minecraft:carved_pumpkin",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/wear_carved_pumpkin_for_5_minutes",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_pumpkin",
+  "min": 300
+}

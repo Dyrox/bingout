@@ -1,0 +1,201 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_13_unique_hostile_mobs",
+      "fallback": "Kill 13 Unique Hostile Mobs"
+    },
+    "item": "minecraft:iron_sword",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_13_unique_hostile_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:blaze"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:bogged"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:breeze"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:cave_spider"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:creaking"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:creeper"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:drowned"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:elder_guardian"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:ender_dragon"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:endermite"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:evoker"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:ghast"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:guardian"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:hoglin"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:husk"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:magma_cube"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:parched"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:phantom"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:piglin_brute"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:pillager"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:ravager"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:shulker"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:silverfish"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:skeleton"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:slime"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:spider"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:stray"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:vex"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:vindicator"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:warden"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:witch"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:wither"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:wither_skeleton"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:zoglin"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:zombie"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:zombie_villager"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:sulfur_cube"
+    }
+  ],
+  "min": 13
+}

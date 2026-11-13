@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.break_fishing_rod",
+      "fallback": "Break Fishing Rod"
+    },
+    "item": "minecraft:fishing_rod",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/break_fishing_rod",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:broken",
+  "statName": "minecraft:fishing_rod"
+}

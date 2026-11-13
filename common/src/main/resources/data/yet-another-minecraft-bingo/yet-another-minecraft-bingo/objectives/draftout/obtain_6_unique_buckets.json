@@ -1,0 +1,28 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_6_unique_buckets",
+      "fallback": "Obtain 6 Unique Buckets"
+    },
+    "item": "minecraft:water_bucket",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_6_unique_buckets",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:bucket",
+    "minecraft:water_bucket",
+    "minecraft:lava_bucket",
+    "minecraft:milk_bucket",
+    "minecraft:powder_snow_bucket",
+    "minecraft:pufferfish_bucket",
+    "minecraft:salmon_bucket",
+    "minecraft:cod_bucket",
+    "minecraft:tropical_fish_bucket",
+    "minecraft:axolotl_bucket",
+    "minecraft:tadpole_bucket",
+    "minecraft:sulfur_cube_bucket"
+  ],
+  "min": 6
+}

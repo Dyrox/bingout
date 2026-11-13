@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_armadillo",
+      "fallback": "Breed Armadillos"
+    },
+    "item": "minecraft:spider_eye",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_armadillo",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_armadillo"
+}

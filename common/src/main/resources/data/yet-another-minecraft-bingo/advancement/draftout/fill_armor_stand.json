@@ -1,0 +1,38 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:armor_stand",
+            "minecraft:equipment": {
+              "head": {
+                "count": {
+                  "min": 1
+                }
+              },
+              "chest": {
+                "count": {
+                  "min": 1
+                }
+              },
+              "legs": {
+                "count": {
+                  "min": 1
+                }
+              },
+              "feet": {
+                "count": {
+                  "min": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

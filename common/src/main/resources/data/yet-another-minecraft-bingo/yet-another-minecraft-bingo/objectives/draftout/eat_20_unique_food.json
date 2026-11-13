@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_20_unique_food",
+      "fallback": "Eat 20 Unique Food"
+    },
+    "item": "minecraft:cooked_beef",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/eat_20_unique_food",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_food",
+  "min": 20
+}

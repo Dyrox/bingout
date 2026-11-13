@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_tnt",
+      "fallback": "Obtain TNT"
+    }
+  },
+  "item": "minecraft:tnt"
+}

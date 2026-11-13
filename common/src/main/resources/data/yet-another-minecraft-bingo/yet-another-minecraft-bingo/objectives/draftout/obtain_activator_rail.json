@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_activator_rail",
+      "fallback": "Obtain Activator Rail"
+    }
+  },
+  "item": "minecraft:activator_rail"
+}

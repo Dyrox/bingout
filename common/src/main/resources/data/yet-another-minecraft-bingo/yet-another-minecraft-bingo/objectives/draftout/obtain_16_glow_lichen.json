@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_16_glow_lichen",
+      "fallback": "Obtain 16 Glow Lichen"
+    },
+    "item": "minecraft:glow_lichen",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_16_glow_lichen",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:glow_lichen",
+  "count": 16
+}

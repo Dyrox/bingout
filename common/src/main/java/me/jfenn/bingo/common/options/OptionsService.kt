@@ -10,6 +10,7 @@ import me.jfenn.bingo.common.card.tierlist.TierLabel
 import me.jfenn.bingo.common.commands.BingoOptionsCommands
 import me.jfenn.bingo.common.config.ConfigService
 import me.jfenn.bingo.common.controller.GameRuleController
+import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.common.event.model.OptionsChangedEvent
 import me.jfenn.bingo.common.map.CardViewService
 import me.jfenn.bingo.common.spawn.ElytraService
@@ -181,6 +182,16 @@ internal class OptionsService(
         }
         if (prop == BingoCardOptions::isInventoryMode) {
             card.options.isConsumeItemsMode = false
+        }
+
+        // Draftout mode: lockout board drafted from the "draftout" goals, first to 13 goals wins
+        if (prop == BingoCardOptions::isDraftMode && newValue) {
+            card.options.isLockoutMode = true
+            card.options.goal = BingoGoal.Items(DraftController.ITEMS_TO_WIN)
+            card.options.itemFilter = DraftController.DRAFTOUT_FILTER
+            if (card.options.isValid()) {
+                cardService.generateCard(card)
+            }
         }
 
         ctx.sendFeedback(

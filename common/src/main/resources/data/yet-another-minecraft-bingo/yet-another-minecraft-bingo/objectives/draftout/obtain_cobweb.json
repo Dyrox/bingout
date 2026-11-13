@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_cobweb",
+      "fallback": "Obtain Cobweb"
+    }
+  },
+  "item": "minecraft:cobweb"
+}

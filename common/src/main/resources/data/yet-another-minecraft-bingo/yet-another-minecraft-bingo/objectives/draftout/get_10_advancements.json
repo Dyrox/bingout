@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_10_advancements",
+      "fallback": "Get 10 Advancements"
+    },
+    "item": "minecraft:knowledge_book",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_10_advancements",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_advancements",
+  "min": 10
+}

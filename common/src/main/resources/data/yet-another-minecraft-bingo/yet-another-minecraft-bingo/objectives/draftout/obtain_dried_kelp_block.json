@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_dried_kelp_block",
+      "fallback": "Obtain Dried Kelp Block"
+    }
+  },
+  "item": "minecraft:dried_kelp_block"
+}

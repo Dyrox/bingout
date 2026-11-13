@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_tnt_minecart",
+      "fallback": "Die to TNT Minecart"
+    },
+    "item": "minecraft:tnt_minecart",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_tnt_minecart",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_tnt_minecart"
+}

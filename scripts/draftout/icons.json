@@ -1,0 +1,999 @@
+{
+  "MINE_DIAMOND_ORE": {
+    "source_class": "MineDiamondOreGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ],
+    "item": "diamond_ore"
+  },
+  "MINE_EMERALD_ORE": {
+    "source_class": "MineEmeraldOreGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ],
+    "item": "emerald_ore"
+  },
+  "MINE_MOB_SPAWNER": {
+    "source_class": "MineMobSpawnerGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ]
+  },
+  "MINE_TURTLE_EGG": {
+    "source_class": "MineTurtleEggGoal",
+    "texture": "mine/turtle_eggs.png",
+    "overlays": [
+      "overlay/mine.png"
+    ]
+  },
+  "MINE_3_TYPES_OF_ICE": {
+    "source_class": "Mine3TypesOfIceGoal",
+    "texture": null,
+    "overlays": [
+      "overlay/mine.png"
+    ],
+    "count": 3,
+    "item": "ice"
+  },
+  "MINE_OBSIDIAN": {
+    "source_class": "MineObsidianGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ]
+  },
+  "ENTER_NETHER": {
+    "source_class": "EnterNetherGoal",
+    "texture": "misc/nether_portal.png"
+  },
+  "ENTER_END": {
+    "source_class": "EnterEndGoal",
+    "texture": "advancements/enter_end.png"
+  },
+  "TAME_CAT": {
+    "source_class": "TameCatGoal",
+    "texture": "tame/tame_cat.png"
+  },
+  "TAME_PARROT": {
+    "source_class": "TameParrotGoal",
+    "texture": "tame/tame_parrot.png"
+  },
+  "TAME_HORSE": {
+    "source_class": "TameHorseGoal",
+    "texture": "tame/tame_horse.png"
+  },
+  "TAME_WOLF": {
+    "source_class": "TameWolfGoal",
+    "texture": "tame/tame_wolf.png"
+  },
+  "TAME_NAUTILUS": {
+    "source_class": "TameNautilusGoal",
+    "texture": "tame/tame_nautilus.png"
+  },
+  "BREED_4_UNIQUE_ANIMALS": {
+    "source_class": "Breed4UniqueAnimalsGoal",
+    "texture": "misc/breed_x.png",
+    "count": 4
+  },
+  "BREED_6_UNIQUE_ANIMALS": {
+    "source_class": "Breed6UniqueAnimalsGoal",
+    "texture": "misc/breed_x.png",
+    "count": 6
+  },
+  "BREED_8_UNIQUE_ANIMALS": {
+    "source_class": "Breed8UniqueAnimalsGoal",
+    "texture": "misc/breed_x.png",
+    "count": 8
+  },
+  "BREED_CHICKEN": {
+    "source_class": "BreedChickenGoal",
+    "texture": "animals/chicken_1.png",
+    "alternates": [
+      "animals/chicken_2.png",
+      "animals/chicken_3.png"
+    ],
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_COW": {
+    "source_class": "BreedCowsGoal",
+    "texture": "animals/cow_1.png",
+    "alternates": [
+      "animals/cow_2.png",
+      "animals/cow_3.png"
+    ],
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_HOGLIN": {
+    "source_class": "BreedHoglinGoal",
+    "texture": "animals/hoglin.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_PIG": {
+    "source_class": "BreedPigGoal",
+    "texture": "animals/pig_1.png",
+    "alternates": [
+      "animals/pig_2.png",
+      "animals/pig_3.png"
+    ],
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_CAMEL": {
+    "source_class": "BreedCamelsGoal",
+    "texture": "animals/camel.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_ARMADILLO": {
+    "source_class": "BreedArmadillosGoal",
+    "texture": "animals/armadillo.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_RABBIT": {
+    "source_class": "BreedRabbitGoal",
+    "texture": "animals/rabbit.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_FOX": {
+    "source_class": "BreedFoxGoal",
+    "texture": "animals/fox.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_SHEEP": {
+    "source_class": "BreedSheepGoal",
+    "texture": "animals/sheep.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_STRIDER": {
+    "source_class": "BreedStriderGoal",
+    "texture": "animals/strider.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_GOAT": {
+    "source_class": "BreedGoatGoal",
+    "texture": "animals/goat.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "BREED_FROGS": {
+    "source_class": "BreedFrogsGoal",
+    "texture": "animals/frog_3.png",
+    "overlays": [
+      "overlay/breed.png"
+    ]
+  },
+  "DUPLICATE_ALLAY": {
+    "source_class": "DuplicateAllayGoal",
+    "texture": "animals/allay.png",
+    "overlays": [
+      "overlay/note.png",
+      "overlay/amethyst_shard.png"
+    ]
+  },
+  "KILL_WITCH": {
+    "source_class": "KillWitchGoal",
+    "texture": "kill/kill_witch.png"
+  },
+  "KILL_BOGGED": {
+    "source_class": "KillBoggedGoal",
+    "texture": "kill/kill_bogged.png"
+  },
+  "KILL_PARCHED": {
+    "source_class": "KillParchedGoal",
+    "texture": "kill/kill_parched.png"
+  },
+  "KILL_HUSK": {
+    "source_class": "KillHuskGoal",
+    "texture": "undead/kill_husk.png"
+  },
+  "KILL_ZOMBIE_VILLAGER": {
+    "source_class": "KillZombieVillagerGoal",
+    "texture": "kill/kill_zombie_villager.png"
+  },
+  "KILL_STRAY": {
+    "source_class": "KillStrayGoal",
+    "texture": "kill/kill_stray.png"
+  },
+  "KILL_ZOGLIN": {
+    "source_class": "KillZoglinGoal",
+    "texture": "kill/kill_zoglin.png"
+  },
+  "KILL_SILVERFISH": {
+    "source_class": "KillSilverfishGoal",
+    "texture": "kill/kill_silverfish.png"
+  },
+  "KILL_GUARDIAN": {
+    "source_class": "KillGuardianGoal",
+    "texture": "kill/kill_guardian.png"
+  },
+  "KILL_GHAST": {
+    "source_class": "KillGhastGoal",
+    "texture": "kill/kill_ghast.png"
+  },
+  "KILL_BAT": {
+    "source_class": "KillBatGoal",
+    "texture": "kill/kill_bat.png"
+  },
+  "KILL_SNOW_GOLEM": {
+    "source_class": "KillSnowGolemGoal",
+    "texture": "kill/kill_snow_golem.png"
+  },
+  "KILL_SNOW_GOLEM_IN_NETHER": {
+    "source_class": "KillSnowGolemInNetherGoal",
+    "texture": "kill/kill_snowman_nether.png"
+  },
+  "KILL_ELDER_GUARDIAN": {
+    "source_class": "KillElderGuardianGoal",
+    "texture": "kill/kill_elder_guardian.png"
+  },
+  "KILL_WARDEN": {
+    "source_class": "KillWardenGoal",
+    "texture": "kill/kill_warden.png"
+  },
+  "KILL_PILLAGER_USING_CROSSBOW": {
+    "source_class": "KillPillagerWithCrossbowGoal",
+    "texture": "advancements/whos_the_pillager.png"
+  },
+  "KILL_COLORED_SHEEP": {
+    "source_class": "KillColoredSheepGoal",
+    "texture": "sheep/kill_{variant}_sheep.png"
+  },
+  "KILL_7_UNIQUE_HOSTILE_MOBS": {
+    "source_class": "Kill7UniqueHostileMobsGoal",
+    "count": 7,
+    "item": "iron_sword"
+  },
+  "KILL_10_UNIQUE_HOSTILE_MOBS": {
+    "source_class": "Kill10UniqueHostileMobsGoal",
+    "count": 10,
+    "item": "iron_sword"
+  },
+  "KILL_13_UNIQUE_HOSTILE_MOBS": {
+    "source_class": "Kill13UniqueHostileMobsGoal",
+    "count": 13,
+    "item": "iron_sword"
+  },
+  "KILL_15_UNIQUE_HOSTILE_MOBS": {
+    "source_class": "Kill15UniqueHostileMobsGoal",
+    "count": 15,
+    "item": "iron_sword"
+  },
+  "KILL_30_UNDEAD_MOBS": {
+    "source_class": "Kill30UndeadMobsGoal",
+    "texture": "undead/kill_zombie.png",
+    "alternates": [
+      "undead/kill_wither_skeleton.png",
+      "undead/kill_zombie_villager.png",
+      "undead/kill_drowned.png",
+      "undead/kill_husk.png",
+      "undead/kill_stray.png",
+      "undead/kill_zoglin.png"
+    ],
+    "count": 30
+  },
+  "KILL_20_ARTHROPOD_MOBS": {
+    "source_class": "Kill20ArthropodMobsGoal",
+    "texture": "arthropod/kill_spider.png",
+    "alternates": [
+      "arthropod/kill_bee.png",
+      "arthropod/kill_cave_spider.png",
+      "arthropod/kill_endermite.png",
+      "arthropod/kill_silverfish.png"
+    ],
+    "count": 20
+  },
+  "OBTAIN_COPPER_CHEST": {
+    "source_class": "ObtainCopperChestGoal",
+    "count": 1
+  },
+  "EXPLODE_END_CRYSTAL": {
+    "source_class": "ExplodeEndCrystalGoal",
+    "texture": "misc/end_crystal.png"
+  },
+  "OBTAIN_3_HORSE_ARMORS": {
+    "source_class": "Obtain3UniqueHorseArmorsGoal",
+    "count": 3
+  },
+  "OBTAIN_4_UNIQUE_SEEDS": {
+    "source_class": "Obtain4UniqueSeedsGoal",
+    "count": 4
+  },
+  "OBTAIN_6_UNIQUE_FLOWERS": {
+    "source_class": "Obtain6UniqueFlowersGoal",
+    "count": 6
+  },
+  "OBTAIN_64_COLORED_WOOL": {
+    "source_class": "Obtain64ColoredWoolGoal",
+    "count": 64
+  },
+  "OBTAIN_64_COLORED_CONCRETE": {
+    "source_class": "Obtain64ColoredConcreteGoal",
+    "count": 64
+  },
+  "FILL_INVENTORY_MUSHROOM_STEW": {
+    "source_class": "FillInventoryWithMushroomStewGoal",
+    "count": 36
+  },
+  "GET_THIS_BOAT_HAS_LEGS_ADVANCEMENT": {
+    "source_class": "GetThisBoatHasLegsAdvancementGoal",
+    "texture": "advancements/boat_has_legs.png"
+  },
+  "WEAR_CARVED_PUMPKIN_FOR_5_MINUTES": {
+    "source_class": "WearCarvedPumpkinFor5MinutesGoal",
+    "texture": "misc/wear_pumpkin_5_minutes.png"
+  },
+  "USE_BREWING_STAND": {
+    "source_class": "GetLocalBreweryAdvancementGoal",
+    "texture": "advancements/brewing.png"
+  },
+  "EAT_5_UNIQUE_FOOD": {
+    "source_class": "Eat5UniqueFoodsGoal",
+    "texture": "misc/eat_unique.png",
+    "count": 5
+  },
+  "EAT_10_UNIQUE_FOOD": {
+    "source_class": "Eat10UniqueFoodsGoal",
+    "texture": "misc/eat_unique.png",
+    "count": 10
+  },
+  "EAT_15_UNIQUE_FOOD": {
+    "source_class": "Eat15UniqueFoodsGoal",
+    "texture": "misc/eat_unique.png",
+    "count": 15
+  },
+  "EAT_20_UNIQUE_FOOD": {
+    "source_class": "Eat20UniqueFoodsGoal",
+    "texture": "misc/eat_unique.png",
+    "count": 20
+  },
+  "EAT_25_UNIQUE_FOOD": {
+    "source_class": "Eat25UniqueFoodsGoal",
+    "texture": "misc/eat_unique.png",
+    "count": 25
+  },
+  "EAT_CAKE": {
+    "source_class": "EatCakeGoal",
+    "texture": "misc/eat_cake.png"
+  },
+  "OBTAIN_4_UNIQUE_SAPLINGS": {
+    "source_class": "Obtain4UniqueSaplingsGoal",
+    "count": 4
+  },
+  "TOOT_GOAT_HORN": {
+    "source_class": "TootGoatHornGoal",
+    "overlays": [
+      "overlay/note.png"
+    ],
+    "item": "goat_horn"
+  },
+  "GET_ANY_SPYGLASS_ADVANCEMENT": {
+    "source_class": "GetAnySpyglassAdvancementGoal",
+    "texture": "advancements/spyglass.png"
+  },
+  "GET_BULLSEYE_ADVANCEMENT": {
+    "source_class": "GetBullseyeAdvancementGoal",
+    "texture": "advancements/bullseye.png"
+  },
+  "VISIT_ALL_NETHER_BIOMES": {
+    "source_class": "VisitAllNetherBiomes",
+    "texture": "misc/visit_nether_biomes.png"
+  },
+  "GET_NOT_QUITE_NINE_LIVES_ADVANCEMENT": {
+    "source_class": "GetNotQuiteNineLivesAdvancementGoal",
+    "texture": "advancements/nqnl.png"
+  },
+  "GET_MOB_KABOB_ADVANCEMENT": {
+    "source_class": "GetMobKabobAdvancementGoal",
+    "texture": "advancements/mob_kabob.png"
+  },
+  "GET_OH_SHINY_ADVANCEMENT": {
+    "source_class": "GetOhShinyAdvancementGoal",
+    "texture": "advancements/oh_shiny.png"
+  },
+  "GET_SNIPER_DUEL_ADVANCEMENT": {
+    "source_class": "GetSniperDuelAdvancementGoal",
+    "texture": "advancements/sniper_duel.png"
+  },
+  "GET_STAY_HYDRATED_ADVANCEMENT": {
+    "source_class": "GetStayHydratedAdvancementGoal",
+    "texture": "advancements/stay_hydrated.png"
+  },
+  "GET_WHAT_A_DEAL_ADVANCEMENT": {
+    "source_class": "GetWhatADealAdvancementGoal",
+    "texture": "advancements/trade.png"
+  },
+  "GET_POWER_OF_BOOKS_ADVANCEMENT": {
+    "source_class": "GetPowerOfBooksAdvancementGoal",
+    "texture": "advancements/power_of_books.png"
+  },
+  "GET_ABSORPTION_STATUS_EFFECT": {
+    "source_class": "GetAbsorptionStatusEffectGoal",
+    "texture": "status_effect/absorption.png"
+  },
+  "GET_BAD_OMEN_STATUS_EFFECT": {
+    "source_class": "GetBadOmenStatusEffectGoal",
+    "texture": "status_effect/bad_omen.png"
+  },
+  "GET_GLOWING_STATUS_EFFECT": {
+    "source_class": "GetGlowingStatusEffectGoal",
+    "texture": "status_effect/glowing.png"
+  },
+  "GET_JUMP_BOOST_STATUS_EFFECT": {
+    "source_class": "GetJumpBoostStatusEffectGoal",
+    "texture": "status_effect/jump_boost.png"
+  },
+  "GET_LEVITATION_STATUS_EFFECT": {
+    "source_class": "GetLevitationStatusEffectGoal",
+    "texture": "status_effect/levitation.png"
+  },
+  "GET_MINING_FATIGUE_STATUS_EFFECT": {
+    "source_class": "GetMiningFatigueStatusEffectGoal",
+    "texture": "status_effect/mining_fatigue.png"
+  },
+  "GET_NAUSEA_STATUS_EFFECT": {
+    "source_class": "GetNauseaStatusEffectGoal",
+    "texture": "status_effect/nausea.png"
+  },
+  "GET_POISON_STATUS_EFFECT": {
+    "source_class": "GetPoisonStatusEffectGoal",
+    "texture": "status_effect/poison.png"
+  },
+  "GET_WEAKNESS_STATUS_EFFECT": {
+    "source_class": "GetWeaknessStatusEffectGoal",
+    "texture": "status_effect/weakness.png"
+  },
+  "DIE_BY_ANVIL": {
+    "source_class": "DieToAnvilGoal",
+    "texture": "death/die_to_anvil.png"
+  },
+  "DIE_BY_BEE_STING": {
+    "source_class": "DieToBeeStingGoal",
+    "texture": "death/die_to_bee.png"
+  },
+  "DIE_BY_BERRY_BUSH": {
+    "source_class": "DieToBerryBushGoal",
+    "texture": "death/die_to_sweet_berries.png"
+  },
+  "DIE_BY_CACTUS": {
+    "source_class": "DieToCactusGoal",
+    "texture": "death/die_to_cactus.png"
+  },
+  "DIE_BY_FALLING_OFF_VINE": {
+    "source_class": "DieToFallingOffVinesGoal",
+    "texture": "death/die_to_vines.png",
+    "alternates": [
+      "death/die_to_twisting_vines.png",
+      "death/die_to_weeping_vines.png",
+      "death/die_to_cave_vines.png"
+    ]
+  },
+  "DIE_BY_FALLING_STALACTITE": {
+    "source_class": "DieToFallingStalactiteGoal",
+    "overlays": [
+      "overlay/skull.png"
+    ]
+  },
+  "DIE_BY_FIREWORK": {
+    "source_class": "DieToFireworkGoal",
+    "texture": "death/die_to_firework.png"
+  },
+  "DIE_BY_INTENTIONAL_GAME_DESIGN": {
+    "source_class": "DieToIntentionalGameDesignGoal",
+    "texture": "death/die_to_anchor.png",
+    "alternates": [
+      "death/die_to_bed.png"
+    ]
+  },
+  "DIE_BY_IRON_GOLEM": {
+    "source_class": "DieToIronGolemGoal",
+    "texture": "death/die_to_golem.png"
+  },
+  "DIE_BY_DROWNING": {
+    "source_class": "DieByDrowningGoal",
+    "texture": "death/die_to_drowning.png"
+  },
+  "DIE_TO_POLAR_BEAR": {
+    "source_class": "DieToPolarBearGoal",
+    "texture": "death/die_to_polar_bear.png"
+  },
+  "DIE_BY_MAGIC": {
+    "source_class": "DieByMagicGoal",
+    "texture": "death/die_to_magic.png"
+  },
+  "DIE_BY_TNT_MINECART": {
+    "source_class": "DieToTNTMinecartGoal",
+    "texture": "death/die_to_tnt_minecart.png"
+  },
+  "GET_EYE_SPY_ADVANCEMENT": {
+    "source_class": "GetEyeSpyAdvancementGoal",
+    "texture": "advancements/eye_spy.png"
+  },
+  "GET_POSTMORTAL_ADVANCEMENT": {
+    "source_class": "GetPostmortalAdvancementGoal",
+    "texture": "advancements/postmortal.png"
+  },
+  "GET_3_STATUS_EFFECTS_AT_ONCE": {
+    "source_class": "Get3StatusEffectsGoal",
+    "texture": "status_effect/3_status_effects.png"
+  },
+  "GET_4_STATUS_EFFECTS_AT_ONCE": {
+    "source_class": "Get4StatusEffectsGoal",
+    "texture": "status_effect/4_status_effects.png"
+  },
+  "GET_6_STATUS_EFFECTS_AT_ONCE": {
+    "source_class": "Get6StatusEffectsGoal",
+    "texture": "status_effect/6_status_effects.png"
+  },
+  "REACH_EXP_LEVEL_10": {
+    "source_class": "ReachXPLevel10Goal",
+    "texture": "experience/level_10.png"
+  },
+  "REACH_EXP_LEVEL_20": {
+    "source_class": "ReachXPLevel20Goal",
+    "texture": "experience/level_20.png"
+  },
+  "RIDE_MINECART": {
+    "source_class": "RideMinecartGoal",
+    "texture": "misc/ride_minecart.png"
+  },
+  "RIDE_GEYSER": {
+    "source_class": "RideGeyserGoal",
+    "texture": "misc/geyser.png",
+    "overlays": [
+      "overlay/sulfur.png"
+    ]
+  },
+  "USE_CAULDRON": {
+    "source_class": "UseCauldronGoal",
+    "texture": "misc/use_cauldron.png"
+  },
+  "USE_COMPOSTER": {
+    "source_class": "UseComposterGoal",
+    "texture": "misc/filled_composter.png"
+  },
+  "USE_GLOW_INK_CRIMSON": {
+    "source_class": "UseGlowInkCrimsonSignGoal",
+    "texture": "misc/glow_crimson_sign.png"
+  },
+  "USE_GLOW_INK_WARPED": {
+    "source_class": "UseGlowInkWarpedSignGoal",
+    "texture": "misc/glow_warped_sign.png"
+  },
+  "USE_GLOW_INK_NETHER": {
+    "source_class": "UseGlowInkNetherSignGoal",
+    "texture": "misc/glow_nether_sign.png"
+  },
+  "EMPTY_HUNGER_BAR": {
+    "source_class": "EmptyHungerBarGoal",
+    "texture": "misc/starve.png"
+  },
+  "REACH_HEIGHT_LIMIT": {
+    "source_class": "ReachHeightLimitGoal",
+    "texture": "misc/height_limit.png"
+  },
+  "REACH_BEDROCK": {
+    "source_class": "ReachBedrockGoal",
+    "overlays": [
+      "overlay/down_arrow.png"
+    ],
+    "item": "bedrock"
+  },
+  "OBTAIN_6_UNIQUE_BUCKETS": {
+    "source_class": "Obtain6UniqueBucketsGoal",
+    "count": 6
+  },
+  "OBTAIN_ALL_MUSHROOMS": {
+    "source_class": "ObtainAllMushroomsGoal",
+    "count": 4
+  },
+  "OBTAIN_7_UNIQUE_WORKSTATIONS": {
+    "source_class": "Obtain7WorkstationsGoal",
+    "count": 7
+  },
+  "ENRAGE_ZOMBIFIED_PIGLIN": {
+    "source_class": "AngerZombifiedPiglinGoal",
+    "texture": "misc/enrage_zombie_piglin.png"
+  },
+  "ENRAGE_ENDERMAN": {
+    "source_class": "AngerEndermanGoal",
+    "texture": "misc/enrage_enderman.png"
+  },
+  "OBTAIN_SUSPICIOUS_BLOCK": {
+    "source_class": "ObtainSuspiciousBlockGoal",
+    "overlays": [
+      "overlay/cobweb.png"
+    ],
+    "count": 1
+  },
+  "OBTAIN_POTTERY_SHERD": {
+    "source_class": "ObtainPotterySherdGoal",
+    "count": 1
+  },
+  "GET_10_ADVANCEMENTS": {
+    "source_class": "Get10UniqueAdvancementsGoal",
+    "texture": "advancements/10_advancements.png"
+  },
+  "GET_20_ADVANCEMENTS": {
+    "source_class": "Get20UniqueAdvancementsGoal",
+    "texture": "advancements/20_advancements.png"
+  },
+  "GET_30_ADVANCEMENTS": {
+    "source_class": "Get30UniqueAdvancementsGoal",
+    "texture": "advancements/30_advancements.png"
+  },
+  "TAKE_200_DAMAGE": {
+    "source_class": "Take200DamageGoal",
+    "texture": "misc/take_200_damage.png"
+  },
+  "REACH_NETHER_ROOF": {
+    "source_class": "ReachNetherRoofGoal",
+    "item": "bedrock",
+    "overlays": [
+      "misc/up_arrow.png"
+    ]
+  },
+  "FREEZE_TO_DEATH": {
+    "source_class": "DieByFreezingGoal",
+    "texture": "death/die_to_freezing.png"
+  },
+  "KILL_100_MOBS": {
+    "source_class": "Kill100MobsGoal",
+    "texture": "kill/kill_100_mobs.png",
+    "count": 100
+  },
+  "DEAL_400_DAMAGE": {
+    "source_class": "Deal400DamageGoal",
+    "texture": "misc/deal_400_damage.png"
+  },
+  "SPRINT_1_KM": {
+    "source_class": "Sprint1KmGoal",
+    "texture": "misc/sprint_1km.png"
+  },
+  "GET_HIRED_HELP_ADVANCEMENT": {
+    "source_class": "GetHiredHelpAdvancementGoal",
+    "texture": "advancements/hired_help.png"
+  },
+  "GET_WAX_ON_ADVANCEMENT": {
+    "source_class": "GetWaxOnAdvancementGoal",
+    "texture": "advancements/wax_on.png"
+  },
+  "GET_WAX_OFF_ADVANCEMENT": {
+    "source_class": "GetWaxOffAdvancementGoal",
+    "texture": "advancements/wax_off.png"
+  },
+  "PUT_BANNER_ON_SHIELD": {
+    "source_class": "ObtainShieldWithBannerGoal",
+    "texture": "misc/apply_banner_shield.png"
+  },
+  "HAVE_YOUR_SHIELD_DISABLED": {
+    "source_class": "HaveShieldDisabledGoal",
+    "texture": "misc/disable_shield.png"
+  },
+  "ITEM_FRAME_IN_ITEM_FRAME": {
+    "source_class": "ItemFrameInItemFrameGoal",
+    "texture": "misc/item_frame_in_item_frame.png"
+  },
+  "FILL_CAMPFIRE": {
+    "source_class": "FillCampfireWithFoodGoal",
+    "texture": "misc/campfire.png"
+  },
+  "PUT_FLOWER_IN_POT": {
+    "source_class": "PutFlowerInPotGoal",
+    "texture": "misc/flower_in_a_pot.png"
+  },
+  "PEARL_THROUGH_NETHER_PORTAL": {
+    "source_class": "PearlThroughNetherPortalGoal",
+    "texture": "misc/pearl_nether_portal.png"
+  },
+  "KILL_ALL_RAID_MOBS": {
+    "source_class": "KillAllRaidMobsGoal",
+    "texture": "status_effect/bad_omen.png"
+  },
+  "FILL_CHISELED_BOOKSHELF": {
+    "source_class": "FillChiseledBookshelfGoal",
+    "texture": "misc/fill_chiseled_bookshelf.png"
+  },
+  "USE_BRUSH_ON_SUSPICIOUS_BLOCK": {
+    "source_class": "UseBrushOnSuspiciousBlock",
+    "overlays": [
+      "overlay/brush.png"
+    ],
+    "item": "suspicious_gravel"
+  },
+  "IGNITE_TNT_SULFUR_CUBE": {
+    "source_class": "GetUhOhAdvancementGoal",
+    "texture": "advancements/uh_oh.png"
+  },
+  "MINE_CRAFTER": {
+    "source_class": "MineCrafterGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ],
+    "item": "crafter"
+  },
+  "LIGHT_CANDLE": {
+    "source_class": "LightCandleGoal",
+    "texture": "misc/light_candle.png"
+  },
+  "KILL_BREEZE_USING_WIND_CHARGE": {
+    "source_class": "KillBreezeWithWindChargeGoal",
+    "texture": "kill/breeze_wind_charge.png"
+  },
+  "OBTAIN_32_ARROWS": {
+    "source_class": "Obtain32ArrowsGoal",
+    "count": 32
+  },
+  "OBTAIN_16_GLOW_LICHEN": {
+    "source_class": "Obtain16GlowLichenGoal",
+    "count": 16
+  },
+  "OBTAIN_64_ARROWS": {
+    "source_class": "Obtain64ArrowsGoal",
+    "count": 64
+  },
+  "OBTAIN_64_COARSE_DIRT": {
+    "source_class": "Obtain64CoarseDirtGoal",
+    "count": 64
+  },
+  "OBTAIN_64_NAME_TAGS": {
+    "source_class": "Obtain64NameTagsGoal",
+    "count": 64
+  },
+  "VISIT_ALL_CAVE_BIOMES": {
+    "source_class": "VisitAllCaveBiomesGoal",
+    "texture": "misc/visit_cave_biomes.png"
+  },
+  "LEASH_4_UNIQUE_MOBS": {
+    "source_class": "Leash4UniqueMobsGoal",
+    "count": 4,
+    "item": "lead"
+  },
+  "LEASH_6_UNIQUE_MOBS": {
+    "source_class": "Leash6UniqueMobsGoal",
+    "count": 6,
+    "item": "lead"
+  },
+  "LEASH_8_UNIQUE_MOBS": {
+    "source_class": "Leash8UniqueMobsGoal",
+    "count": 8,
+    "item": "lead"
+  },
+  "LEASH_IRON_GOLEM": {
+    "source_class": "LeashIronGolem",
+    "texture": "misc/leash_iron_golem.png"
+  },
+  "SPY_10_UNIQUE_MOBS": {
+    "source_class": "SpyOn10UniqueMobsGoal",
+    "count": 10,
+    "item": "spyglass"
+  },
+  "SPY_15_UNIQUE_MOBS": {
+    "source_class": "SpyOn15UniqueMobsGoal",
+    "count": 15,
+    "item": "spyglass"
+  },
+  "SPY_20_UNIQUE_MOBS": {
+    "source_class": "SpyOn20UniqueMobsGoal",
+    "count": 20,
+    "item": "spyglass"
+  },
+  "SPY_25_UNIQUE_MOBS": {
+    "source_class": "SpyOn25UniqueMobsGoal",
+    "count": 25,
+    "item": "spyglass"
+  },
+  "SPY_ENDERMAN": {
+    "source_class": "SpyOnEndermanGoal",
+    "texture": "spy/spy_enderman.png"
+  },
+  "SPY_IRON_GOLEM": {
+    "source_class": "SpyOnIronGolemGoal",
+    "texture": "spy/spy_iron_golem.png"
+  },
+  "SPY_PIGLIN_BRUTE": {
+    "source_class": "SpyOnPiglinBruteGoal",
+    "texture": "spy/spy_piglin_brute.png"
+  },
+  "BREAK_ANY_ARMOR": {
+    "source_class": "BreakArmorPieceGoal",
+    "texture": "break/break_armor.png"
+  },
+  "BREAK_ANY_TOOL": {
+    "source_class": "BreakToolGoal",
+    "texture": "break/break_tool.png"
+  },
+  "BREAK_FISHING_ROD": {
+    "source_class": "BreakFishingRodGoal",
+    "overlays": [
+      "overlay/low_durability.png"
+    ]
+  },
+  "BREAK_SHIELD": {
+    "source_class": "BreakShieldGoal",
+    "overlays": [
+      "overlay/low_durability.png"
+    ]
+  },
+  "DIE_TO_PUFFERFISH": {
+    "source_class": "DieToPufferfishGoal",
+    "texture": "death/die_to_pufferfish.png"
+  },
+  "DIE_TO_TRIDENT": {
+    "source_class": "DieToTridentGoal",
+    "texture": "death/die_to_trident.png"
+  },
+  "DIE_TO_WARDEN": {
+    "source_class": "DieToWardenGoal",
+    "texture": "death/die_to_warden.png"
+  },
+  "DIE_TO_VOID": {
+    "source_class": "DieToVoidGoal",
+    "texture": "death/die_to_void.png"
+  },
+  "DIE_TO_SULFUR_CUBE": {
+    "source_class": "DieToSulfurCubeGoal",
+    "texture": "death/sulfur_1.png",
+    "alternates": [
+      "death/sulfur_2.png"
+    ],
+    "overlays": [
+      "overlay/skull.png"
+    ]
+  },
+  "CRAFT_ARMOR_TRIM": {
+    "source_class": "DuplicateArmorTrimGoal",
+    "overlays": [
+      "overlay/craft.png"
+    ]
+  },
+  "OBTAIN_2_ARMOR_TRIMS": {
+    "source_class": "Obtain2ArmorTrimsGoal",
+    "count": 2
+  },
+  "OBTAIN_3_BANNER_PATTERNS": {
+    "source_class": "Obtain3UniqueBannerPatternsGoal",
+    "count": 3
+  },
+  "TUNE_NOTEBLOCK": {
+    "source_class": "TuneNoteBlockGoal",
+    "overlays": [
+      "overlay/note.png"
+    ],
+    "item": "note_block"
+  },
+  "USE_GOLDEN_DANDELION": {
+    "source_class": "UseGoldenDandelionGoal",
+    "texture": "golden_dandelion/cow.png",
+    "alternates": [
+      "golden_dandelion/pig.png",
+      "golden_dandelion/sheep.png",
+      "golden_dandelion/chicken.png"
+    ]
+  },
+  "CONSTRUCT_COPPER_GOLEM": {
+    "source_class": "ConstructCopperGolemGoal",
+    "texture": "misc/construct_copper_golem.png"
+  },
+  "CRAFT_20_UNIQUE_ITEMS": {
+    "source_class": "Craft20UniqueItemsGoal",
+    "count": 20,
+    "item": "crafting_table"
+  },
+  "CRAFT_50_UNIQUE_ITEMS": {
+    "source_class": "Craft50UniqueItemsGoal",
+    "count": 50,
+    "item": "crafting_table"
+  },
+  "CRAFT_100_UNIQUE_ITEMS": {
+    "source_class": "Craft100UniqueItemsGoal",
+    "count": 100,
+    "item": "crafting_table"
+  },
+  "TURN_IRON_GOLEM_UPSIDE_DOWN": {
+    "source_class": "TurnIronGolemUpsideDownGoal",
+    "texture": "nametag/iron_golem.png"
+  },
+  "TURN_GHAST_UPSIDE_DOWN": {
+    "source_class": "TurnGhastUpsideDownGoal",
+    "texture": "nametag/ghast.png"
+  },
+  "NAME_SHEEP_JEB": {
+    "source_class": "NameSheepJebGoal",
+    "texture": "nametag/sheep.png",
+    "overlays": [
+      "overlay/nametag.png"
+    ],
+    "crop": [
+      0,
+      0,
+      100,
+      100
+    ]
+  },
+  "COMPOST_3_UNIQUE_FOODS": {
+    "source_class": "Compost3UniqueFoodsGoal",
+    "texture": "compost/compost_1.png",
+    "alternates": [
+      "compost/compost_2.png",
+      "compost/compost_3.png",
+      "compost/compost_4.png",
+      "compost/compost_5.png"
+    ],
+    "count": 3
+  },
+  "COMPOST_5_UNIQUE_FOODS": {
+    "source_class": "Compost5UniqueFoodsGoal",
+    "texture": "compost/compost_1.png",
+    "alternates": [
+      "compost/compost_2.png",
+      "compost/compost_3.png",
+      "compost/compost_4.png",
+      "compost/compost_5.png"
+    ],
+    "count": 5
+  },
+  "COMPOST_7_UNIQUE_FOODS": {
+    "source_class": "Compost7UniqueFoodsGoal",
+    "texture": "compost/compost_1.png",
+    "alternates": [
+      "compost/compost_2.png",
+      "compost/compost_3.png",
+      "compost/compost_4.png",
+      "compost/compost_5.png"
+    ],
+    "count": 7
+  },
+  "OBTAIN_STACK_OF_64": {
+    "source_class": "ObtainStackOfAnyItemGoal",
+    "texture": "misc/64_items.png"
+  },
+  "LOCK_MAP": {
+    "source_class": "ObtainLockedMapGoal",
+    "texture": "misc/locked_map.png"
+  },
+  "GET_IT_SPREADS_ADVANCEMENT": {
+    "source_class": "GetItSpreadsAdvancementGoal",
+    "texture": "advancements/it_spreads.png"
+  },
+  "OBTAIN_12_UNIQUE_DYES": {
+    "source_class": "Obtain12UniqueDyesGoal",
+    "count": 12
+  },
+  "OBTAIN_64_OF_ANY_FLOWER": {
+    "source_class": "Obtain64OfAnyFlowerGoal",
+    "count": 64
+  },
+  "OBTAIN_3_UNIQUE_MUSIC_DISCS": {
+    "source_class": "Obtain3UniqueMusicDiscsGoal",
+    "count": 3
+  },
+  "GIVE_DIAMOND_TO_FOX": {
+    "source_class": "GiveDiamondToFoxGoal",
+    "texture": "misc/give_diamond_to_fox.png"
+  },
+  "MINE_SEA_LANTERN": {
+    "source_class": "MineSeaLanternGoal",
+    "overlays": [
+      "overlay/mine.png"
+    ],
+    "item": "sea_lantern"
+  }
+}

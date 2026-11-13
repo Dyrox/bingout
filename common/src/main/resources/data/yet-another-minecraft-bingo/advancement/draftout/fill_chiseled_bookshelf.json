@@ -1,0 +1,25 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "type": "minecraft:location_check",
+          "predicate": {
+            "block": {
+              "blocks": "minecraft:chiseled_bookshelf",
+              "state": {
+                "slot_0_occupied": "true",
+                "slot_1_occupied": "true",
+                "slot_2_occupied": "true",
+                "slot_3_occupied": "true",
+                "slot_4_occupied": "true",
+                "slot_5_occupied": "true"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

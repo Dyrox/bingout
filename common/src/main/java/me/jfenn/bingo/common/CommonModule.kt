@@ -45,6 +45,9 @@ import me.jfenn.bingo.common.menu.tooltips.TooltipController
 import me.jfenn.bingo.common.menu.tooltips.TooltipState
 import me.jfenn.bingo.common.options.OptionsService
 import me.jfenn.bingo.common.ready.ReadyCommand
+import me.jfenn.bingo.common.draft.DraftCommand
+import me.jfenn.bingo.common.draft.DraftController
+import me.jfenn.bingo.common.draft.DraftoutTriggerController
 import me.jfenn.bingo.common.ready.ReadyController
 import me.jfenn.bingo.common.ready.ReadyService
 import me.jfenn.bingo.common.ready.ReadyTimerState
@@ -146,6 +149,7 @@ val commonModule = module {
     singleOf(::ObjectiveFilterCommand)
     singleOf(::InfoBookCommand)
     singleOf(::DataCommands)
+    singleOf(::DraftCommand)
 
     singleOf(::ConnectionFactory)
     single { get<ConnectionFactory>().create() }
@@ -339,6 +343,8 @@ val commonModule = module {
         scopedOf(::TimerCheck)
         scopedOf(::TimerPacketController)
         scopedOf(::WaitUntilLoadedController)
+        scopedOf(::DraftController)
+        scopedOf(::DraftoutTriggerController)
 
         scopedOf(::ResetOnLeaveController)
 
@@ -385,6 +391,7 @@ fun Koin.commonInit() {
     get<ObjectiveFilterCommand>()
     get<InfoBookCommand>()
     get<DataCommands>()
+    get<DraftCommand>()
 
     get<ConnectionFactory>()
     get<StatsService>()
@@ -434,6 +441,8 @@ fun Scope.commonInit() {
     get<TimerCheck>()
     get<TimerPacketController>()
     get<WaitUntilLoadedController>()
+    get<DraftController>()
+    get<DraftoutTriggerController>()
 
     get<ResetOnLeaveController>()
 

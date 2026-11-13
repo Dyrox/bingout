@@ -11,6 +11,7 @@ sealed class ObjectiveFilter {
         const val UNOBTAINABLE = "unobtainable"
         const val TEDIOUS = "tedious"
         const val EVERYTHING = "everything"
+        const val DRAFTOUT = "draftout"
 
         fun from(namespace: String) = "from=$namespace"
         fun type(type: String) = "type=$type"

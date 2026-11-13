@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_suspicious_stew",
+      "fallback": "Eat Suspicious Stew"
+    },
+    "item": "minecraft:suspicious_stew",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:suspicious_stew"
+}

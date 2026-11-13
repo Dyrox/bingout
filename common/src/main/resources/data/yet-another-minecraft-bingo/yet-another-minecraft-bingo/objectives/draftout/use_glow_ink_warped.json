@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_glow_ink_warped",
+      "fallback": "Use Glow Ink on Warped Sign"
+    },
+    "item": "minecraft:glow_ink_sac",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/use_glow_ink_warped",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/use_glow_ink_warped"
+}

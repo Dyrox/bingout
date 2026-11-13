@@ -1,0 +1,16 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.sprint_1_km",
+      "fallback": "Sprint 1km"
+    },
+    "item": "minecraft:leather_boots",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/sprint_1_km",
+    "itemStyle": "NORMAL"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:sprint_one_cm",
+  "min": 100000
+}

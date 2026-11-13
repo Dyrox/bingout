@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_stack_of_64",
+      "fallback": "Obtain a stack of any Item"
+    },
+    "item": "minecraft:cobblestone",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_stack_of_64",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/stack_of_64"
+}

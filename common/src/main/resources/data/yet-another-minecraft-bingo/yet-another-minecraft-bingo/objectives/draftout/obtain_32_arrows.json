@@ -1,0 +1,25 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_32_arrows",
+      "fallback": "Obtain 32 Arrows"
+    },
+    "item": "minecraft:arrow",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_32_arrows",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    {
+      "type": "item",
+      "item": "minecraft:arrow",
+      "count": 32
+    },
+    {
+      "type": "item",
+      "item": "minecraft:spectral_arrow",
+      "count": 32
+    }
+  ]
+}

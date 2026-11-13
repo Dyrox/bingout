@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.have_your_shield_disabled",
+      "fallback": "Have your Shield disabled"
+    },
+    "item": "minecraft:shield",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/have_your_shield_disabled",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/shield_disabled"
+}

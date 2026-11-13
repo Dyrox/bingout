@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_enchant_bottle",
+      "fallback": "Obtain Bottle o' Enchanting"
+    }
+  },
+  "item": "minecraft:experience_bottle"
+}

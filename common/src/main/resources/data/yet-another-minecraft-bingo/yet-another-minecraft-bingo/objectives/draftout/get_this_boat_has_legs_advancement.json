@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_this_boat_has_legs_advancement",
+      "fallback": "Obtain \"This Boat Has Legs\""
+    },
+    "item": "minecraft:warped_fungus_on_a_stick",
+    "image": "yet-another-minecraft-bingo:draftout/get_this_boat_has_legs_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:nether/ride_strider"
+}

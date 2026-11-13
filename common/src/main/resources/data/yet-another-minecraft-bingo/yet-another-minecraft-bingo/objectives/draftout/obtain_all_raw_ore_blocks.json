@@ -1,0 +1,16 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_raw_ore_blocks",
+      "fallback": "Obtain every type of Raw Ore Block"
+    },
+    "item": "minecraft:raw_gold_block",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:raw_copper_block",
+    "minecraft:raw_gold_block",
+    "minecraft:raw_iron_block"
+  ]
+}

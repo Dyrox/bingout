@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_20_arthropod_mobs",
+      "fallback": "Kill 20 Arthropods"
+    },
+    "item": "minecraft:spider_eye",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_20_arthropod_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_arthropod",
+  "min": 20
+}

@@ -1,0 +1,17 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.brew_healing_potion",
+      "fallback": "Brew a Potion of Healing"
+    },
+    "item": "minecraft:potion",
+    "itemComponents": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:healing"
+      }
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/brew/healing"
+}

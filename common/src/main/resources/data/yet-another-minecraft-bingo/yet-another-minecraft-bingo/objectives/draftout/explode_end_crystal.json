@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.explode_end_crystal",
+      "fallback": "Explode End Crystal"
+    },
+    "item": "minecraft:end_crystal",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/explode_end_crystal",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/end_crystal"
+}

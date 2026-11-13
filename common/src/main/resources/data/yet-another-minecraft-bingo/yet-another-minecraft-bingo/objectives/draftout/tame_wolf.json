@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.tame_wolf",
+      "fallback": "Tame a Wolf"
+    },
+    "item": "minecraft:bone",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/tame_wolf",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/tame_wolf"
+}

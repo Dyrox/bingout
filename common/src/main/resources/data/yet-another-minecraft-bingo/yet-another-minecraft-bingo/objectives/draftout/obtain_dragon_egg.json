@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_dragon_egg",
+      "fallback": "Obtain Dragon Egg"
+    }
+  },
+  "item": "minecraft:dragon_egg"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.freeze_to_death",
+      "fallback": "Die by Freezing"
+    },
+    "item": "minecraft:powder_snow_bucket",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/freeze_to_death",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/freeze_to_death"
+}

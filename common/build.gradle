@@ -209,7 +209,7 @@ tasks.register("bingoLangFiles") {
 
 tasks.register("bingoConstants") {
     def constantsKtFile = layout.buildDirectory.file("generated/main/java/me/jfenn/bingo/generated/Constants.kt").get().asFile
-    def modVersion = project.mod_version.toString()
+    def modVersion = rootProject.ext.bingoutVersion.toString()
     inputs.property("version", modVersion)
     outputs.file(constantsKtFile)
     doLast {

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_wax_on_advancement",
+      "fallback": "Wax a Copper Block"
+    },
+    "item": "minecraft:honeycomb",
+    "image": "yet-another-minecraft-bingo:draftout/get_wax_on_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:husbandry/wax_on"
+}

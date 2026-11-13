@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_to_polar_bear",
+      "fallback": "Die to Polar Bear"
+    },
+    "item": "minecraft:polar_bear_spawn_egg",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_to_polar_bear",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_to_polar_bear"
+}

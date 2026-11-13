@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.breed_hoglin",
+      "fallback": "Breed Hoglins"
+    },
+    "item": "minecraft:crimson_fungus",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/breed_hoglin",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/breed_hoglin"
+}

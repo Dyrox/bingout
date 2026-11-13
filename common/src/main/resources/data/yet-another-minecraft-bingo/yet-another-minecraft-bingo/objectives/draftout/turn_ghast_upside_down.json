@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.turn_ghast_upside_down",
+      "fallback": "Name a Ghast 'Dinnerbone'"
+    },
+    "item": "minecraft:name_tag",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/turn_ghast_upside_down",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/name_ghast_dinnerbone"
+}

@@ -1,6 +1,8 @@
 package me.jfenn.bingo.client.common.packet
 
 import me.jfenn.bingo.client.platform.IClientNetworking
+import me.jfenn.bingo.common.draft.DraftPacket
+import me.jfenn.bingo.common.draft.DraftActionPacket
 import me.jfenn.bingo.common.config.PlayerSettings
 import me.jfenn.bingo.common.game.GameOverPacket
 import me.jfenn.bingo.common.game.GameResetPacket
@@ -19,6 +21,9 @@ import me.jfenn.bingo.common.timer.TimerPacket
 class ClientPacketEvents(
     clientNetworking: IClientNetworking,
 ) {
+
+    val draftStateV1 = clientNetworking.registerS2C(DraftPacket.V1)
+    val draftActionV1 = clientNetworking.registerC2S(DraftActionPacket.V1)
 
     val cardResetV1 = clientNetworking.registerS2C(CardResetPacket.V1)
     val cardDisplayV1 = clientNetworking.registerS2C(CardDisplayPacket.V1)

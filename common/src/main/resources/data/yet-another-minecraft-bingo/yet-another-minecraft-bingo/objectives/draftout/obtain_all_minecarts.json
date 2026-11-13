@@ -1,0 +1,18 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_minecarts",
+      "fallback": "Obtain every type of Minecart"
+    },
+    "item": "minecraft:tnt_minecart",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:minecart",
+    "minecraft:chest_minecart",
+    "minecraft:furnace_minecart",
+    "minecraft:hopper_minecart",
+    "minecraft:tnt_minecart"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_oh_shiny_advancement",
+      "fallback": "Obtain \"Oh Shiny\""
+    },
+    "item": "minecraft:gold_ingot",
+    "image": "yet-another-minecraft-bingo:draftout/get_oh_shiny_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:nether/distract_piglin"
+}

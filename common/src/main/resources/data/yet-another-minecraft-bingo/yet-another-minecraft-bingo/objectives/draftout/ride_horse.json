@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.ride_horse",
+      "fallback": "Ride a Horse"
+    },
+    "item": "minecraft:saddle",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:horse_one_cm"
+}

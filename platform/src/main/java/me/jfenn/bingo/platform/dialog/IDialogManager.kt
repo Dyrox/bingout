@@ -7,6 +7,7 @@ interface IDialogManager {
     fun confirmationBuilder(): IConfirmationDialogBuilder? = null
     fun multiActionBuilder(): IMultiActionDialogBuilder? = null
     fun showDialog(player: IPlayerHandle, dialog: IDialogHandle)
+    fun closeDialog(player: IPlayerHandle) = Unit
 }
 
 interface IDialogHandle

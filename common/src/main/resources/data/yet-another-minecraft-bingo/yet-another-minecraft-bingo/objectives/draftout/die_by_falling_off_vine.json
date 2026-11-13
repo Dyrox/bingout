@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_falling_off_vine",
+      "fallback": "Die by falling off Vines"
+    },
+    "item": "minecraft:vine",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_falling_off_vine",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_falling_off_vine"
+}

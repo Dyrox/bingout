@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_obsidian",
+      "fallback": "Mine Obsidian"
+    },
+    "item": "minecraft:obsidian",
+    "image": "yet-another-minecraft-bingo:draftout/mine_obsidian",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "statType": "minecraft:mined",
+  "statName": "minecraft:obsidian"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.leash_8_unique_mobs",
+      "fallback": "Leash 8 unique Mobs at once"
+    },
+    "item": "minecraft:lead",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/leash_8_unique_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_leash",
+  "min": 8
+}

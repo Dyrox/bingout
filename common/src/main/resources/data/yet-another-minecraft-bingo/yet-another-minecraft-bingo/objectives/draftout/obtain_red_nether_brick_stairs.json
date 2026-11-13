@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_red_nether_brick_stairs",
+      "fallback": "Obtain Red Nether Brick Stairs"
+    }
+  },
+  "item": "minecraft:red_nether_brick_stairs"
+}

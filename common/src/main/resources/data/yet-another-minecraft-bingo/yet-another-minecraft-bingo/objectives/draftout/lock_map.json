@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.lock_map",
+      "fallback": "Lock a Map using Cartography Table"
+    },
+    "item": "minecraft:filled_map",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/lock_map",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/lock_map"
+}

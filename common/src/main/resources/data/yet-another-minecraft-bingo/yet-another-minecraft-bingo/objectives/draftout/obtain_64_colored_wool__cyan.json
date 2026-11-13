@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_colored_wool__cyan",
+      "fallback": "Obtain 64 Cyan Wool"
+    },
+    "item": "minecraft:cyan_wool",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_colored_wool__cyan",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:cyan_wool",
+  "count": 64
+}

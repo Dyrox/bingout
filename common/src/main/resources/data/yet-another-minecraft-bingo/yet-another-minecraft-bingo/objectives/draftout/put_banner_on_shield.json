@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.put_banner_on_shield",
+      "fallback": "Decorate Shield with Banner"
+    },
+    "item": "minecraft:shield",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/put_banner_on_shield",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/banner_shield"
+}

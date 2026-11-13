@@ -1,0 +1,17 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_torches",
+      "fallback": "Obtain every type of Torch"
+    },
+    "item": "minecraft:soul_torch",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:torch",
+    "minecraft:redstone_torch",
+    "minecraft:soul_torch",
+    "minecraft:copper_torch"
+  ]
+}

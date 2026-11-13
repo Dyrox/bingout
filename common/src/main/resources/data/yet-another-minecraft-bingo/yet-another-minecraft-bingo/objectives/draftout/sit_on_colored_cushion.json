@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.sit_on_colored_cushion",
+      "fallback": "Sit on a Cushion"
+    },
+    "item": "minecraft:red_cushion",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/sit_cushion"
+}

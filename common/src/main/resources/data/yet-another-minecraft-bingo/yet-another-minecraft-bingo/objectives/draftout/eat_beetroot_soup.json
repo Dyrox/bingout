@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_beetroot_soup",
+      "fallback": "Eat Beetroot Soup"
+    },
+    "item": "minecraft:beetroot_soup",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:beetroot_soup"
+}

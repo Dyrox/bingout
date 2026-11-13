@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_stay_hydrated_advancement",
+      "fallback": "Obtain \"Stay Hydrated!\""
+    },
+    "item": "minecraft:dried_ghast",
+    "image": "yet-another-minecraft-bingo:draftout/get_stay_hydrated_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:husbandry/place_dried_ghast_in_water"
+}

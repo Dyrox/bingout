@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_levitation_status_effect",
+      "fallback": "Get Levitation"
+    },
+    "item": "minecraft:shulker_shell",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/get_levitation_status_effect",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/effect/levitation"
+}

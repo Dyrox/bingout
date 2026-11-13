@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_tinted_glass",
+      "fallback": "Obtain Tinted Glass"
+    }
+  },
+  "item": "minecraft:tinted_glass"
+}

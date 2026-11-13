@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_resin_block",
+      "fallback": "Obtain Block of Resin"
+    }
+  },
+  "item": "minecraft:resin_block"
+}

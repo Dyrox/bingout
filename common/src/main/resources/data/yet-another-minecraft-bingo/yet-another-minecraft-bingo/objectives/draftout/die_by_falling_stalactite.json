@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_falling_stalactite",
+      "fallback": "Die to Falling Stalactite"
+    },
+    "item": "minecraft:pointed_dripstone",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_falling_stalactite",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_falling_stalactite"
+}

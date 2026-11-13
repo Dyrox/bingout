@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_inventory_mushroom_stew",
+      "fallback": "Fill Inventory with Mushroom Stew"
+    },
+    "item": "minecraft:mushroom_stew",
+    "image": "yet-another-minecraft-bingo:draftout/fill_inventory_mushroom_stew",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:mushroom_stew",
+  "count": 36
+}

@@ -1,0 +1,170 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_of_any_flower",
+      "fallback": "Obtain 64 of any Flower"
+    },
+    "item": "minecraft:dandelion",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_of_any_flower",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    {
+      "type": "item",
+      "item": "minecraft:dandelion",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:open_eyeblossom",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:poppy",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:blue_orchid",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:allium",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:azure_bluet",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:red_tulip",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:orange_tulip",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:white_tulip",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:pink_tulip",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:oxeye_daisy",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:cornflower",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:lily_of_the_valley",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:wither_rose",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:torchflower",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:closed_eyeblossom",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:golden_dandelion",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:sunflower",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:lilac",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:peony",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:rose_bush",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:pitcher_plant",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:flowering_azalea_leaves",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:flowering_azalea",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:mangrove_propagule",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:cherry_leaves",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:pink_petals",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:wildflowers",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:chorus_flower",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:spore_blossom",
+      "count": 64
+    },
+    {
+      "type": "item",
+      "item": "minecraft:cactus_flower",
+      "count": 64
+    }
+  ]
+}

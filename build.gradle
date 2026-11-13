@@ -1,3 +1,14 @@
+// One UTC build ID per Gradle invocation, shared by every Minecraft target.
+// Supply -Pbuild_id=<id> to reproduce an existing artifact version.
+def bingoutBuildId = providers.gradleProperty("build_id").getOrElse(
+    java.time.format.DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")
+        .withZone(java.time.ZoneOffset.UTC).format(java.time.Instant.now())
+)
+if (!(bingoutBuildId ==~ /[0-9A-Za-z-]+/)) {
+    throw new GradleException("build_id must contain only letters, numbers or hyphens")
+}
+ext.bingoutVersion = "${mod_version}-build.${bingoutBuildId}"
+
 allprojects {
 	repositories {
 		mavenCentral()

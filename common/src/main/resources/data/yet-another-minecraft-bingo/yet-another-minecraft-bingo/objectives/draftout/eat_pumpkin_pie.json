@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.eat_pumpkin_pie",
+      "fallback": "Eat Pumpkin Pie"
+    },
+    "item": "minecraft:pumpkin_pie",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:used",
+  "statName": "minecraft:pumpkin_pie"
+}

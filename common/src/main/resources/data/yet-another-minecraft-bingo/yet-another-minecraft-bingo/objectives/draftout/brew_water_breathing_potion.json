@@ -1,0 +1,17 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.brew_water_breathing_potion",
+      "fallback": "Brew a Potion of Water Breathing"
+    },
+    "item": "minecraft:potion",
+    "itemComponents": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water_breathing"
+      }
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/brew/water_breathing"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.kill_breeze_using_wind_charge",
+      "fallback": "Kill Breeze using Wind Charge"
+    },
+    "item": "minecraft:wind_charge",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/kill_breeze_using_wind_charge",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/kill_breeze_wind_charge"
+}

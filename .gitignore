@@ -48,3 +48,9 @@ crowdin.json
 /docs
 drawing.svg
 TODO.md
+
+# Local reference extraction and editor metadata
+.DS_Store
+__pycache__/
+/draftout-mod-original/
+/dist/

@@ -1,0 +1,15 @@
+{
+  "type": "scoreboard",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.spy_20_unique_mobs",
+      "fallback": "Spy on 20 Unique Mobs"
+    },
+    "item": "minecraft:spyglass",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/spy_20_unique_mobs",
+    "itemStyle": "NORMAL"
+  },
+  "scoreboardName": "draftout_spy",
+  "min": 20
+}

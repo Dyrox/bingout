@@ -1,0 +1,25 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_diamond_ore",
+      "fallback": "Mine Diamond Ore"
+    },
+    "item": "minecraft:diamond_ore",
+    "image": "yet-another-minecraft-bingo:draftout/mine_diamond_ore",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:diamond_ore"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:deepslate_diamond_ore"
+    }
+  ]
+}

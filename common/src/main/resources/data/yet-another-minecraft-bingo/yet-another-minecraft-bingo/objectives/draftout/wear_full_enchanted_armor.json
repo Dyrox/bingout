@@ -1,0 +1,15 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.wear_full_enchanted_armor",
+      "fallback": "Wear Full Enchanted Armor"
+    },
+    "item": "minecraft:diamond_chestplate",
+    "itemComponents": {
+      "minecraft:enchantment_glint_override": true
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/wear/enchanted"
+}

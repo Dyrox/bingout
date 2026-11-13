@@ -1,0 +1,15 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_mob_spawner",
+      "fallback": "Mine Mob Spawner"
+    },
+    "item": "minecraft:spawner",
+    "image": "yet-another-minecraft-bingo:draftout/mine_mob_spawner",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "statType": "minecraft:mined",
+  "statName": "minecraft:spawner"
+}

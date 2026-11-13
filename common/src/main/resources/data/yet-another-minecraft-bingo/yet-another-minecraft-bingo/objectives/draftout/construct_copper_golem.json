@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.construct_copper_golem",
+      "fallback": "Construct a Copper Golem"
+    },
+    "item": "minecraft:copper_block",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/construct_copper_golem",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/copper_golem"
+}

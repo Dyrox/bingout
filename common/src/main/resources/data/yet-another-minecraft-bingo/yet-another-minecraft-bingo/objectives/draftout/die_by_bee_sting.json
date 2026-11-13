@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_bee_sting",
+      "fallback": "Die to Bee Sting"
+    },
+    "item": "minecraft:bee_nest",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_bee_sting",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_bee_sting"
+}

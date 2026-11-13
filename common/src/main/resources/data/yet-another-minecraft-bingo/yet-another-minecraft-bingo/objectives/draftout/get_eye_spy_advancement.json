@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.get_eye_spy_advancement",
+      "fallback": "Find a Stronghold"
+    },
+    "item": "minecraft:ender_eye",
+    "image": "yet-another-minecraft-bingo:draftout/get_eye_spy_advancement",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "advancement": "minecraft:story/follow_ender_eye"
+}

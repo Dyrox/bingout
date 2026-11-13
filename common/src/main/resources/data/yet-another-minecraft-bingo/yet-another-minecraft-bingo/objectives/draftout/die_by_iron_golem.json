@@ -1,0 +1,14 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.die_by_iron_golem",
+      "fallback": "Die to Iron Golem"
+    },
+    "item": "minecraft:iron_block",
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/die_by_iron_golem",
+    "itemStyle": "NORMAL"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/death/die_by_iron_golem"
+}

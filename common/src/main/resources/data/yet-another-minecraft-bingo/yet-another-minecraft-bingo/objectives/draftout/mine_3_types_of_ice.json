@@ -1,0 +1,36 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_3_types_of_ice",
+      "fallback": "Mine 3 types of Ice"
+    },
+    "item": "minecraft:blue_ice",
+    "image": "yet-another-minecraft-bingo:draftout/mine_3_types_of_ice",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:ice"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:packed_ice"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:blue_ice"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:frosted_ice"
+    }
+  ],
+  "min": 3
+}

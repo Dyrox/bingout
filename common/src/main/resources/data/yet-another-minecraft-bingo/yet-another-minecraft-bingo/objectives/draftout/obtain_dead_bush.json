@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_dead_bush",
+      "fallback": "Obtain Dead Bush"
+    }
+  },
+  "item": "minecraft:dead_bush"
+}

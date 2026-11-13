@@ -1,0 +1,15 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_64_name_tags",
+      "fallback": "Obtain 64 Name Tags"
+    },
+    "item": "minecraft:name_tag",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_64_name_tags",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "item": "minecraft:name_tag",
+  "count": 64
+}

@@ -1,0 +1,21 @@
+{
+  "type": "some_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_mushrooms",
+      "fallback": "Obtain 4 Unique Mushrooms"
+    },
+    "item": "minecraft:red_mushroom",
+    "image": "yet-another-minecraft-bingo:draftout/obtain_all_mushrooms",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    "minecraft:red_mushroom",
+    "minecraft:brown_mushroom",
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "minecraft:shelf_mushroom"
+  ],
+  "min": 4
+}

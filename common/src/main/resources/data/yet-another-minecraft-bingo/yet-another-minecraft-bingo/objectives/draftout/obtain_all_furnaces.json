@@ -1,0 +1,16 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_all_furnaces",
+      "fallback": "Obtain every type of Furnace"
+    },
+    "item": "minecraft:blast_furnace",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:furnace",
+    "minecraft:blast_furnace",
+    "minecraft:smoker"
+  ]
+}

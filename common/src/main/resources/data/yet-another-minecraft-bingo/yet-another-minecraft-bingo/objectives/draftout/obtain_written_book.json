@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_written_book",
+      "fallback": "Obtain Write a Book"
+    }
+  },
+  "item": "minecraft:written_book"
+}

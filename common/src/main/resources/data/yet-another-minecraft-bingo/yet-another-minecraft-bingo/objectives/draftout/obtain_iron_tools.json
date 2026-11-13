@@ -1,0 +1,18 @@
+{
+  "type": "all_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_iron_tools",
+      "fallback": "Obtain all Iron Tools"
+    },
+    "item": "minecraft:iron_pickaxe",
+    "decoration": "MULTI_ITEM"
+  },
+  "objectives": [
+    "minecraft:iron_axe",
+    "minecraft:iron_hoe",
+    "minecraft:iron_pickaxe",
+    "minecraft:iron_sword",
+    "minecraft:iron_shovel"
+  ]
+}

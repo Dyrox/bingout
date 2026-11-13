@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.bundle_in_bundle",
+      "fallback": "Put a Bundle in a Bundle"
+    },
+    "item": "minecraft:bundle",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/bundle_in_bundle"
+}

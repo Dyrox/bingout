@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_sulfur_cube_bucket",
+      "fallback": "Obtain Bucket of Sulfur Cube"
+    }
+  },
+  "item": "minecraft:sulfur_cube_bucket"
+}

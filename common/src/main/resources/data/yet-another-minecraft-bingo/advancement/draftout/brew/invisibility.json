@@ -1,0 +1,15 @@
+{
+  "criteria": {
+    "c": {
+      "trigger": "minecraft:brewed_potion",
+      "conditions": {
+        "potion": {
+          "potions": [
+            "minecraft:invisibility",
+            "minecraft:long_invisibility"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "one_of",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.mine_emerald_ore",
+      "fallback": "Mine Emerald Ore"
+    },
+    "item": "minecraft:emerald_ore",
+    "image": "yet-another-minecraft-bingo:draftout/mine_emerald_ore",
+    "itemStyle": "NORMAL",
+    "decoration": "NONE"
+  },
+  "objectives": [
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:emerald_ore"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:mined",
+      "statName": "minecraft:deepslate_emerald_ore"
+    }
+  ]
+}

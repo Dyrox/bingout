@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_redstone_lamp",
+      "fallback": "Obtain Redstone Lamp"
+    }
+  },
+  "item": "minecraft:redstone_lamp"
+}

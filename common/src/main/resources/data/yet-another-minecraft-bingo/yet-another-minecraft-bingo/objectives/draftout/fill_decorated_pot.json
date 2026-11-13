@@ -1,0 +1,12 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.fill_decorated_pot",
+      "fallback": "Fill a Decorated Pot"
+    },
+    "item": "minecraft:decorated_pot",
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/fill_decorated_pot"
+}

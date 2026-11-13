@@ -1,0 +1,17 @@
+{
+  "type": "advancement",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.drink_water_bottle",
+      "fallback": "Drink Water Bottle"
+    },
+    "item": "minecraft:potion",
+    "itemComponents": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      }
+    },
+    "decoration": "ADVANCEMENT"
+  },
+  "advancement": "yet-another-minecraft-bingo:draftout/drink_water"
+}

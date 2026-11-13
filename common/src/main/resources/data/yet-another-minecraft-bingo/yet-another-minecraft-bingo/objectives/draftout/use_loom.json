@@ -1,0 +1,13 @@
+{
+  "type": "stats",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.use_loom",
+      "fallback": "Use Loom to design a Banner"
+    },
+    "item": "minecraft:loom",
+    "decoration": "ADVANCEMENT"
+  },
+  "statType": "minecraft:custom",
+  "statName": "minecraft:interact_with_loom"
+}

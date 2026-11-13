@@ -1,0 +1,10 @@
+{
+  "type": "item",
+  "display": {
+    "name": {
+      "translate": "bingo.objective.draftout.obtain_straw_bed",
+      "fallback": "Obtain Straw Bed"
+    }
+  },
+  "item": "minecraft:straw_bed"
+}
