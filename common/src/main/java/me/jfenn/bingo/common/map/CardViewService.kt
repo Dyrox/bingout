@@ -295,8 +295,6 @@ internal class CardViewService(
                 ?.teamsAchieved?.keys
                 ?.filter { it != team?.key }
                 ?: emptyList(),
-            progressCount = progressCount,
-            progressTarget = progressTarget,
         )
     }
 

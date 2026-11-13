@@ -9,7 +9,7 @@ import zipfile
 output = Path('dist')
 output.mkdir(exist_ok=True)
 checksums = []
-for mc in ('26.1', '26.2', '26.3'):
+for mc in ('26.3',):
     jars = list(Path(f'mc{mc}/build/libs').glob(f'bingout-*+mc{mc}.jar'))
     if len(jars) != 1:
         raise RuntimeError(f'Expected one installable JAR for {mc}, got {jars}; use a clean build directory')

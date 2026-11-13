@@ -30,9 +30,6 @@ data class CardTile(
     val isFlashing: Boolean? = null,
     val progress: Float = 0f,
     val teamKeys: List<BingoTeamKey> = emptyList(),
-    /** Live "count / target" progress for counting goals (shown as "n/N" on the tile); target <= 1 hides it */
-    val progressCount: Int = 0,
-    val progressTarget: Int = 0,
 ) {
 
     @Transient
@@ -71,8 +68,6 @@ data class CardTile(
             val teamKeys = List(buf.readInt()) {
                 BingoTeamKey(buf.readString())
             }
-            val progressCount = buf.readInt()
-            val progressTarget = buf.readInt()
             return CardTile(
                 id = id,
                 image = image,
@@ -86,8 +81,6 @@ data class CardTile(
                 isFlashing = isFlashing,
                 progress = progress,
                 teamKeys = teamKeys,
-                progressCount = progressCount,
-                progressTarget = progressTarget,
             )
         }
 
@@ -116,9 +109,6 @@ data class CardTile(
             for (team in source.teamKeys) {
                 dest.writeString(team.id)
             }
-
-            dest.writeInt(source.progressCount)
-            dest.writeInt(source.progressTarget)
         }
     }
 

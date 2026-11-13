@@ -7,7 +7,7 @@ Bingout is the external mod/JAR name; in-game mode, filter, and drafting UI are 
 Use JDK 25:
 
 ```sh
-JAVA_HOME=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home ./gradlew :mc26.1:assemble :mc26.2:assemble :mc26.3:assemble
+JAVA_HOME=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home ./gradlew :mc26.3:assemble
 ```
 
 Each Gradle invocation generates a UTC build ID (`yyyyMMddHHmmssSSS`). All targets in that invocation share the ID. Installable artifacts are:
@@ -28,6 +28,6 @@ Goal definitions, icons, and draft translations remain generated through `python
 
 ## GitHub CI and releases
 
-`.github/workflows/build-release.yml` builds all three Minecraft targets on Java 25. Pushes to `main`, pull requests, and manual Actions runs produce the `bingout-jars` artifact. Each run embeds `ci-<run-number>-<attempt>` in the version. It runs the 407 resource checks plus DraftController regressions; the two known upstream configuration failures are outside this targeted suite.
+`.github/workflows/build-release.yml` builds the Minecraft 26.3 target on Java 25. Pushes to `main`, pull requests, and manual Actions runs produce the `bingout-jars` artifact. Each run embeds `ci-<run-number>-<attempt>` in the version. It runs the 407 resource checks plus DraftController regressions; the two known upstream configuration failures are outside this targeted suite.
 
-Push a `v*` tag (for example `v2.16.0`) to build and automatically create a GitHub Release containing three installable JARs and `SHA256SUMS.txt`. Publishing a release in the GitHub UI also triggers building and attachment of its JARs. The tag must point to a commit containing this workflow. Builds must all pass before publishing. No external token is required; the publishing job uses the repository's `GITHUB_TOKEN` with `contents: write`.
+Push a `v*` tag (for example `v2.16.0`) to build and automatically create a GitHub Release containing the installable 26.3 JAR and `SHA256SUMS.txt`. Publishing a release in the GitHub UI also triggers building and attachment of its JARs. The tag must point to a commit containing this workflow. Builds must all pass before publishing. No external token is required; the publishing job uses the repository's `GITHUB_TOKEN` with `contents: write`.

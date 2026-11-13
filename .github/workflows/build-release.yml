@@ -29,13 +29,13 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Build all Minecraft versions and run Draftout regression tests
+      - name: Build Minecraft 26.3 and run Draftout regression tests
         run: >-
           ./gradlew --no-daemon --console=plain --max-workers=2
           '-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g'
           -Pkotlin.compiler.execution.strategy=in-process
           -Pbuild_id=ci-${{ github.run_number }}-${{ github.run_attempt }}
-          :mc26.1:assemble :mc26.2:assemble :mc26.3:assemble
+          :mc26.3:assemble
           :common:test --tests '*DraftControllerTest' --tests '*DraftoutObjectiveDataTest'
       - name: Validate and collect installable JARs
         run: python3 scripts/ci/collect_jars.py
@@ -77,7 +77,7 @@ jobs:
             gh release upload "$TAG" dist/* --clobber
           else
             cat > notes.md <<'NOTES'
-          Fabric builds for Minecraft 26.1, 26.2 and 26.3. Download the JAR matching your Minecraft version and install the same build on all clients and the server.
+          Fabric build for Minecraft 26.3. Install the same build on all clients and the server.
 
           External mod/JAR name: Bingout. In-game draft mode and filter: Draftout.
           Includes the shared drafting screen, original goal artwork, and turn-validated command submission for picking/rerolling.
