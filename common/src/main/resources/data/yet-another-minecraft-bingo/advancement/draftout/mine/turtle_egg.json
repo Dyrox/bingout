@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "turtle_egg": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "turtle_egg"
+    ]
+  ]
+}

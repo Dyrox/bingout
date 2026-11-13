@@ -11,6 +11,8 @@ class BreakBlockEvent(
     val player: IPlayerHandle,
     val world: IServerWorld,
     val blockPos: BlockPosition,
+    /** Registry id of the block that was broken (e.g. "minecraft:obsidian"); the world is already air at this point */
+    val blockId: String? = null,
 ) {
     companion object After : IEvent<BreakBlockEvent>
 }

@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "sea_lantern": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "sea_lantern"
+    ]
+  ]
+}

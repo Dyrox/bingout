@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "frosted_ice": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "frosted_ice"
+    ]
+  ]
+}

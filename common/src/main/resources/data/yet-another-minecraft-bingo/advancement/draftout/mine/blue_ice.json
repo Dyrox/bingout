@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "blue_ice": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "blue_ice"
+    ]
+  ]
+}

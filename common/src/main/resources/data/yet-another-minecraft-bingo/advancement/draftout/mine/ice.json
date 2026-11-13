@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "ice": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "ice"
+    ]
+  ]
+}

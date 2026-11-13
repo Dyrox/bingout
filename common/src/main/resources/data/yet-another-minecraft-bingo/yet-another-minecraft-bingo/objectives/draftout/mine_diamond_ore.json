@@ -1,5 +1,5 @@
 {
-  "type": "one_of",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.mine_diamond_ore",
@@ -10,16 +10,5 @@
     "itemStyle": "NORMAL",
     "decoration": "NONE"
   },
-  "objectives": [
-    {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:diamond_ore"
-    },
-    {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:deepslate_diamond_ore"
-    }
-  ]
+  "advancement": "yet-another-minecraft-bingo:draftout/mine/diamond_ore"
 }

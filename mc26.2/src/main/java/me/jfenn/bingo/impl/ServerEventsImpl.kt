@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.networking.v1.ClientboundPlayChannelEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -208,7 +209,7 @@ class ServerEventsImpl(
             null
         }
 
-        PlayerBlockBreakEvents.AFTER.register { level, player, blockPos, _, _ ->
+        PlayerBlockBreakEvents.AFTER.register { level, player, blockPos, blockState, _ ->
             if (player !is ServerPlayer || level !is ServerLevel) return@register
             val server = level.server ?: return@register
             val playerImpl = getPlayerImpl(player)
@@ -219,6 +220,7 @@ class ServerEventsImpl(
                     playerImpl,
                     ServerWorldImpl(level, null),
                     BlockPosition.fromBlockPos(blockPos),
+                    BuiltInRegistries.BLOCK.getKey(blockState.block).toString(),
                 )
             )
         }

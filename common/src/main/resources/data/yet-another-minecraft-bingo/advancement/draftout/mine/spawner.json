@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "spawner": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "spawner"
+    ]
+  ]
+}

@@ -9,6 +9,7 @@ import me.jfenn.bingo.common.team.TeamService
 import me.jfenn.bingo.platform.IPlayerHandle
 import me.jfenn.bingo.platform.IPlayerManager
 import me.jfenn.bingo.platform.event.IEventBus
+import me.jfenn.bingo.platform.event.model.BreakBlockEvent
 import me.jfenn.bingo.platform.event.model.PlayerDeathEvent
 import me.jfenn.bingo.platform.scoreboard.IObjectiveHandle
 import me.jfenn.bingo.platform.scoreboard.IScoreboardManager
@@ -152,6 +153,24 @@ internal class DraftoutTriggerController(
         }
         if (!player.advancements.getOrStartProgress(holder).isDone) {
             player.advancements.award(holder, "granted")
+        }
+    }
+
+    /**
+     * "draftout/mine/..." advancements, by the block criteria they contain (e.g. "obsidian" -> mine/obsidian).
+     * Mining goals count any break by the player, regardless of the tool (like Draftout).
+     */
+    private val mineAdvancements by lazy {
+        server.advancements.allAdvancements
+            .filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/mine/") }
+            .flatMap { holder -> holder.value.criteria().keys.map { it to holder } }
+            .groupBy({ it.first }, { it.second })
+    }
+
+    private fun onBlockBroken(player: ServerPlayer, blockId: String) {
+        val criterion = blockId.removePrefix("minecraft:")
+        for (holder in mineAdvancements[criterion].orEmpty()) {
+            player.advancements.award(holder, criterion)
         }
     }
 
@@ -391,6 +410,17 @@ internal class DraftoutTriggerController(
                 } catch (e: Exception) {
                     log.error("[DraftoutTriggerController] Error while checking ${player.scoreboardName}", e)
                 }
+            }
+        }
+
+        eventBus.register(BreakBlockEvent.After) { event ->
+            val blockId = event.blockId ?: return@register
+            if (state.state != GameState.PLAYING) return@register
+            if (!teamService.isPlaying(event.player)) return@register
+            try {
+                onBlockBroken(event.player.player, blockId)
+            } catch (e: Exception) {
+                log.error("[DraftoutTriggerController] Error while handling block break", e)
             }
         }
 

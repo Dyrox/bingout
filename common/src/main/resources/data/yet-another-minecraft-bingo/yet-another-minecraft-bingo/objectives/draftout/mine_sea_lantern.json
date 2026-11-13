@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.mine_sea_lantern",
@@ -10,6 +10,5 @@
     "itemStyle": "NORMAL",
     "decoration": "NONE"
   },
-  "statType": "minecraft:mined",
-  "statName": "minecraft:sea_lantern"
+  "advancement": "yet-another-minecraft-bingo:draftout/mine/sea_lantern"
 }

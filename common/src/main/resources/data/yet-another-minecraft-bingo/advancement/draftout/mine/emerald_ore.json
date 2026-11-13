@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "emerald_ore": {
+      "trigger": "minecraft:impossible"
+    },
+    "deepslate_emerald_ore": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "emerald_ore",
+      "deepslate_emerald_ore"
+    ]
+  ]
+}

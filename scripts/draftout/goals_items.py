@@ -59,22 +59,30 @@ def register(g: Gen):
         g.goal(f"OBTAIN_{key}_TOOLS", f"Obtain all {title(mat)} Tools", f"获得全套{zh}工具",
                all_of([f"{mat}_{t}" for t in TOOLS]), tier=tier, icon=f"{mat}_pickaxe", decoration="MULTI_ITEM")
 
-    # ---- mining (block mined statistics) ----
-    def mined(b):
-        return stat("mined", b)
+    # ---- mining ----
+    # Like Draftout, a block counts as soon as the player breaks it, with any tool (the vanilla "mined"
+    # statistic only counts blocks broken with the correct tool, e.g. obsidian needs a diamond pickaxe).
+    # Each goal is a hidden advancement whose criteria are the block ids; DraftoutTriggerController grants
+    # the matching criterion when a playing player breaks the block.
+    def mined(name, blocks):
+        return advancement(g.adv(f"mine/{name}", {b: crit("impossible") for b in blocks}, [list(blocks)]))
 
     g.goal("MINE_DIAMOND_ORE", "Mine Diamond Ore", "挖掘钻石矿石",
-           one_of([mined("diamond_ore"), mined("deepslate_diamond_ore")]), tier="B", icon="diamond_ore")
+           mined("diamond_ore", ["diamond_ore", "deepslate_diamond_ore"]), tier="B", icon="diamond_ore")
     g.goal("MINE_EMERALD_ORE", "Mine Emerald Ore", "挖掘绿宝石矿石",
-           one_of([mined("emerald_ore"), mined("deepslate_emerald_ore")]), tier="B", icon="emerald_ore")
-    g.goal("MINE_MOB_SPAWNER", "Mine Mob Spawner", "挖掘刷怪笼", mined("spawner"), tier="B", icon="spawner")
-    g.goal("MINE_TURTLE_EGG", "Mine Turtle Egg", "挖掘海龟蛋", mined("turtle_egg"), tier="B", icon="turtle_egg")
+           mined("emerald_ore", ["emerald_ore", "deepslate_emerald_ore"]), tier="B", icon="emerald_ore")
+    g.goal("MINE_MOB_SPAWNER", "Mine Mob Spawner", "挖掘刷怪笼", mined("spawner", ["spawner"]), tier="B",
+           icon="spawner")
+    g.goal("MINE_TURTLE_EGG", "Mine Turtle Egg", "挖掘海龟蛋", mined("turtle_egg", ["turtle_egg"]), tier="B",
+           icon="turtle_egg")
     g.goal("MINE_3_TYPES_OF_ICE", "Mine 3 types of Ice", "挖掘 3 种冰",
-           some_of([mined(b) for b in ["ice", "packed_ice", "blue_ice", "frosted_ice"]], 3),
+           some_of([mined(b, [b]) for b in ["ice", "packed_ice", "blue_ice", "frosted_ice"]], 3),
            tier="B", icon="blue_ice")
-    g.goal("MINE_OBSIDIAN", "Mine Obsidian", "挖掘黑曜石", mined("obsidian"), tier="D", icon="obsidian")
-    g.goal("MINE_CRAFTER", "Mine Crafter", "挖掘合成器", mined("crafter"), tier="C", icon="crafter")
-    g.goal("MINE_SEA_LANTERN", "Mine Sea Lantern", "挖掘海晶灯", mined("sea_lantern"), tier="B", icon="sea_lantern")
+    g.goal("MINE_OBSIDIAN", "Mine Obsidian", "挖掘黑曜石", mined("obsidian", ["obsidian"]), tier="D",
+           icon="obsidian")
+    g.goal("MINE_CRAFTER", "Mine Crafter", "挖掘合成器", mined("crafter", ["crafter"]), tier="C", icon="crafter")
+    g.goal("MINE_SEA_LANTERN", "Mine Sea Lantern", "挖掘海晶灯", mined("sea_lantern", ["sea_lantern"]), tier="B",
+           icon="sea_lantern")
 
     # ---- single items ----
     singles = [

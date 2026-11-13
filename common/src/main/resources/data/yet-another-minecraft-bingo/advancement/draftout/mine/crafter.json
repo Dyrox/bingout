@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "crafter": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "crafter"
+    ]
+  ]
+}

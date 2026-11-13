@@ -12,24 +12,20 @@
   },
   "objectives": [
     {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:ice"
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/mine/ice"
     },
     {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:packed_ice"
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/mine/packed_ice"
     },
     {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:blue_ice"
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/mine/blue_ice"
     },
     {
-      "type": "stats",
-      "statType": "minecraft:mined",
-      "statName": "minecraft:frosted_ice"
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/mine/frosted_ice"
     }
   ],
   "min": 3

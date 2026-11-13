@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "packed_ice": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "packed_ice"
+    ]
+  ]
+}

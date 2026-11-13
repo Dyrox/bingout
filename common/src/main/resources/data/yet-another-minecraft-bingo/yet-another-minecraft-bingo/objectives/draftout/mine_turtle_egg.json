@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.mine_turtle_egg",
@@ -10,6 +10,5 @@
     "itemStyle": "NORMAL",
     "decoration": "NONE"
   },
-  "statType": "minecraft:mined",
-  "statName": "minecraft:turtle_egg"
+  "advancement": "yet-another-minecraft-bingo:draftout/mine/turtle_egg"
 }

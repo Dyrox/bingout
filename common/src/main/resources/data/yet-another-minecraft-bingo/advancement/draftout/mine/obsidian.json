@@ -1,0 +1,12 @@
+{
+  "criteria": {
+    "obsidian": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "obsidian"
+    ]
+  ]
+}

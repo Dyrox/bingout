@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "diamond_ore": {
+      "trigger": "minecraft:impossible"
+    },
+    "deepslate_diamond_ore": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "diamond_ore",
+      "deepslate_diamond_ore"
+    ]
+  ]
+}
