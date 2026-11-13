@@ -10,4 +10,6 @@ class KeyInputImpl(val input: KeyEvent) : IKeyInput {
         get() = input.isRight
     override val isEscape: Boolean
         get() = input.isEscape
+    override val keyCode: Int
+        get() = input.input()
 }

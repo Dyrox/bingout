@@ -1,5 +1,6 @@
 package me.jfenn.bingo.client.impl.screen
 
+import com.mojang.blaze3d.platform.InputConstants
 import me.jfenn.bingo.client.impl.draw.DrawService
 import me.jfenn.bingo.client.platform.screen.IScreen
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -63,7 +64,18 @@ class ScreenImpl(
     }
 
     override fun mouseClicked(click: MouseButtonEvent, doubled: Boolean): Boolean {
-        return impl?.mouseClicked(click.x, click.y, click.button()) == true || super.mouseClicked(click, doubled)
+        return impl?.mouseClicked(click.x, click.y, toPlatformButton(click.button())) == true || super.mouseClicked(click, doubled)
+    }
+
+    /**
+     * Minecraft 26.3 uses SDL input, where the left mouse button is 1 (InputConstants.MOUSE_BUTTON_LEFT).
+     * IScreen implementations use the previous numbering (0 = left, 1 = right, 2 = middle).
+     */
+    private fun toPlatformButton(button: Int): Int = when (button) {
+        InputConstants.MOUSE_BUTTON_LEFT -> 0
+        InputConstants.MOUSE_BUTTON_RIGHT -> 1
+        InputConstants.MOUSE_BUTTON_MIDDLE -> 2
+        else -> button
     }
 
     override fun keyPressed(input: KeyEvent): Boolean {

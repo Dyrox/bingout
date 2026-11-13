@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import me.jfenn.bingo.client.platform.renderer.IDrawService
 import me.jfenn.bingo.client.platform.renderer.use
 import me.jfenn.bingo.client.platform.screen.IMutableScreenHelper
+import me.jfenn.bingo.client.platform.screen.IKeyInput
 import me.jfenn.bingo.client.platform.screen.IScreen
 import me.jfenn.bingo.common.draft.DraftActionPacket
 import me.jfenn.bingo.common.draft.DraftPacket
@@ -30,6 +31,8 @@ internal class BingoutDraftScreen(
     private var receivedAt = System.nanoTime()
     private var pendingTurn: String? = null
     private var sentAt = 0L
+    private val log = LoggerFactory.getLogger("bingo")
+    private var lastClickAt = 0L
     private val scale get() = min(1.5f, min((helper.height - 16) / 310f, (helper.width - 16) / 300f)).coerceAtLeast(.1f)
     private val left get() = helper.width / 2f
     private val top get() = (helper.height - 310 * scale) / 2f
@@ -49,6 +52,7 @@ internal class BingoutDraftScreen(
 
     override fun render(drawService: IDrawService, mouseX: Int, mouseY: Int, delta: Float) {
         val d = drawService
+
         d.fill(0, 0, helper.width, helper.height, 0x990b1019.toInt())
         val mx = (mouseX - left) / scale
         val my = (mouseY - top) / scale
@@ -127,6 +131,13 @@ internal class BingoutDraftScreen(
                 }
             }
 
+            if (state.canPick) {
+                d.matrices.use {
+                    translate(0f, 135f, 0f)
+                    scale(0.5f, 0.5f, 1f)
+                    centered(text.literal("[1] / [2] / [R]"), 0, 0, 0xff9aa4b1.toInt())
+                }
+            }
             panel(-80, 143, 160, 160)
             for (i in 0 until 25) {
                 slot(state.picks.getOrNull(i), -75 + (i % 5) * 30, 148 + (i / 5) * 30, 30, next = i == state.picks.size)
@@ -135,21 +146,59 @@ internal class BingoutDraftScreen(
         tooltip?.let { d.drawTooltip(it, mouseX, mouseY) }
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (button != 0 || !canAct) return false
+    /** Returns the option under the cursor (0, 1, or REROLL), or null */
+    private fun optionAt(mouseX: Double, mouseY: Double): Int? {
         val x = (mouseX - left) / scale
         val y = (mouseY - top) / scale
-        val option = when {
+        return when {
             hit(x, y, -69, 92, 36, 36) && state.offers.isNotEmpty() -> 0
             hit(x, y, 33, 92, 36, 36) && state.offers.size > 1 -> 1
             hit(x, y, if (state.currentTeam == 0) -116 else 88, 96, 28, 28)
                 && state.rerolls.getOrElse(state.currentTeam) { 0 } > 0 -> DraftActionPacket.REROLL
-            else -> return false
+            else -> null
         }
-        LoggerFactory.getLogger("bingo").info("[Bingout] Click: pick={}, option={}", state.picks.size + 1, option)
+    }
+
+    private fun submit(option: Int, source: String) {
+        // ignore accidental double submits (e.g. double click / key repeat)
+        val now = System.nanoTime()
+        if (now - lastClickAt < 250_000_000L) return
+        if (!canAct) {
+            log.info("[Bingout] Click ignored ({}): canPick={}, pending={}", source, state.canPick, pendingTurn != null)
+            return
+        }
+        lastClickAt = now
+        log.info("[Bingout] Click: pick={}, option={}, via={}", state.picks.size + 1, option, source)
         client.player.sendCommand("bingo draft choose ${state.turn} $option")
         pendingTurn = state.turn
-        sentAt = System.nanoTime()
+        sentAt = now
+    }
+
+    private fun tryClick(mouseX: Double, mouseY: Double, source: String): Boolean {
+        val option = optionAt(mouseX, mouseY)
+        log.info("[Bingout] Mouse press ({}) at {},{} -> option={}, canAct={}", source, mouseX.toInt(), mouseY.toInt(), option, canAct)
+        if (option == null) return false
+        submit(option, source)
+        return true
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        // 0 = left (ScreenImpl normalizes SDL/GLFW button numbers)
+        if (button != 0) return false
+        return tryClick(mouseX, mouseY, "mouse")
+    }
+
+    /** Keyboard shortcuts: 1 / 2 pick an option, R rerolls */
+    override fun keyPressed(input: IKeyInput): Boolean {
+        val option = when (input.keyCode) {
+            49, 321 -> 0 // 1 / numpad 1
+            50, 322 -> 1 // 2 / numpad 2
+            82 -> DraftActionPacket.REROLL // R
+            else -> return false
+        }
+        if (option == DraftActionPacket.REROLL && state.rerolls.getOrElse(state.currentTeam) { 0 } <= 0) return true
+        if (option >= 0 && option >= state.offers.size) return true
+        submit(option, "key")
         return true
     }
 }

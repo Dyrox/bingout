@@ -24,4 +24,7 @@ interface IKeyInput {
     val isArrowLeft: Boolean
     val isArrowRight: Boolean
     val isEscape: Boolean
+
+    /** GLFW key code of the pressed key, or -1 if unknown */
+    val keyCode: Int get() = -1
 }
