@@ -246,12 +246,15 @@ internal class CardViewService(
             }
             .orEmpty()
 
-        val lore = if (team != null && objective is BingoObjective.SomeOfEntry && objective.valueMin > 1) {
-            val count = objective.someOfObjectives.count { card.objectives[it]?.hasTeamAchieved(team.key) == true }
+        val (progressCount, progressTarget) = team
+            ?.let { getProgressCount(it, objective, card) }
+            ?: Pair(0, 0)
+
+        val lore = if (progressTarget > 1) {
             entry.display.lore.orEmpty() + textProvider.string(
                 StringKey.CardObjectiveProgress,
-                count.toString(),
-                objective.valueMin.toString(),
+                progressCount.toString(),
+                progressTarget.toString(),
             ).formatted(Formatting.GRAY)
         } else entry.display.lore
 
@@ -292,7 +295,46 @@ internal class CardViewService(
                 ?.teamsAchieved?.keys
                 ?.filter { it != team?.key }
                 ?: emptyList(),
+            progressCount = progressCount,
+            progressTarget = progressTarget,
         )
+    }
+
+    /**
+     * Returns the live (count, target) progress of a counting goal for the [team],
+     * e.g. (37, 100) for "Craft 100 Unique Items" - or null for goals that aren't counted.
+     */
+    private fun getProgressCount(team: BingoTeam, objective: BingoObjective, card: BingoCard): Pair<Int, Int>? {
+        fun fromProgress(target: Int, scale: Int = 1): Pair<Int, Int>? {
+            val scaledTarget = target / scale
+            if (scaledTarget <= 1) return null
+            val count = when {
+                objective.hasTeamAchieved(team.key) -> scaledTarget
+                else -> (objective.getProgress(team.key) * target / scale).toInt()
+            }
+            return Pair(count.coerceIn(0, scaledTarget), scaledTarget)
+        }
+
+        return when (objective) {
+            is BingoObjective.SomeOfEntry -> {
+                if (objective.valueMin <= 1) return null
+                val count = objective.someOfObjectives.count { card.objectives[it]?.hasTeamAchieved(team.key) == true }
+                Pair(count.coerceAtMost(objective.valueMin), objective.valueMin)
+            }
+            is BingoObjective.ScoreboardEntry -> fromProgress(objective.valueMin)
+            is BingoObjective.ItemEntry -> fromProgress(objective.itemCount)
+            is BingoObjective.StatsEntry -> {
+                // display damage in hearts-points (stat is in tenths) and distances in meters (stat is in cm)
+                val statName = objective.data.statName.orEmpty()
+                val scale = when {
+                    statName.endsWith("damage_taken") || statName.endsWith("damage_dealt") -> 10
+                    statName.endsWith("_one_cm") -> 100
+                    else -> 1
+                }
+                fromProgress(objective.valueMin, scale)
+            }
+            else -> null
+        }
     }
 
     private fun getMapName(team: BingoTeam?, playerName: Boolean = false): IText {

@@ -92,7 +92,7 @@
   "bingo.config.show_multiple_cards.description": "Tenta mostrar todas as cartas disponíveis no HUD, se há espaço. Isto talvez sobreponha com outros elementos da interface.",
   "bingo.config.show_team_outlines": "Exibir contornos de equipa",
   "bingo.config.show_team_outlines.description": "Desenha uma borda ao redor do ladrilho da carta quando outras equipas capturarem o item.",
-  "bingo.full_name": "Draftout",
+  "bingo.full_name": "Bingout",
   "bingo.game.announce.bingo": "BINGO",
   "bingo.game.announce.started": "O jogo se inicia!",
   "bingo.game.announce.starting": "O jogo está a começar!",

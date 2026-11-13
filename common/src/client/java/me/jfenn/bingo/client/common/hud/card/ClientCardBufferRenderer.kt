@@ -9,6 +9,7 @@ import me.jfenn.bingo.client.platform.renderer.use
 import me.jfenn.bingo.common.config.BingoConfig
 import me.jfenn.bingo.common.map.CardTile
 import me.jfenn.bingo.common.map.Color
+import me.jfenn.bingo.common.text.TextProvider
 import me.jfenn.bingo.common.utils.milliseconds
 import me.jfenn.bingo.common.utils.minus
 import me.jfenn.bingo.common.utils.seconds
@@ -18,7 +19,26 @@ internal class ClientCardBufferRenderer(
     private val state: BingoHudState,
     private val config: BingoConfig,
     private val cardTileRenderer: CardTileRenderer,
+    private val text: TextProvider,
 ) {
+
+    private fun renderProgressCount(service: IDrawService, tile: CardTile) {
+        val label = text.literal("${tile.progressCount}/${tile.progressTarget}")
+        val width = service.font.getTextWidth(label).coerceAtLeast(1)
+        // fit the label inside the 18px tile, at most half-size text
+        val scale = minOf(0.5f, 17f / width)
+        val labelWidth = width * scale
+        val labelHeight = 8f * scale
+
+        service.draw()
+        service.matrices.use {
+            translate(0f, 0f, 400f)
+            service.fill(0, (18 - labelHeight - 1).toInt(), 18, 18, 0xC0000000.toInt())
+            translate(18f - labelWidth - 0.5f, 18f - labelHeight - 0.5f, 0f)
+            scale(scale, scale, 1f)
+            service.drawText(label, 0, 0, 0xFFFFFFFF.toInt(), false)
+        }
+    }
 
     companion object {
         const val CARD_WIDTH = 122
@@ -158,6 +178,11 @@ internal class ClientCardBufferRenderer(
                 }
 
                 cardTileRenderer.renderTileDecorations(service, tile, 1, 1)
+
+                // Live "n/N" counter for counting goals (e.g. "37/100" for "Craft 100 Unique Items")
+                if (tile.progressTarget > 1 && !tile.image.isAchieved && !tile.isHidden) {
+                    renderProgressCount(service, tile)
+                }
 
                 if (tile.isLocked) {
                     service.drawGuiTexture(

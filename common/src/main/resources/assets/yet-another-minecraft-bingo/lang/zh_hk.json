@@ -115,7 +115,7 @@
   "bingo.options.reroll_card": "重新生成棋盤",
   "bingo.options.reroll_card.success": "已重新生成棋盤。",
   "bingo.options.show_hidden_tiers.tooltip": "喺「隱藏任務」模式下，只會顯示任務的難度階級。",
-  "bingo.scoreboard.name": "Draftout",
+  "bingo.scoreboard.name": "Bingout",
   "bingo.tier.a.tooltip": "高難度任務, 如稀有生態域，稀有結構，或者一啲耗時任務（如養蜂）。",
   "bingo.tier.b.tooltip": "中等難度任務，需要適量嘅準備或者搵某個生態域/結構即可獲得。",
   "bingo.tier.c.tooltip": "普通難度任務，或者需要一啲準備同探索即可獲得。",

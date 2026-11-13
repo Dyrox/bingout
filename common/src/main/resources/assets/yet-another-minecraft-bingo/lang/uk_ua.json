@@ -81,7 +81,7 @@
   "bingo.config.quick_start_button.description": "Додає кнопку «Бінго!» на головний екран, що дозволяє швидко почати однокористувацьку гру.",
   "bingo.config.quick_start_button.description2": "Без цього ви можете створити гру Бінго, додавши вбудований датапак 'bingo.zip' у меню створення світу.",
   "bingo.config.show_multiple_cards": "Показати кілька карток",
-  "bingo.full_name": "Draftout",
+  "bingo.full_name": "Bingout",
   "bingo.game.announce.bingo": "БІНГО",
   "bingo.game.announce.started": "Гру розпочато!",
   "bingo.game.announce.starting": "Гра починається!",

@@ -76,6 +76,8 @@ internal class DraftoutTriggerController(
         )
 
         private const val DRAFTOUT_PREFIX = "$MOD_ID_BINGO:draftout/"
+        /** Interval (in ticks) between the world/inventory scans for boolean goals */
+        private const val CHECK_INTERVAL = 5
         private val ARMOR_SLOTS = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
         private val ARMOR_SUFFIXES = listOf("_helmet", "_chestplate", "_leggings", "_boots")
     }
@@ -99,6 +101,15 @@ internal class DraftoutTriggerController(
     private val playerStates = mutableMapOf<UUID, PlayerState>()
     private val scoreHandles = mutableMapOf<String, IObjectiveHandle>()
     private var tickCount = 0
+
+    /** Vanilla advancements counted by "Get N Advancements" (displayed, non-recipe) */
+    private val countedAdvancements by lazy {
+        server.advancements.allAdvancements.filter { holder ->
+            holder.id.namespace == "minecraft" &&
+                    !holder.id.path.startsWith("recipes/") &&
+                    holder.value.display.isPresent
+        }
+    }
 
     private val foodItems by lazy {
         BuiltInRegistries.ITEM.filter { it.components().has(DataComponents.FOOD) }
@@ -225,7 +236,7 @@ internal class DraftoutTriggerController(
 
         // carved pumpkin worn for 5 minutes (cumulative)
         if (armor[0].`is`(Items.CARVED_PUMPKIN)) {
-            playerState.pumpkinTicks += 10
+            playerState.pumpkinTicks += CHECK_INTERVAL
         }
     }
 
@@ -330,11 +341,8 @@ internal class DraftoutTriggerController(
         setScore(handle, SCORE_UNDEAD, undeadTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) } - baseline.undeadKills)
         setScore(handle, SCORE_ARTHROPOD, arthropodTypes.sumOf { stats.getValue(Stats.ENTITY_KILLED, it) } - baseline.arthropodKills)
 
-        val advancements = server.advancements.allAdvancements.count { holder ->
-            holder.id.namespace == "minecraft" &&
-                    !holder.id.path.startsWith("recipes/") &&
-                    holder.value.display.isPresent &&
-                    player.advancements.getOrStartProgress(holder).isDone
+        val advancements = countedAdvancements.count { holder ->
+            player.advancements.getOrStartProgress(holder).isDone
         }
         setScore(handle, SCORE_ADVANCEMENTS, advancements)
     }
@@ -359,8 +367,10 @@ internal class DraftoutTriggerController(
         events.onGameTick {
             if (state.state != GameState.PLAYING) return@onGameTick
             tickCount++
-            if (tickCount % 10 != 0) return@onGameTick
             if (!hasDraftoutGoals()) return@onGameTick
+            // Counters are updated every tick (so that "n/N" progress on the card is live);
+            // the heavier world/inventory scans run every CHECK_INTERVAL ticks.
+            val runChecks = tickCount % CHECK_INTERVAL == 0
 
             for (handle in playerManager.getPlayers()) {
                 if (!teamService.isPlaying(handle)) continue
@@ -369,12 +379,15 @@ internal class DraftoutTriggerController(
                 val playerState = playerStates.getOrPut(player.uuid) { PlayerState() }
 
                 try {
-                    checkEquipment(player, playerState)
-                    checkInventory(player)
-                    checkNearbyEntities(player, playerState)
-                    checkMisc(player, playerState)
-                    checkDimension(player, playerState)
-                    updateScores(handle, player, playerState, includeSlow = tickCount % 40 == 0)
+                    if (runChecks) {
+                        checkEquipment(player, playerState)
+                        checkInventory(player)
+                        checkNearbyEntities(player, playerState)
+                        checkMisc(player, playerState)
+                        checkDimension(player, playerState)
+                    }
+                    playerState.maxEffects = maxOf(playerState.maxEffects, player.activeEffects.size)
+                    updateScores(handle, player, playerState, includeSlow = true)
                 } catch (e: Exception) {
                     log.error("[DraftoutTriggerController] Error while checking ${player.scoreboardName}", e)
                 }
