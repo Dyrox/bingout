@@ -1,5 +1,6 @@
 package me.jfenn.bingo.common.draft
 
+import me.jfenn.bingo.common.map.CardViewService
 import io.mockk.*
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.card.BingoCard
@@ -80,6 +81,8 @@ class DraftControllerTest {
             )) },
             mockk(relaxed = true), manager, display, playerManager,
             mockk(relaxed = true), mockk(relaxed = true), packets, mockk(relaxed = true),
+            // fall back to the display-based tiles in tests
+            mockk<CardViewService> { every { getPreviewTile(any()) } returns null },
         )
         start.captured(DraftController.DRAFTING)
     }

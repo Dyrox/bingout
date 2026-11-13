@@ -313,6 +313,24 @@ internal class CardService(
         return newCard
     }
 
+    /**
+     * Creates a standalone, fully initialized card with [objectiveId] in the first tile (the rest are free spaces).
+     * Used to render a goal exactly like it appears on the board (e.g. multi-item icons) outside of a real card.
+     */
+    fun createPreviewCard(objectiveId: String, cardOptions: BingoCardOptions): BingoCard? {
+        val objectives = createObjectives(null, objectiveId, CardGeneratorState.DEFAULT) ?: return null
+        val freeSpace = GeneratedObjective.freeSpace()
+        val entries = listOf(BingoCardEntry(objectiveId = objectiveId, tier = null, source = null)) +
+                List(24) { BingoCardEntry(objectiveId = freeSpace.entry.objectiveId, tier = null, source = null) }
+        val card = BingoCard(
+            entries = entries,
+            objectives = objectives + freeSpace.objectives,
+            options = cardOptions,
+        )
+        objectiveManager.init(card)
+        return card
+    }
+
     fun replaceEntries(
         card: BingoCard,
         seed: Long = card.seed + 1L,

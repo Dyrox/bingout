@@ -202,6 +202,13 @@ internal class CardViewService(
             ?: state.getActiveCard()
     }
 
+    /** Builds the tile for the first entry of a standalone (preview) card, as it would appear on the board */
+    fun getPreviewTile(card: BingoCard): CardTile? {
+        val entry = card.entries.firstOrNull() ?: return null
+        val objective = card.objectives[entry.objectiveId] ?: return null
+        return getTileState(null, entry, objective, card)
+    }
+
     private fun getTileState(
         team: BingoTeam?,
         entry: BingoCardEntry,

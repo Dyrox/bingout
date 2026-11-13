@@ -6,6 +6,7 @@ import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.event.packet.ServerPacketEvents
 import me.jfenn.bingo.common.map.CardImageService
 import me.jfenn.bingo.common.map.CardTile
+import me.jfenn.bingo.common.map.CardViewService
 import me.jfenn.bingo.common.map.toCardTileImage
 import me.jfenn.bingo.common.MOD_ID_BINGO
 import me.jfenn.bingo.common.card.BingoCard
@@ -59,6 +60,7 @@ internal class DraftController(
     private val text: TextProvider,
     private val packets: ServerPacketEvents,
     private val images: CardImageService,
+    private val cardViewService: CardViewService,
 ) : BingoComponent() {
 
     companion object {
@@ -185,15 +187,24 @@ internal class DraftController(
         for (player in allPlayers()) player.sendMessage(message.copy())
     }
 
-    private fun tile(id: String): CardTile {
-        val display = resolveDisplay(id)
-        return CardTile(id = id, image = display.toCardTileImage(), name = display.name, lore = display.lore.orEmpty())
+    /** Tiles are built exactly like the board builds them (multi-item icons etc.), cached per goal */
+    private val tileCache = mutableMapOf<String, CardTile>()
+
+    private fun tile(id: String): CardTile = tileCache.getOrPut(id) {
+        cardService.createPreviewCard(id, state.getActiveCard().options)
+            ?.let { cardViewService.getPreviewTile(it) }
+            ?: resolveDisplay(id).let { display ->
+                CardTile(id = id, image = display.toCardTileImage(), name = display.name, lore = display.lore.orEmpty())
+            }
     }
 
     private fun sync(session: Session, players: List<IPlayerHandle> = allPlayers()) {
         val offers = session.offer.map(::tile)
         val picks = session.picks.map(::tile)
-        images.draftImages = (offers + picks).mapNotNull { it.image.texture }.toSet()
+        images.draftImages = (offers + picks)
+            .flatMap { tile -> listOf(tile.image) + tile.imageList }
+            .mapNotNull { it.texture }
+            .toSet()
         images.sendNecessaryImages()
         for (player in players) {
             packets.draftStateV1.send(player, DraftPacket(
