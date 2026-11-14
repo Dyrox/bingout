@@ -143,14 +143,20 @@ def register(g: Gen):
            tier="C", icon="rotten_flesh", decoration="ADVANCEMENT")
 
     # ---- workstations ----
+    # Like Draftout, these need the output item to be taken (not just opening the block): the hidden
+    # "draftout/use/<station>" advancements are granted by the workstation mixins (DraftoutTriggerController).
+    for key, station, name, zh, icon, tier in [
+        ("USE_STONECUTTER", "stonecutter", "Use Stonecutter", "使用切石机", "stonecutter", "C"),
+        ("USE_CARTOGRAPHY_TABLE", "cartography_table", "Use Cartography Table", "使用制图台", "cartography_table", "C"),
+        ("USE_ANVIL", "anvil", "Use Anvil", "使用铁砧", "anvil", "B"),
+        ("USE_GRINDSTONE", "grindstone", "Use Grindstone", "使用砂轮", "grindstone", "C"),
+        ("USE_LOOM", "loom", "Use Loom to design a Banner", "使用织布机", "loom", "C"),
+        ("USE_SMITHING_TABLE", "smithing_table", "Use Smithing Table", "使用锻造台", "smithing_table", "C"),
+    ]:
+        g.goal(key, name, zh, advancement(g.adv_impossible("use/" + station)), tier=tier, icon=icon,
+               decoration="ADVANCEMENT")
     for key, s, name, zh, icon, tier in [
-        ("USE_STONECUTTER", "interact_with_stonecutter", "Use Stonecutter", "使用切石机", "stonecutter", "C"),
-        ("USE_CARTOGRAPHY_TABLE", "interact_with_cartography_table", "Use Cartography Table", "使用制图台", "cartography_table", "C"),
-        ("USE_ANVIL", "interact_with_anvil", "Use Anvil", "使用铁砧", "anvil", "B"),
         ("USE_ENCHANTING_TABLE", "enchant_item", "Use Enchanting Table", "使用附魔台", "enchanting_table", "B"),
-        ("USE_GRINDSTONE", "interact_with_grindstone", "Use Grindstone", "使用砂轮", "grindstone", "C"),
-        ("USE_LOOM", "interact_with_loom", "Use Loom to design a Banner", "使用织布机", "loom", "C"),
-        ("USE_SMITHING_TABLE", "interact_with_smithing_table", "Use Smithing Table", "使用锻造台", "smithing_table", "C"),
         ("USE_JUKEBOX", "play_record", "Play a Music Disc in Jukebox", "用唱片机播放唱片", "jukebox", "A"),
     ]:
         g.goal(key, name, zh, stat("custom", s), tier=tier, icon=icon, decoration="ADVANCEMENT")

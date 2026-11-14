@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.use_cartography_table",
@@ -8,6 +8,5 @@
     "item": "minecraft:cartography_table",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:custom",
-  "statName": "minecraft:interact_with_cartography_table"
+  "advancement": "yet-another-minecraft-bingo:draftout/use/cartography_table"
 }

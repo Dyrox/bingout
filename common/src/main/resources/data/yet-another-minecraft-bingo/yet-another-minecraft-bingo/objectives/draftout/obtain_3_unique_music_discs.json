@@ -33,5 +33,6 @@
     "minecraft:music_disc_precipice",
     "minecraft:music_disc_tears"
   ],
-  "min": 3
+  "min": 3,
+  "cumulative": true
 }

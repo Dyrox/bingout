@@ -41,5 +41,6 @@
       "statType": "minecraft:killed",
       "statName": "minecraft:evoker"
     }
-  ]
+  ],
+  "cumulative": true
 }

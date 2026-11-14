@@ -197,5 +197,6 @@
       "statName": "minecraft:sulfur_cube"
     }
   ],
-  "min": 15
+  "min": 15,
+  "cumulative": true
 }

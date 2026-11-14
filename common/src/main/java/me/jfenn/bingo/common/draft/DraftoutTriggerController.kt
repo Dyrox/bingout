@@ -9,6 +9,7 @@ import me.jfenn.bingo.common.team.TeamService
 import me.jfenn.bingo.platform.IPlayerHandle
 import me.jfenn.bingo.platform.IPlayerManager
 import me.jfenn.bingo.platform.event.IEventBus
+import me.jfenn.bingo.platform.event.game.ScopeStopped
 import me.jfenn.bingo.platform.event.model.BreakBlockEvent
 import me.jfenn.bingo.platform.event.model.PlayerDeathEvent
 import me.jfenn.bingo.platform.scoreboard.IObjectiveHandle
@@ -27,7 +28,14 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.Leashable
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.FireworkRocketEntity
+import net.minecraft.world.inventory.AnvilMenu
+import net.minecraft.world.inventory.CartographyTableMenu
+import net.minecraft.world.inventory.GrindstoneMenu
+import net.minecraft.world.inventory.LoomMenu
+import net.minecraft.world.inventory.SmithingMenu
+import net.minecraft.world.inventory.StonecutterMenu
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -94,6 +102,24 @@ internal class DraftoutTriggerController(
         private const val CHECK_INTERVAL = 5
         private val ARMOR_SLOTS = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
         private val ARMOR_SUFFIXES = listOf("_helmet", "_chestplate", "_leggings", "_boots")
+
+        /** The controller of the running game, for the mixin hooks below */
+        private var instance: DraftoutTriggerController? = null
+
+        /**
+         * Called by the workstation mixins when a player takes the output of a stonecutter, anvil, grindstone,
+         * loom, smithing table or cartography table (just opening the block doesn't count, like Draftout).
+         */
+        @JvmStatic
+        fun onWorkstationResultTaken(player: Player) {
+            val serverPlayer = player as? ServerPlayer ?: return
+            val controller = instance ?: return
+            try {
+                controller.onWorkstationUsed(serverPlayer)
+            } catch (e: Exception) {
+                controller.log.error("[DraftoutTriggerController] Error while handling a workstation result", e)
+            }
+        }
     }
 
     /** Statistics recorded for each player at the start of the game (so that counts are relative) */
@@ -193,6 +219,22 @@ internal class DraftoutTriggerController(
         for (holder in mineAdvancements[criterion].orEmpty()) {
             player.advancements.award(holder, criterion)
         }
+    }
+
+    private fun onWorkstationUsed(player: ServerPlayer) {
+        val station = when (player.containerMenu) {
+            is StonecutterMenu -> "stonecutter"
+            is CartographyTableMenu -> "cartography_table"
+            is AnvilMenu -> "anvil"
+            is GrindstoneMenu -> "grindstone"
+            is LoomMenu -> "loom"
+            is SmithingMenu -> "smithing_table"
+            else -> return
+        }
+        if (state.state != GameState.PLAYING) return
+        val handle = playerManager.getPlayer(player.uuid) ?: return
+        if (!teamService.isPlaying(handle)) return
+        grant(player, "use/$station")
     }
 
     /** Whether any card in the game uses draftout goals (otherwise all checks are skipped) */
@@ -391,6 +433,35 @@ internal class DraftoutTriggerController(
      * Sets every online teammate's score to the team's combined value, so that the scoreboard goal
      * (which uses the best player of the team) counts what the whole team did.
      */
+    /**
+     * Goals made of several criteria (e.g. "Visit All Nether Biomes": one per biome) count what the whole team
+     * has done, like the counters: each criterion is shared with the online teammates, so the goal completes
+     * once the team has covered all of them. (Counters are combined through their scores instead.)
+     */
+    private val teamAdvancements by lazy {
+        server.advancements.allAdvancements.filter { holder ->
+            holder.id.namespace == MOD_ID_BINGO && holder.id.path.startsWith("draftout/") &&
+                !holder.id.path.startsWith("draftout/counter/") && holder.value.requirements().size() > 1
+        }
+    }
+
+    private fun shareTeamCriteria() {
+        for (team in state.getRegisteredTeams()) {
+            val online = team.players.mapNotNull { playerManager.getPlayer(it.uuid)?.player }
+            if (online.size < 2) continue
+            for (holder in teamAdvancements) {
+                val done = online.flatMap { it.advancements.getOrStartProgress(holder).completedCriteria }.toSet()
+                for (player in online) {
+                    val progress = player.advancements.getOrStartProgress(holder)
+                    if (progress.isDone) continue
+                    for (criterion in done) {
+                        if (progress.getCriterion(criterion)?.isDone == false) player.advancements.award(holder, criterion)
+                    }
+                }
+            }
+        }
+    }
+
     private fun updateTeamScores() {
         for (team in state.getRegisteredTeams()) {
             val playerIds = team.players.map { it.uuid }
@@ -450,6 +521,11 @@ internal class DraftoutTriggerController(
     }
 
     init {
+        instance = this
+        eventBus.register(ScopeStopped) {
+            if (instance === this) instance = null
+        }
+
         // create the scoreboards up front, so that "scoreboard" objectives can find them
         for (name in SCORES) score(name)
 
@@ -489,6 +565,7 @@ internal class DraftoutTriggerController(
 
             try {
                 updateTeamScores()
+                if (runChecks) shareTeamCriteria()
             } catch (e: Exception) {
                 log.error("[DraftoutTriggerController] Error while updating team scores", e)
             }

@@ -43,5 +43,6 @@
     "minecraft:spore_blossom",
     "minecraft:cactus_flower"
   ],
-  "min": 6
+  "min": 6,
+  "cumulative": true
 }

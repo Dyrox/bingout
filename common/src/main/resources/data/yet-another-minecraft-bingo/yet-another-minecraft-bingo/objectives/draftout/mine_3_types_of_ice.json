@@ -28,5 +28,6 @@
       "advancement": "yet-another-minecraft-bingo:draftout/mine/frosted_ice"
     }
   ],
-  "min": 3
+  "min": 3,
+  "cumulative": true
 }

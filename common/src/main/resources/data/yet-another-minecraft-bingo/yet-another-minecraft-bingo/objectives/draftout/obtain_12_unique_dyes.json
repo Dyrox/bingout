@@ -28,5 +28,6 @@
     "minecraft:red_dye",
     "minecraft:black_dye"
   ],
-  "min": 12
+  "min": 12,
+  "cumulative": true
 }

@@ -18,5 +18,6 @@
     "minecraft:torchflower_seeds",
     "minecraft:pitcher_pod"
   ],
-  "min": 4
+  "min": 4,
+  "cumulative": true
 }

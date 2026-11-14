@@ -228,8 +228,9 @@ def item(i, count=1):
     return d
 
 
+# "cumulative": things obtained over time and by any teammate add up (no need to hold them all at once)
 def all_of(objs):
-    return {"type": "all_of", "objectives": [mc(o) if isinstance(o, str) else o for o in objs]}
+    return {"type": "all_of", "objectives": [mc(o) if isinstance(o, str) else o for o in objs], "cumulative": True}
 
 
 def one_of(objs):
@@ -237,7 +238,8 @@ def one_of(objs):
 
 
 def some_of(objs, n):
-    return {"type": "some_of", "objectives": [mc(o) if isinstance(o, str) else o for o in objs], "min": n}
+    return {"type": "some_of", "objectives": [mc(o) if isinstance(o, str) else o for o in objs], "min": n,
+            "cumulative": True}
 
 
 def stat(stat_type, stat_name=None, min_=1):

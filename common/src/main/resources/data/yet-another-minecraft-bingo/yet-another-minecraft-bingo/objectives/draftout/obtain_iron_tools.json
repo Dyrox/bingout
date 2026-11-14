@@ -14,5 +14,6 @@
     "minecraft:iron_pickaxe",
     "minecraft:iron_sword",
     "minecraft:iron_shovel"
-  ]
+  ],
+  "cumulative": true
 }

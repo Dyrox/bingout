@@ -24,5 +24,6 @@
     "minecraft:tadpole_bucket",
     "minecraft:sulfur_cube_bucket"
   ],
-  "min": 6
+  "min": 6,
+  "cumulative": true
 }

@@ -193,4 +193,6 @@ enum class CursorType {
 class TooltipIcon(
     val item: me.jfenn.bingo.platform.item.IItemStack?,
     val text: IText,
+    /** For mobs: drawn as the mob's face instead of [item] */
+    val entityId: String? = null,
 )

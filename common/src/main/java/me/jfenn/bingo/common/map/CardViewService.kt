@@ -10,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.server.MinecraftServer
 import me.jfenn.bingo.common.draft.DraftController
+import me.jfenn.bingo.common.draft.DraftoutTriggerController
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.Permission
 import me.jfenn.bingo.common.card.BingoCard
@@ -330,7 +331,26 @@ internal class CardViewService(
         val count: Int,
         val showCount: Boolean,
         val icon: IItemStack? = null,
+        /** Whether the id is an item, even if a mob has the same id (e.g. eating "minecraft:chicken") */
+        val isItem: Boolean = false,
+    ) {
+        /** The entity id, if this entry is a mob (drawn as the mob's face on the client) */
+        val entityId: String? get() = Identifier.tryParse(if (':' in id) id else "minecraft:$id")
+            ?.takeIf { !isItem && '/' !in id && BuiltInRegistries.ENTITY_TYPE.containsKey(it) }
+            ?.toString()
+    }
+
+    /** Counters of items (eaten foods, crafted items, ...), rather than mobs or effects */
+    private val itemScoreboards = setOf(
+        DraftoutTriggerController.SCORE_FOOD, DraftoutTriggerController.SCORE_CRAFTED, DraftoutTriggerController.SCORE_COMPOST,
     )
+
+    /** Whether an inner objective is about an item (not a mob), e.g. "used minecraft:cod" but not "killed minecraft:cod" */
+    private fun isItemObjective(inner: BingoObjective): Boolean = when (inner) {
+        is BingoObjective.ItemEntry -> true
+        is BingoObjective.StatsEntry -> inner.data.statType.let { !it.endsWith("killed") && !it.endsWith("killed_by") }
+        else -> false
+    }
 
     /** Icons for biome criteria (e.g. "Visit All Nether Biomes") */
     private val biomeIcons = mapOf(
@@ -343,12 +363,12 @@ internal class CardViewService(
      * Icon for a registry id: mobs use their spawn egg (which shows the mob's face), items/blocks themselves,
      * mob effects a potion, biomes a typical block.
      */
-    private fun registryIcon(rawId: String): IItemStack? {
+    private fun registryIcon(rawId: String, isItem: Boolean = false): IItemStack? {
         val id = Identifier.tryParse(if (':' in rawId) rawId else "minecraft:$rawId") ?: return null
         fun itemOf(path: String) = Identifier.tryParse("${id.namespace}:$path")
             ?.let { BuiltInRegistries.ITEM.getOptional(it).orElse(null) }
         val item: Item? = when {
-            BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> itemOf("${id.path}_spawn_egg")
+            !isItem && BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> itemOf("${id.path}_spawn_egg")
             BuiltInRegistries.ITEM.containsKey(id) -> BuiltInRegistries.ITEM.getValue(id)
             BuiltInRegistries.BLOCK.containsKey(id) -> BuiltInRegistries.BLOCK.getValue(id).asItem()
             BuiltInRegistries.MOB_EFFECT.containsKey(id) -> Items.POTION
@@ -358,8 +378,8 @@ internal class CardViewService(
     }
 
     private fun innerIcon(inner: BingoObjective): IItemStack? = when (inner) {
-        is BingoObjective.ItemEntry -> registryIcon(inner.itemId)
-        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryIcon(it) }
+        is BingoObjective.ItemEntry -> registryIcon(inner.itemId, isItem = true)
+        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryIcon(it, isItemObjective(inner)) }
         is BingoObjective.AdvancementEntry -> when {
             inner.advancementId.contains(":draftout/mine/") -> registryIcon(inner.advancementId.substringAfterLast('/'))
             else -> inner.advancement?.displayIcon
@@ -368,11 +388,11 @@ internal class CardViewService(
     }
 
     /** Display name for a registry id (entity, item, block, mob effect, biome), e.g. "minecraft:cow" -> "Cow" */
-    private fun registryName(rawId: String): IText {
+    private fun registryName(rawId: String, isItem: Boolean = false): IText {
         val id = Identifier.tryParse(if (':' in rawId) rawId else "minecraft:$rawId")
             ?: return textProvider.literal(rawId)
         val key = when {
-            BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> BuiltInRegistries.ENTITY_TYPE.getValue(id).descriptionId
+            !isItem && BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> BuiltInRegistries.ENTITY_TYPE.getValue(id).descriptionId
             BuiltInRegistries.ITEM.containsKey(id) -> BuiltInRegistries.ITEM.getValue(id).descriptionId
             BuiltInRegistries.BLOCK.containsKey(id) -> BuiltInRegistries.BLOCK.getValue(id).descriptionId
             BuiltInRegistries.MOB_EFFECT.containsKey(id) -> BuiltInRegistries.MOB_EFFECT.getValue(id)?.descriptionId
@@ -388,8 +408,8 @@ internal class CardViewService(
 
     /** Name of a sub-goal of a "some of" goal, e.g. "Zombie" for the "killed zombie" statistic */
     private fun innerName(inner: BingoObjective): IText = when (inner) {
-        is BingoObjective.ItemEntry -> registryName(inner.itemId)
-        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryName(it) }
+        is BingoObjective.ItemEntry -> registryName(inner.itemId, isItem = true)
+        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryName(it, isItemObjective(inner)) }
             ?: inner.display.name ?: textProvider.literal(inner.id)
         is BingoObjective.AdvancementEntry -> when {
             // hidden "mine a block" advancements, named after the block
@@ -407,10 +427,14 @@ internal class CardViewService(
         return when (objective) {
             is BingoObjective.SomeOfEntry -> {
                 if (objective.valueMin <= 1) return null
-                objective.someOfObjectives
+                // the same inner objectives that SomeOfObjectiveManager counts towards completion
+                objective.teamsCounted[team.key].orEmpty()
                     .mapNotNull { card.objectives[it] }
-                    .filter { it.hasTeamAchieved(team.key) }
-                    .map { ProgressEntry(it.id, innerName(it), 1, false, innerIcon(it)) }
+                    .map {
+                        // stats sub-goals (e.g. "killed zombie") are identified by their statistic
+                        val thingId = (it as? BingoObjective.StatsEntry)?.data?.statName ?: it.id
+                        ProgressEntry(thingId, innerName(it), 1, false, innerIcon(it), isItemObjective(it))
+                    }
             }
             is BingoObjective.ScoreboardEntry -> {
                 val details = progressDetails.get(team.players.map { it.uuid }, objective.data.scoreboardName)
@@ -418,10 +442,11 @@ internal class CardViewService(
                 details.values.map { (id, count) ->
                     // advancement ids contain a path ("minecraft:story/mine_stone"), registry ids don't
                     val isAdvancement = '/' in id
-                    val name = if (isAdvancement) advancementName(id) else registryName(id)
+                    val isItem = objective.data.scoreboardName in itemScoreboards
+                    val name = if (isAdvancement) advancementName(id) else registryName(id, isItem)
                     val icon = if (isAdvancement) advancementManager.getAdvancement(minecraftServer, id)?.displayIcon
-                        else registryIcon(id)
-                    ProgressEntry(id, name, count, details.showCounts, icon)
+                        else registryIcon(id, isItem)
+                    ProgressEntry(id, name, count, details.showCounts, icon, isItem)
                 }
             }
             is BingoObjective.AdvancementEntry -> {
@@ -443,7 +468,7 @@ internal class CardViewService(
         return entries.take(maxProgressItems).map { entry ->
             val name = entry.name.copy()
             if (entry.showCount) name.append(" ×${entry.count}")
-            CardTile.ProgressItem(item = entry.icon, name = name)
+            CardTile.ProgressItem(item = entry.icon, name = name, entityId = entry.entityId)
         }
     }
 
@@ -472,7 +497,10 @@ internal class CardViewService(
         return when (objective) {
             is BingoObjective.SomeOfEntry -> {
                 if (objective.valueMin <= 1) return null
-                val count = objective.someOfObjectives.count { card.objectives[it]?.hasTeamAchieved(team.key) == true }
+                val count = when {
+                    objective.hasTeamAchieved(team.key) -> objective.valueMin
+                    else -> objective.teamsCounted[team.key].orEmpty().size
+                }
                 Pair(count.coerceAtMost(objective.valueMin), objective.valueMin)
             }
             is BingoObjective.ScoreboardEntry -> fromProgress(objective.valueMin)

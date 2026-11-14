@@ -30,5 +30,6 @@
       "statType": "minecraft:used",
       "statName": "minecraft:beetroot_soup"
     }
-  ]
+  ],
+  "cumulative": true
 }

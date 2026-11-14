@@ -192,7 +192,7 @@ internal class ClientCardRenderer(
                 // icons + names of what has been done so far (e.g. the animals bred)
                 service.drawTooltipWithIcons(
                     tooltip,
-                    tile.progressItems.map { TooltipIcon(it.item, it.name) },
+                    tile.progressItems.map { TooltipIcon(it.item, it.name, it.entityId) },
                     mouseX, mouseY,
                 )
             }

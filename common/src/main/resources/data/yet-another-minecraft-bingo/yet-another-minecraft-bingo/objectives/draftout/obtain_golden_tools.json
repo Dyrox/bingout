@@ -14,5 +14,6 @@
     "minecraft:golden_pickaxe",
     "minecraft:golden_sword",
     "minecraft:golden_shovel"
-  ]
+  ],
+  "cumulative": true
 }

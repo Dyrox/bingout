@@ -14,5 +14,6 @@
     "minecraft:diamond_pickaxe",
     "minecraft:diamond_sword",
     "minecraft:diamond_shovel"
-  ]
+  ],
+  "cumulative": true
 }

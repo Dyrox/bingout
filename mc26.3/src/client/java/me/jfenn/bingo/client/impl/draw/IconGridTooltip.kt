@@ -57,7 +57,8 @@ class IconGridTooltip(
 
     override fun extractImage(font: Font, x: Int, y: Int, width: Int, height: Int, graphics: GuiGraphicsExtractor) {
         forEachCell(font, x, y) { entry, cellX, cellY ->
-            entry.item?.let { graphics.item(it.stack, cellX, cellY) }
+            val drewFace = entry.entityId?.let { MobFaceRenderer.draw(graphics, it, cellX, cellY, ICON_SIZE) } == true
+            if (!drewFace) entry.item?.let { graphics.item(it.stack, cellX, cellY) }
         }
     }
 }

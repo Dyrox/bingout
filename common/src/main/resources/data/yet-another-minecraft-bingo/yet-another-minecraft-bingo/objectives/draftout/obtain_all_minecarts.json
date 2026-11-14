@@ -14,5 +14,6 @@
     "minecraft:furnace_minecart",
     "minecraft:hopper_minecart",
     "minecraft:tnt_minecart"
-  ]
+  ],
+  "cumulative": true
 }

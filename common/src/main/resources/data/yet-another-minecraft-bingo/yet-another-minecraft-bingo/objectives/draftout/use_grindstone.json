@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.use_grindstone",
@@ -8,6 +8,5 @@
     "item": "minecraft:grindstone",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:custom",
-  "statName": "minecraft:interact_with_grindstone"
+  "advancement": "yet-another-minecraft-bingo:draftout/use/grindstone"
 }

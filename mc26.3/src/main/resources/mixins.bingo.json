@@ -11,6 +11,7 @@
         "FoodDataAccessor",
         "GameRuleOverrideMixin",
         "InteractionEntityMixin",
+        "ItemCombinerMenuResultMixin",
         "ItemStackMixin",
         "LivingEntityMixin",
         "MapItemSavedDataAccessor",
@@ -27,6 +28,7 @@
         "ServerLevelAccessor",
         "ServerPlayerMixin",
         "ServerRecipeBookMixin",
+        "WorkstationResultSlotMixin",
         "WorldGenSettingsAccessor"
     ],
     "client": [],

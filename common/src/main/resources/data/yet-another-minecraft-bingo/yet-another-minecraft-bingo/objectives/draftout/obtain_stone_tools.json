@@ -14,5 +14,6 @@
     "minecraft:stone_pickaxe",
     "minecraft:stone_sword",
     "minecraft:stone_shovel"
-  ]
+  ],
+  "cumulative": true
 }

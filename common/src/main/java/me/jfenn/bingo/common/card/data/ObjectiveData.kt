@@ -66,6 +66,13 @@ sealed class ObjectiveData {
         val objectives: Set<ObjectiveDataReference>
         val min: NumberProviderPolymorphic
         val max: NumberProviderPolymorphic
+
+        /**
+         * Whether the inner objectives add up over time and across the team (e.g. "Obtain 3 Unique Banner
+         * Patterns" counts every pattern any teammate has obtained), instead of a single player having to
+         * satisfy all of them at once.
+         */
+        val cumulative: Boolean
     }
 
     @Serializable
@@ -73,6 +80,7 @@ sealed class ObjectiveData {
     data class OneOf(
         override val objectives: Set<ObjectiveDataReference>,
         override val permanent: Boolean = false,
+        override val cumulative: Boolean = false,
     ) : ObjectiveData(), SomeOfBase {
         override val min get() = NumberProvider.Constant(1)
         override val max get() = NumberProvider.Constant(Int.MAX_VALUE)
@@ -87,6 +95,7 @@ sealed class ObjectiveData {
         override val min: NumberProviderPolymorphic = NumberProvider.Constant(1),
         override val max: NumberProviderPolymorphic = NumberProvider.Constant(Int.MAX_VALUE),
         override val permanent: Boolean = false,
+        override val cumulative: Boolean = false,
     ) : ObjectiveData(), SomeOfBase {
         override val innerObjectives: List<ObjectiveDataReference>
             get() = objectives.toList()
@@ -97,6 +106,7 @@ sealed class ObjectiveData {
     data class AllOf(
         override val objectives: Set<ObjectiveDataReference>,
         override val permanent: Boolean = false,
+        override val cumulative: Boolean = false,
     ) : ObjectiveData(), SomeOfBase {
         override val min get() = NumberProvider.Constant(Int.MAX_VALUE)
         override val max get() = NumberProvider.Constant(Int.MAX_VALUE)

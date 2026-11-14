@@ -17,5 +17,6 @@
     "minecraft:warped_fungus",
     "minecraft:shelf_mushroom"
   ],
-  "min": 4
+  "min": 4,
+  "cumulative": true
 }

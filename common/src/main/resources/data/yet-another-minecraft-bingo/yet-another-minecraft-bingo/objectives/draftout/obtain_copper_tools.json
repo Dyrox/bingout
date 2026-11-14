@@ -14,5 +14,6 @@
     "minecraft:copper_pickaxe",
     "minecraft:copper_sword",
     "minecraft:copper_shovel"
-  ]
+  ],
+  "cumulative": true
 }

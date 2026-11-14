@@ -195,6 +195,25 @@ internal sealed class BingoObjective : ICardObjective {
             // SomeOfEntry will use the amount of resolved dependencies as the min value
             return dependsOnObjectives.any { resolved.contains(it) }
         }
+
+        val isCumulative get() = (data as? ObjectiveData.SomeOfBase)?.cumulative == true
+
+        /** For cumulative goals: the inner objectives that each player has satisfied so far, with their first capture */
+        var playersObtained = mutableMapOf<UuidAsString, MutableMap<String, BingoObjectiveCapture>>()
+
+        /** The inner objectives that currently count towards each team's progress (updated every tick) */
+        @Transient
+        var teamsCounted: Map<BingoTeamKey, List<String>> = emptyMap()
+
+        override fun removePlayer(uuid: UUID) {
+            super.removePlayer(uuid)
+            playersObtained.remove(uuid)
+        }
+
+        override fun removeTeam(team: BingoTeam) {
+            super.removeTeam(team)
+            for (player in team.players) playersObtained.remove(player.uuid)
+        }
     }
 
     @Serializable

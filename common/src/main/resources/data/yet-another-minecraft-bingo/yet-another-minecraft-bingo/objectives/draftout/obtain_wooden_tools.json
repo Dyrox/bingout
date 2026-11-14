@@ -14,5 +14,6 @@
     "minecraft:wooden_pickaxe",
     "minecraft:wooden_sword",
     "minecraft:wooden_shovel"
-  ]
+  ],
+  "cumulative": true
 }

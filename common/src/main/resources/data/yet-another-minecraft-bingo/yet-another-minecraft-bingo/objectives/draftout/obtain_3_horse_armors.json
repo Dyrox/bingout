@@ -18,5 +18,6 @@
     "minecraft:diamond_horse_armor",
     "minecraft:netherite_horse_armor"
   ],
-  "min": 3
+  "min": 3,
+  "cumulative": true
 }

@@ -39,6 +39,8 @@ data class CardTile(
     data class ProgressItem(
         val item: IItemStackSerialized?,
         val name: IText,
+        /** For mobs: the entity id, so the client can draw the mob's face (the item is a fallback) */
+        val entityId: String? = null,
     )
 
     @Transient
@@ -81,6 +83,7 @@ data class CardTile(
                 ProgressItem(
                     item = buf.readNullable(buf::readItemStack),
                     name = buf.readText(),
+                    entityId = buf.readNullable(buf::readString),
                 )
             }
             return CardTile(
@@ -130,6 +133,7 @@ data class CardTile(
             for (progressItem in source.progressItems) {
                 dest.writeNullable(progressItem.item, dest::writeItemStack)
                 dest.writeText(progressItem.name)
+                dest.writeNullable(progressItem.entityId, dest::writeString)
             }
         }
     }
