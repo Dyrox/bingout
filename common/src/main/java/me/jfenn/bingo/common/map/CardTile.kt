@@ -5,6 +5,7 @@ import me.jfenn.bingo.common.card.tierlist.TierLabel
 import me.jfenn.bingo.common.team.BingoTeamKey
 import me.jfenn.bingo.platform.IPacketBuf
 import me.jfenn.bingo.platform.Identifier
+import me.jfenn.bingo.platform.item.IItemStackSerialized
 import me.jfenn.bingo.platform.packet.PacketConverter
 import me.jfenn.bingo.platform.text.IText
 import java.time.Instant
@@ -30,7 +31,15 @@ data class CardTile(
     val isFlashing: Boolean? = null,
     val progress: Float = 0f,
     val teamKeys: List<BingoTeamKey> = emptyList(),
+    /** What the team has done so far for a counting goal (e.g. the animals bred), shown with icons in the tooltip */
+    val progressItems: List<ProgressItem> = emptyList(),
 ) {
+
+    /** One completed thing for a counting goal: its icon (item, spawn egg, ...) and name */
+    data class ProgressItem(
+        val item: IItemStackSerialized?,
+        val name: IText,
+    )
 
     @Transient
     var updatedAt: Instant? = null
@@ -68,6 +77,12 @@ data class CardTile(
             val teamKeys = List(buf.readInt()) {
                 BingoTeamKey(buf.readString())
             }
+            val progressItems = List(buf.readInt()) {
+                ProgressItem(
+                    item = buf.readNullable(buf::readItemStack),
+                    name = buf.readText(),
+                )
+            }
             return CardTile(
                 id = id,
                 image = image,
@@ -81,6 +96,7 @@ data class CardTile(
                 isFlashing = isFlashing,
                 progress = progress,
                 teamKeys = teamKeys,
+                progressItems = progressItems,
             )
         }
 
@@ -108,6 +124,12 @@ data class CardTile(
             dest.writeInt(source.teamKeys.size)
             for (team in source.teamKeys) {
                 dest.writeString(team.id)
+            }
+
+            dest.writeInt(source.progressItems.size)
+            for (progressItem in source.progressItems) {
+                dest.writeNullable(progressItem.item, dest::writeItemStack)
+                dest.writeText(progressItem.name)
             }
         }
     }

@@ -1,5 +1,6 @@
 package me.jfenn.bingo.client.common.hud.card
 
+import me.jfenn.bingo.client.platform.renderer.TooltipIcon
 import me.jfenn.bingo.client.common.hud.card.ClientCardBufferRenderer.Companion.CARD_HEIGHT
 import me.jfenn.bingo.client.common.hud.card.ClientCardBufferRenderer.Companion.CARD_WIDTH
 import me.jfenn.bingo.client.common.state.BingoHudState
@@ -185,7 +186,16 @@ internal class ClientCardRenderer(
             service.matrices.push()
             service.matrices.translate(0f, 0f, z + 2000f)
 
-            service.drawTooltip(tooltip, mouseX, mouseY)
+            if (tile.progressItems.isEmpty()) {
+                service.drawTooltip(tooltip, mouseX, mouseY)
+            } else {
+                // icons + names of what has been done so far (e.g. the animals bred)
+                service.drawTooltipWithIcons(
+                    tooltip,
+                    tile.progressItems.map { TooltipIcon(it.item, it.name) },
+                    mouseX, mouseY,
+                )
+            }
 
             if (tile.imageList.isNotEmpty()) {
                 val tooltipWidth = tooltip.maxOf { service.font.getTextWidth(it) }

@@ -97,7 +97,7 @@ def register(g: Gen, spy_mobs):
            tier="B", icon="zombie_head", decoration="ADVANCEMENT")
     g.goal("KILL_20_ARTHROPOD_MOBS", "Kill 20 Arthropods", "击杀 20 只节肢生物",
            scoreboard("draftout_arthropod", 20), tier="B", icon="spider_eye", decoration="ADVANCEMENT")
-    g.goal("KILL_100_MOBS", "Kill 100 Mobs", "击杀 100 只生物", stat("custom", "mob_kills", 100), tier="A",
+    g.goal("KILL_100_MOBS", "Kill 100 Mobs", "击杀 100 只生物", scoreboard("draftout_mob_kills", 100), tier="A",
            icon="diamond_sword", decoration="ADVANCEMENT")
     g.goal("KILL_ALL_RAID_MOBS", "Kill all Raid Mobs", "击杀所有袭击生物",
            all_of([stat("killed", m) for m in ["pillager", "vindicator", "ravager", "witch", "vex", "evoker"]]),

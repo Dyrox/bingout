@@ -3,7 +3,7 @@
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.obtain_written_book",
-      "fallback": "Obtain Write a Book"
+      "fallback": "Obtain Written Book (sign a Book & Quill)"
     }
   },
   "item": "minecraft:written_book"

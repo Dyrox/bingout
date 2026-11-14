@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "scoreboard",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.kill_100_mobs",
@@ -10,7 +10,6 @@
     "image": "yet-another-minecraft-bingo:draftout/kill_100_mobs",
     "itemStyle": "NORMAL"
   },
-  "statType": "minecraft:custom",
-  "statName": "minecraft:mob_kills",
+  "scoreboardName": "draftout_mob_kills",
   "min": 100
 }

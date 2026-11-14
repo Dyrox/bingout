@@ -1,5 +1,8 @@
 package me.jfenn.bingo.common.map
 
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.Item
+import me.jfenn.bingo.platform.item.IItemStack
 import me.jfenn.bingo.common.draft.ProgressDetailsService
 import me.jfenn.bingo.common.utils.formatTitle
 import me.jfenn.bingo.platform.IAdvancementManager
@@ -266,12 +269,17 @@ internal class CardViewService(
             ?.let { getProgressCount(it, objective, card) }
             ?: Pair(0, 0)
 
+        val progressDetails = team
+            ?.takeIf { progressTarget > 1 && !isHidden }
+            ?.let { getProgressDetails(it, objective, card) }
+            .orEmpty()
+
         val lore = if (progressTarget > 1) {
             entry.display.lore.orEmpty() + textProvider.string(
                 StringKey.CardObjectiveProgress,
                 progressCount.toString(),
                 progressTarget.toString(),
-            ).formatted(Formatting.GRAY) + formatProgressDetails(team?.let { getProgressDetails(it, objective, card) }.orEmpty())
+            ).formatted(Formatting.GRAY) + formatProgressMore(progressDetails)
         } else entry.display.lore
 
         val action = when (
@@ -311,6 +319,7 @@ internal class CardViewService(
                 ?.teamsAchieved?.keys
                 ?.filter { it != team?.key }
                 ?: emptyList(),
+            progressItems = toProgressItems(progressDetails),
         )
     }
 
@@ -320,7 +329,43 @@ internal class CardViewService(
         val name: IText,
         val count: Int,
         val showCount: Boolean,
+        val icon: IItemStack? = null,
     )
+
+    /** Icons for biome criteria (e.g. "Visit All Nether Biomes") */
+    private val biomeIcons = mapOf(
+        "nether_wastes" to "netherrack", "crimson_forest" to "crimson_nylium", "warped_forest" to "warped_nylium",
+        "soul_sand_valley" to "soul_sand", "basalt_deltas" to "basalt",
+        "lush_caves" to "moss_block", "dripstone_caves" to "pointed_dripstone", "deep_dark" to "sculk",
+    )
+
+    /**
+     * Icon for a registry id: mobs use their spawn egg (which shows the mob's face), items/blocks themselves,
+     * mob effects a potion, biomes a typical block.
+     */
+    private fun registryIcon(rawId: String): IItemStack? {
+        val id = Identifier.tryParse(if (':' in rawId) rawId else "minecraft:$rawId") ?: return null
+        fun itemOf(path: String) = Identifier.tryParse("${id.namespace}:$path")
+            ?.let { BuiltInRegistries.ITEM.getOptional(it).orElse(null) }
+        val item: Item? = when {
+            BuiltInRegistries.ENTITY_TYPE.containsKey(id) -> itemOf("${id.path}_spawn_egg")
+            BuiltInRegistries.ITEM.containsKey(id) -> BuiltInRegistries.ITEM.getValue(id)
+            BuiltInRegistries.BLOCK.containsKey(id) -> BuiltInRegistries.BLOCK.getValue(id).asItem()
+            BuiltInRegistries.MOB_EFFECT.containsKey(id) -> Items.POTION
+            else -> biomeIcons[id.path]?.let { itemOf(it) }
+        }
+        return item?.takeIf { it != Items.AIR }?.let { itemStackFactory.createStack(it) }
+    }
+
+    private fun innerIcon(inner: BingoObjective): IItemStack? = when (inner) {
+        is BingoObjective.ItemEntry -> registryIcon(inner.itemId)
+        is BingoObjective.StatsEntry -> inner.data.statName?.let { registryIcon(it) }
+        is BingoObjective.AdvancementEntry -> when {
+            inner.advancementId.contains(":draftout/mine/") -> registryIcon(inner.advancementId.substringAfterLast('/'))
+            else -> inner.advancement?.displayIcon
+        }
+        else -> inner.display.item
+    }
 
     /** Display name for a registry id (entity, item, block, mob effect, biome), e.g. "minecraft:cow" -> "Cow" */
     private fun registryName(rawId: String): IText {
@@ -365,15 +410,18 @@ internal class CardViewService(
                 objective.someOfObjectives
                     .mapNotNull { card.objectives[it] }
                     .filter { it.hasTeamAchieved(team.key) }
-                    .map { ProgressEntry(it.id, innerName(it), 1, false) }
+                    .map { ProgressEntry(it.id, innerName(it), 1, false, innerIcon(it)) }
             }
             is BingoObjective.ScoreboardEntry -> {
                 val details = progressDetails.get(team.players.map { it.uuid }, objective.data.scoreboardName)
                     ?: return null
                 details.values.map { (id, count) ->
                     // advancement ids contain a path ("minecraft:story/mine_stone"), registry ids don't
-                    val name = if ('/' in id) advancementName(id) else registryName(id)
-                    ProgressEntry(id, name, count, details.showCounts)
+                    val isAdvancement = '/' in id
+                    val name = if (isAdvancement) advancementName(id) else registryName(id)
+                    val icon = if (isAdvancement) advancementManager.getAdvancement(minecraftServer, id)?.displayIcon
+                        else registryIcon(id)
+                    ProgressEntry(id, name, count, details.showCounts, icon)
                 }
             }
             is BingoObjective.AdvancementEntry -> {
@@ -383,26 +431,26 @@ internal class CardViewService(
                     .mapNotNull { playerManager.getPlayer(it.uuid) }
                     .flatMap { advancementManager.getCompletedCriteria(it.player, advancement) }
                     .distinct()
-                    .map { ProgressEntry(it, registryName(it), 1, false) }
+                    .map { ProgressEntry(it, registryName(it), 1, false, registryIcon(it)) }
             }
             else -> null
         }
     }
 
-    private fun formatProgressDetails(entries: List<ProgressEntry>): List<IText> {
-        if (entries.isEmpty()) return emptyList()
-        val maxShown = 24
-        val names = entries.take(maxShown).map { entry ->
+    private val maxProgressItems = 40
+
+    private fun toProgressItems(entries: List<ProgressEntry>): List<CardTile.ProgressItem> {
+        return entries.take(maxProgressItems).map { entry ->
             val name = entry.name.copy()
-            if (entry.showCount) name.append(" ×${entry.count}") else name
+            if (entry.showCount) name.append(" ×${entry.count}")
+            CardTile.ProgressItem(item = entry.icon, name = name)
         }
-        val lines = names.chunked(3).map { chunk ->
-            textProvider.literal("✔ ").append(textProvider.joinText(chunk, textProvider.literal(", ")))
-                .formatted(Formatting.GRAY)
-        }
-        val more = (entries.size - maxShown).takeIf { it > 0 }
-            ?.let { textProvider.string(StringKey.CardObjectiveMore, it).formatted(Formatting.DARK_GRAY) }
-        return lines + listOfNotNull(more)
+    }
+
+    private fun formatProgressMore(entries: List<ProgressEntry>): List<IText> {
+        val more = entries.size - maxProgressItems
+        return if (more > 0) listOf(textProvider.string(StringKey.CardObjectiveMore, more).formatted(Formatting.DARK_GRAY))
+            else emptyList()
     }
 
     /**
@@ -415,7 +463,8 @@ internal class CardViewService(
             if (scaledTarget <= 1) return null
             val count = when {
                 objective.hasTeamAchieved(team.key) -> scaledTarget
-                else -> (objective.getProgress(team.key) * target / scale).toInt()
+                // round: the progress is a float fraction (e.g. 53/100 * 100 = 52.99998)
+                else -> Math.round(objective.getProgress(team.key) * target) / scale
             }
             return Pair(count.coerceIn(0, scaledTarget), scaledTarget)
         }

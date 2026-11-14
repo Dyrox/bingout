@@ -72,9 +72,21 @@ internal class DraftoutTriggerController(
         const val SCORE_PUMPKIN = "draftout_pumpkin"
         const val SCORE_LEASH = "draftout_leash"
 
+        const val SCORE_MOB_KILLS = "draftout_mob_kills"
+
         val SCORES = listOf(
             SCORE_BRED, SCORE_SPY, SCORE_COMPOST, SCORE_FOOD, SCORE_CRAFTED, SCORE_UNDEAD, SCORE_ARTHROPOD,
-            SCORE_ADVANCEMENTS, SCORE_EFFECTS, SCORE_PUMPKIN, SCORE_LEASH,
+            SCORE_ADVANCEMENTS, SCORE_EFFECTS, SCORE_PUMPKIN, SCORE_LEASH, SCORE_MOB_KILLS,
+        )
+
+        /**
+         * Counters combined over the whole team: distinct things are the union of what every teammate did
+         * (5 + 10 crafted items with 3 in common = 12), kill counts are summed. The other counters
+         * ("at once" / worn time) are per player.
+         */
+        val TEAM_SCORES = listOf(
+            SCORE_BRED, SCORE_SPY, SCORE_COMPOST, SCORE_FOOD, SCORE_CRAFTED, SCORE_UNDEAD, SCORE_ARTHROPOD,
+            SCORE_ADVANCEMENTS, SCORE_MOB_KILLS,
         )
 
         private const val DRAFTOUT_PREFIX = "$MOD_ID_BINGO:draftout/"
@@ -90,6 +102,7 @@ internal class DraftoutTriggerController(
         val crafted: Map<Item, Int>,
         val undeadKills: Map<EntityType<*>, Int>,
         val arthropodKills: Map<EntityType<*>, Int>,
+        val mobKills: Map<EntityType<*>, Int>,
     )
 
     private class PlayerState {
@@ -113,6 +126,11 @@ internal class DraftoutTriggerController(
                     !holder.id.path.startsWith("recipes/") &&
                     holder.value.display.isPresent
         }
+    }
+
+    /** Every entity type except players (for "Kill 100 Mobs") */
+    private val mobTypes by lazy {
+        BuiltInRegistries.ENTITY_TYPE.filter { entityId(it) != "minecraft:player" }
     }
 
     private val foodItems by lazy {
@@ -189,6 +207,7 @@ internal class DraftoutTriggerController(
             crafted = BuiltInRegistries.ITEM.associateWith { stats.getValue(Stats.ITEM_CRAFTED, it) }.filterValues { it > 0 },
             undeadKills = undeadTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
             arthropodKills = arthropodTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
+            mobKills = mobTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
         )
     }
 
@@ -360,10 +379,29 @@ internal class DraftoutTriggerController(
             .associate { "minecraft:$it" to 1 }
     }
 
-    /** Sets the counter score and remembers which things were counted (for the card tooltip) */
+    /**
+     * Remembers which things the player counted (for the card tooltip); the scores of these team counters
+     * are set for the whole team in [updateTeamScores].
+     */
     private fun setCounter(handle: IPlayerHandle, name: String, values: Map<String, Int>, showCounts: Boolean = false) {
         details.set(handle.uuid, name, values, showCounts)
-        setScore(handle, name, if (showCounts) values.values.sum() else values.size)
+    }
+
+    /**
+     * Sets every online teammate's score to the team's combined value, so that the scoreboard goal
+     * (which uses the best player of the team) counts what the whole team did.
+     */
+    private fun updateTeamScores() {
+        for (team in state.getRegisteredTeams()) {
+            val playerIds = team.players.map { it.uuid }
+            val online = playerIds.mapNotNull { playerManager.getPlayer(it) }
+            if (online.isEmpty()) continue
+            for (name in TEAM_SCORES) {
+                val combined = details.get(playerIds, name) ?: continue
+                val value = if (combined.showCounts) combined.values.values.sum() else combined.values.size
+                for (handle in online) setScore(handle, name, value)
+            }
+        }
     }
 
     private fun updateScores(handle: IPlayerHandle, player: ServerPlayer, playerState: PlayerState, includeSlow: Boolean) {
@@ -394,6 +432,7 @@ internal class DraftoutTriggerController(
             .associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) - (base[it] ?: 0) }
             .filter { (id, count) -> id.isNotEmpty() && count > 0 }
         setCounter(handle, SCORE_UNDEAD, kills(undeadTypes, baseline.undeadKills), showCounts = true)
+        setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes, baseline.mobKills), showCounts = true)
         setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes, baseline.arthropodKills), showCounts = true)
 
         setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancements
@@ -446,6 +485,12 @@ internal class DraftoutTriggerController(
                 } catch (e: Exception) {
                     log.error("[DraftoutTriggerController] Error while checking ${player.scoreboardName}", e)
                 }
+            }
+
+            try {
+                updateTeamScores()
+            } catch (e: Exception) {
+                log.error("[DraftoutTriggerController] Error while updating team scores", e)
             }
         }
 

@@ -122,7 +122,7 @@ def register(g: Gen):
         ("OBTAIN_DISPENSER", "dispenser", "Dispenser", "发射器", "C"),
         ("OBTAIN_PISTON", "piston", "Piston", "活塞", "D"),
         ("OBTAIN_COAL_BLOCK", "coal_block", "Block of Coal", "煤炭块", "D"),
-        ("OBTAIN_WRITTEN_BOOK", "written_book", "Write a Book", "成书", "C"),
+        ("OBTAIN_WRITTEN_BOOK", "written_book", "Written Book (sign a Book & Quill)", "成书（书与笔署名后）", "C"),
         ("OBTAIN_TINTED_GLASS", "tinted_glass", "Tinted Glass", "遮光玻璃", "B"),
         ("OBTAIN_LODESTONE", "lodestone", "Lodestone", "磁石", "B"),
         ("OBTAIN_EMERALD_BLOCK", "emerald_block", "Block of Emerald", "绿宝石块", "A"),

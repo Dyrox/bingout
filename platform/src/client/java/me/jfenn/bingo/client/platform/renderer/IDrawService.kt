@@ -40,6 +40,9 @@ interface IDrawService {
     fun drawText(text: IText, x: Int, y: Int, color: Int, shadow: Boolean = false)
     fun drawItemStack(stack: IItemStack, x: Int, y: Int, seed: Int)
     fun drawTooltip(text: List<IText>, x: Int, y: Int)
+
+    /** Tooltip with a grid of icons + names below the text (falls back to the text only) */
+    fun drawTooltipWithIcons(text: List<IText>, icons: List<TooltipIcon>, x: Int, y: Int) = drawTooltip(text, x, y)
     fun drawTooltipAddon(callback: () -> Unit) = callback()
     fun drawTooltipImmediate() {}
 
@@ -185,3 +188,9 @@ enum class CursorType {
     RESIZE_VERTICAL,
     RESIZE_ALL,
 }
+
+/** An entry of [IDrawService.drawTooltipWithIcons]: an item icon (optional) next to a name */
+class TooltipIcon(
+    val item: me.jfenn.bingo.platform.item.IItemStack?,
+    val text: IText,
+)

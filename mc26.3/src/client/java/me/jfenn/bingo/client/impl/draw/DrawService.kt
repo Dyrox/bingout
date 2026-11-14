@@ -12,6 +12,8 @@ import me.jfenn.bingo.platform.text.IText
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.util.ARGB
 import net.minecraft.world.item.ItemStack
@@ -136,6 +138,17 @@ class DrawService(
         val textList = text.map { it.value.visualOrderText }.toMutableList()
         val realPosition = context.pose().transformPosition(x.toFloat(), y.toFloat(), Vector2f())
         context.setTooltipForNextFrame(textRenderer, textList, realPosition.x.toInt(), realPosition.y.toInt())
+    }
+
+    override fun drawTooltipWithIcons(text: List<IText>, icons: List<TooltipIcon>, x: Int, y: Int) {
+        if (icons.isEmpty()) return drawTooltip(text, x, y)
+        val font = Minecraft.getInstance().font
+        val components = text.map { ClientTooltipComponent.create(it.value.visualOrderText) } + IconGridTooltip(icons)
+        val realPosition = context.pose().transformPosition(x.toFloat(), y.toFloat(), Vector2f())
+        context.accessor.invokeSetTooltipForNextFrameInternal(
+            font, components, realPosition.x.toInt(), realPosition.y.toInt(),
+            DefaultTooltipPositioner.INSTANCE, null, false, false,
+        )
     }
 
     override fun drawTooltipAddon(callback: () -> Unit) {
