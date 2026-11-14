@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_suspicious_stew",
@@ -8,6 +8,5 @@
     "item": "minecraft:suspicious_stew",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:suspicious_stew"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/suspicious_stew"
 }

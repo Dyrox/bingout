@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_cookie",
@@ -8,6 +8,5 @@
     "item": "minecraft:cookie",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:cookie"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/cookie"
 }

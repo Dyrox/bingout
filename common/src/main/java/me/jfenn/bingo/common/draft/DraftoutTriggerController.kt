@@ -125,7 +125,6 @@ internal class DraftoutTriggerController(
 
     /** Statistics recorded for each player at the start of the game (so that counts are relative) */
     private class Baseline(
-        val foodUsed: Map<Item, Int>,
         val crafted: Map<Item, Int>,
         val undeadKills: Map<EntityType<*>, Int>,
         val arthropodKills: Map<EntityType<*>, Int>,
@@ -178,9 +177,6 @@ internal class DraftoutTriggerController(
         BuiltInRegistries.ENTITY_TYPE.filter { entityId(it) != "minecraft:player" }
     }
 
-    private val foodItems by lazy {
-        BuiltInRegistries.ITEM.filter { it.components().has(DataComponents.FOOD) }
-    }
     private val undeadTypes by lazy {
         BuiltInRegistries.ENTITY_TYPE.filter { BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(it).`is`(EntityTypeTags.UNDEAD) }
     }
@@ -267,7 +263,6 @@ internal class DraftoutTriggerController(
     private fun createBaseline(player: ServerPlayer): Baseline {
         val stats = player.stats
         return Baseline(
-            foodUsed = foodItems.associateWith { stats.getValue(Stats.ITEM_USED, it) }.filterValues { it > 0 },
             crafted = BuiltInRegistries.ITEM.associateWith { stats.getValue(Stats.ITEM_CRAFTED, it) }.filterValues { it > 0 },
             undeadKills = undeadTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
             arthropodKills = arthropodTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
@@ -501,6 +496,9 @@ internal class DraftoutTriggerController(
         setCounter(handle, SCORE_BRED, completedCriteria(player, "counter/bred"))
         setCounter(handle, SCORE_SPY, completedCriteria(player, "counter/spy"))
         setCounter(handle, SCORE_COMPOST, completedCriteria(player, "counter/compost"))
+        // foods actually eaten ("consume_item"): the "used" statistic also counts planting carrots, placing berries,
+        // composting, filling decorated pots or emptying fish buckets
+        setCounter(handle, SCORE_FOOD, completedCriteria(player, "counter/food"))
         details.set(handle.uuid, SCORE_EFFECTS, playerState.maxEffectIds)
         setScore(handle, SCORE_EFFECTS, playerState.maxEffects)
         setScore(handle, SCORE_PUMPKIN, playerState.pumpkinTicks / 20)
@@ -514,9 +512,6 @@ internal class DraftoutTriggerController(
 
         fun itemId(item: Item) = BuiltInRegistries.ITEM.getKey(item).toString()
 
-        setCounter(handle, SCORE_FOOD, foodItems
-            .filter { stats.getValue(Stats.ITEM_USED, it) > (baseline.foodUsed[it] ?: 0) }
-            .associate { itemId(it) to 1 })
         setCounter(handle, SCORE_CRAFTED, BuiltInRegistries.ITEM
             .filter { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[it] ?: 0) }
             .associate { itemId(it) to 1 })

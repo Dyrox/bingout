@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_glow_berry",
@@ -8,6 +8,5 @@
     "item": "minecraft:glow_berries",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:glow_berries"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/glow_berries"
 }

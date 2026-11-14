@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.use_brush_on_suspicious_block",
@@ -10,6 +10,5 @@
     "image": "yet-another-minecraft-bingo:draftout/use_brush_on_suspicious_block",
     "itemStyle": "NORMAL"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:brush"
+  "advancement": "yet-another-minecraft-bingo:draftout/brush_suspicious"
 }

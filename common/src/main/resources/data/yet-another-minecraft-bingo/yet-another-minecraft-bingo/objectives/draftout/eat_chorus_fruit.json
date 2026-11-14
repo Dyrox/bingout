@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_chorus_fruit",
@@ -8,6 +8,5 @@
     "item": "minecraft:chorus_fruit",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:chorus_fruit"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/chorus_fruit"
 }

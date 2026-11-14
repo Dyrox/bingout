@@ -256,8 +256,12 @@ def register(g: Gen):
            advancement(g.adv_impossible("shield_disabled")), tier="C", icon="shield", decoration="ADVANCEMENT")
     g.goal("SHOOT_FIREWORK_FROM_CROSSBOW", "Shoot Firework from Crossbow", "用弩发射烟花火箭",
            advancement(g.adv_impossible("crossbow_firework")), tier="B", icon="crossbow", decoration="ADVANCEMENT")
+    # the "used brush" statistic counts brushing any block
     g.goal("USE_BRUSH_ON_SUSPICIOUS_BLOCK", "Use Brush on Suspicious Sand/Gravel", "刷可疑的沙子/沙砾",
-           stat("used", "brush"), tier="B", icon="brush", decoration="ADVANCEMENT")
+           advancement(g.adv("brush_suspicious", {"c": crit("item_used_on_block", location=[
+               loc_check({"blocks": ["minecraft:suspicious_sand", "minecraft:suspicious_gravel"]}),
+               match_tool(items_pred("brush"))])})),
+           tier="B", icon="brush", decoration="ADVANCEMENT")
     g.goal("EXPLODE_END_CRYSTAL", "Explode End Crystal", "引爆末地水晶",
            advancement(g.adv("end_crystal", {"c": crit("player_hurt_entity", entity={"type": "minecraft:end_crystal"})})),
            tier="S", icon="end_crystal", decoration="ADVANCEMENT")

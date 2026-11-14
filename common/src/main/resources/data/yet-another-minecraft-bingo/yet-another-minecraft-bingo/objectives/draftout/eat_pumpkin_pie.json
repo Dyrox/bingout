@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_pumpkin_pie",
@@ -8,6 +8,5 @@
     "item": "minecraft:pumpkin_pie",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:pumpkin_pie"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/pumpkin_pie"
 }

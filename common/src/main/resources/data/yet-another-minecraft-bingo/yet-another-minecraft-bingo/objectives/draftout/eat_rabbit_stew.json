@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_rabbit_stew",
@@ -8,6 +8,5 @@
     "item": "minecraft:rabbit_stew",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:rabbit_stew"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/rabbit_stew"
 }

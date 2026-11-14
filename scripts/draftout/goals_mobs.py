@@ -12,6 +12,23 @@ BREEDABLE = [
     "hoglin", "horse", "llama", "mooshroom", "ocelot", "panda", "pig", "rabbit", "sheep", "sniffer",
     "strider", "turtle", "wolf", "nautilus",
 ]
+# Items that can be eaten in 26.3 (items with a food component; fish buckets have one, but can't be eaten)
+EDIBLE_FOODS = [
+    "apple", "mushroom_stew", "bread", "porkchop", "cooked_porkchop", "golden_apple", "enchanted_golden_apple",
+    "cod", "salmon", "tropical_fish", "pufferfish", "cooked_cod", "cooked_salmon", "cookie", "melon_slice",
+    "dried_kelp", "beef", "cooked_beef", "chicken", "cooked_chicken", "rotten_flesh", "spider_eye", "carrot",
+    "potato", "baked_potato", "poisonous_potato", "golden_carrot", "pumpkin_pie", "rabbit", "cooked_rabbit",
+    "rabbit_stew", "mutton", "cooked_mutton", "chorus_fruit", "beetroot", "beetroot_soup", "suspicious_stew",
+    "sweet_berries", "glow_berries", "honey_bottle",
+]
+SOUPS = ["suspicious_stew", "mushroom_stew", "rabbit_stew", "beetroot_soup"]
+
+
+def consumed(item):
+    """Criterion for finishing eating/drinking an item (not planting, composting or otherwise using it)"""
+    return crit("consume_item", item=items_pred(item))
+
+
 FOODS_COMPOSTABLE = [
     "apple", "baked_potato", "beetroot", "bread", "carrot", "cookie", "dried_kelp", "glow_berries",
     "melon_slice", "potato", "pumpkin_pie", "sweet_berries",
@@ -224,8 +241,9 @@ def register(g: Gen, spy_mobs):
         ("DRINK_HONEY_BOTTLE", "honey_bottle", "蜂蜜瓶", "B"),
     ]:
         verb, vzh = ("Drink", "喝") if key.startswith("DRINK") else ("Eat", "吃")
-        g.goal(key, f"{verb} {title(food)}", f"{vzh}{zh}", stat("used", food), tier=tier, icon=food,
-               decoration="ADVANCEMENT")
+        # "used" statistics also count planting carrots, placing berries, composting, decorated pots, ...
+        g.goal(key, f"{verb} {title(food)}", f"{vzh}{zh}", advancement(g.adv(f"eat/{food}", {"c": consumed(food)})),
+               tier=tier, icon=food, decoration="ADVANCEMENT")
     g.goal("EAT_CAKE", "Eat a slice of Cake", "吃一块蛋糕", stat("custom", "eat_cake_slice"), tier="C", icon="cake",
            decoration="ADVANCEMENT")
     g.goal("DRINK_WATER_BOTTLE", "Drink Water Bottle", "喝水瓶",
@@ -234,8 +252,9 @@ def register(g: Gen, spy_mobs):
            tier="D", icon="potion", decoration="ADVANCEMENT",
            item_components={"minecraft:potion_contents": {"potion": "minecraft:water"}})
     g.goal("EAT_ALL_SOUPS", "Eat every type of Soup", "吃遍所有汤",
-           all_of([stat("used", f) for f in ["suspicious_stew", "mushroom_stew", "rabbit_stew", "beetroot_soup"]]),
+           advancement(g.adv("eat/all_soups", {f: consumed(f) for f in SOUPS})),
            tier="A", icon="rabbit_stew", decoration="ADVANCEMENT")
+    g.adv_counter("counter/food", {f: consumed(f) for f in EDIBLE_FOODS})
     for n, tier in [(5, "D"), (10, "C"), (15, "B"), (20, "A"), (25, "S")]:
         g.goal(f"EAT_{n}_UNIQUE_FOOD", f"Eat {n} Unique Food", f"吃 {n} 种食物", scoreboard("draftout_food", n),
                tier=tier, icon="cooked_beef", decoration="ADVANCEMENT")

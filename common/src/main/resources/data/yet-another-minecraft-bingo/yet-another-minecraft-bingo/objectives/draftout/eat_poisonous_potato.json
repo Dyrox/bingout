@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_poisonous_potato",
@@ -8,6 +8,5 @@
     "item": "minecraft:poisonous_potato",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:poisonous_potato"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/poisonous_potato"
 }

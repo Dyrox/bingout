@@ -1,0 +1,36 @@
+{
+  "criteria": {
+    "suspicious_stew": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:suspicious_stew"
+        }
+      }
+    },
+    "mushroom_stew": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:mushroom_stew"
+        }
+      }
+    },
+    "rabbit_stew": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:rabbit_stew"
+        }
+      }
+    },
+    "beetroot_soup": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:beetroot_soup"
+        }
+      }
+    }
+  }
+}

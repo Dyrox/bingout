@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.drink_honey_bottle",
@@ -8,6 +8,5 @@
     "item": "minecraft:honey_bottle",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:honey_bottle"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/honey_bottle"
 }

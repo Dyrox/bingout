@@ -1,5 +1,5 @@
 {
-  "type": "stats",
+  "type": "advancement",
   "display": {
     "name": {
       "translate": "bingo.objective.draftout.eat_beetroot_soup",
@@ -8,6 +8,5 @@
     "item": "minecraft:beetroot_soup",
     "decoration": "ADVANCEMENT"
   },
-  "statType": "minecraft:used",
-  "statName": "minecraft:beetroot_soup"
+  "advancement": "yet-another-minecraft-bingo:draftout/eat/beetroot_soup"
 }
