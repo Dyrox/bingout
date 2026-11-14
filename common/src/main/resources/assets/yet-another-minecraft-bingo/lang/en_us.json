@@ -976,5 +976,8 @@
   "bingo.objective.draftout.wear_unique_armor": "Wear Full Armor with different materials",
   "bingo.objective.draftout.wear_unique_colored_leather_armor": "Wear Full Leather Armor, in different colors",
   "bingo.options.mode_draftout": "Draftout",
-  "bingo.options.mode_draftout.tooltip": "Two teams take turns drafting the goals on the board before the game starts (Lockout, 13 goals to win)."
+  "bingo.options.mode_draftout.tooltip": "Two teams take turns drafting the goals on the board before the game starts (Lockout, 13 goals to win).",
+  "bingo.update.available": "A new version is available: %s (you have %s). ",
+  "bingo.update.download": "[Download]",
+  "bingo.update.download.tooltip": "Open the release page on GitHub"
 }

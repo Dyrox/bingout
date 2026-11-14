@@ -976,5 +976,8 @@
   "bingo.objective.draftout.wear_unique_armor": "穿戴四种不同材质的全套盔甲",
   "bingo.objective.draftout.wear_unique_colored_leather_armor": "穿戴四种不同颜色的全套皮革盔甲",
   "bingo.options.mode_draftout": "Draftout 轮选",
-  "bingo.options.mode_draftout.tooltip": "开局前两队轮流选择棋盘上的目标（锁定模式，先拿 13 格获胜）。"
+  "bingo.options.mode_draftout.tooltip": "开局前两队轮流选择棋盘上的目标（锁定模式，先拿 13 格获胜）。",
+  "bingo.update.available": "有新版本可用：%s（当前 %s）。",
+  "bingo.update.download": "[点击下载]",
+  "bingo.update.download.tooltip": "打开 GitHub 发布页面"
 }

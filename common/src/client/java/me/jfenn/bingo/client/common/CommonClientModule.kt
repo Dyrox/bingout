@@ -1,5 +1,6 @@
 package me.jfenn.bingo.client.common
 
+import me.jfenn.bingo.client.common.update.UpdateCheckController
 import me.jfenn.bingo.client.common.draft.BingoutDraftController
 import me.jfenn.bingo.client.common.hud.*
 import me.jfenn.bingo.client.common.hud.card.CardTileRenderer
@@ -68,4 +69,5 @@ val commonClientModule = module {
     } bind IJeiApi::class
 
     singleOf(::ResourcePackInit) withOptions { createdAtStart() }
+    singleOf(::UpdateCheckController) withOptions { createdAtStart() }
 }

@@ -9,6 +9,8 @@ import me.jfenn.bingo.platform.EntityHitResult
 import me.jfenn.bingo.platform.HitResult
 import me.jfenn.bingo.platform.block.BlockPosition
 import me.jfenn.bingo.platform.text.IText
+import me.jfenn.bingo.common.MOD_ID_BINGO
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import org.joml.Vector2i
@@ -23,6 +25,12 @@ class ClientImpl : IClient {
         get() = FontImpl(client.font)
 
     override val player: IClientPlayer = PlayerImpl()
+
+    override val modVersion: String? by lazy {
+        FabricLoader.getInstance().getModContainer(MOD_ID_BINGO)
+            .map { it.metadata.version.friendlyString }
+            .orElse(null)
+    }
 
     override val isInSingleplayer: Boolean
         get() = client.isLocalServer
@@ -60,6 +68,9 @@ class ClientImpl : IClient {
     inner class PlayerImpl : IClientPlayer {
         override fun sendHotbarMessage(text: IText) {
             client.player?.sendOverlayMessage(text.value)
+        }
+        override fun sendChatMessage(text: IText) {
+            client.player?.sendSystemMessage(text.value)
         }
         override fun sendCommand(command: String) {
             client.player?.connection?.sendCommand(

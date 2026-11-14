@@ -16,4 +16,6 @@ interface IClient {
     fun execute(callback: () -> Unit)
     val executor: Executor
     fun lookingAt(): HitResult?
+    /** The installed version of the mod, e.g. "2.16.8-build.ci-18-1+mc26.3" */
+    val modVersion: String? get() = null
 }
