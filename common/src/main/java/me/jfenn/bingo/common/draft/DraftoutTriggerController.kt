@@ -19,6 +19,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.resources.Identifier
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.ServerAdvancementManager
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
 import net.minecraft.tags.EntityTypeTags
@@ -142,12 +143,30 @@ internal class DraftoutTriggerController(
 
     private val baselines = mutableMapOf<UUID, Baseline>()
     private val playerStates = mutableMapOf<UUID, PlayerState>()
-    private val scoreHandles = mutableMapOf<String, IObjectiveHandle>()
     private var tickCount = 0
 
+    /**
+     * A value derived from the server's advancements, recomputed when they change (data pack reload):
+     * the controller lives as long as the server, so cached advancement holders could otherwise go stale.
+     */
+    private inner class AdvancementCache<T>(private val compute: (ServerAdvancementManager) -> T) {
+        private var source: ServerAdvancementManager? = null
+        private var value: T? = null
+
+        fun get(): T {
+            val current = server.advancements
+            @Suppress("UNCHECKED_CAST")
+            if (source !== current || value == null) {
+                value = compute(current)
+                source = current
+            }
+            return value as T
+        }
+    }
+
     /** Vanilla advancements counted by "Get N Advancements" (displayed, non-recipe) */
-    private val countedAdvancements by lazy {
-        server.advancements.allAdvancements.filter { holder ->
+    private val countedAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements.filter { holder ->
             holder.id.namespace == "minecraft" &&
                     !holder.id.path.startsWith("recipes/") &&
                     holder.value.display.isPresent
@@ -177,13 +196,16 @@ internal class DraftoutTriggerController(
     private fun entityId(type: EntityType<*>?): String? = type?.let { BuiltInRegistries.ENTITY_TYPE.getKey(it).toString() }
     private fun entityId(entity: Entity?): String? = entityId(entity?.type)
 
+    /**
+     * The counter's scoreboard objective, looked up by name each time: resetting the worlds between rounds removes
+     * all scoreboard objectives, so a handle kept from an earlier round would point to a deleted objective
+     * (scores written to it were never seen by the card - every counter stayed at 0 from the second round on).
+     */
     private fun score(name: String): IObjectiveHandle? {
-        return scoreHandles.getOrPut(name) {
-            runCatching { scoreboardManager.createDummyObjective(name) }
+        return scoreboardManager.getByName(name)
+            ?: runCatching { scoreboardManager.createDummyObjective(name) }
                 .onFailure { log.error("[DraftoutTriggerController] Unable to create scoreboard $name", it) }
                 .getOrNull()
-                ?: return null
-        }
     }
 
     private fun setScore(player: IPlayerHandle, name: String, value: Int) {
@@ -207,8 +229,8 @@ internal class DraftoutTriggerController(
      * "draftout/mine/..." advancements, by the block criteria they contain (e.g. "obsidian" -> mine/obsidian).
      * Mining goals count any break by the player, regardless of the tool (like Draftout).
      */
-    private val mineAdvancements by lazy {
-        server.advancements.allAdvancements
+    private val mineAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements
             .filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/mine/") }
             .flatMap { holder -> holder.value.criteria().keys.map { it to holder } }
             .groupBy({ it.first }, { it.second })
@@ -216,7 +238,7 @@ internal class DraftoutTriggerController(
 
     private fun onBlockBroken(player: ServerPlayer, blockId: String) {
         val criterion = blockId.removePrefix("minecraft:")
-        for (holder in mineAdvancements[criterion].orEmpty()) {
+        for (holder in mineAdvancementsCache.get()[criterion].orEmpty()) {
             player.advancements.award(holder, criterion)
         }
     }
@@ -438,8 +460,8 @@ internal class DraftoutTriggerController(
      * has done, like the counters: each criterion is shared with the online teammates, so the goal completes
      * once the team has covered all of them. (Counters are combined through their scores instead.)
      */
-    private val teamAdvancements by lazy {
-        server.advancements.allAdvancements.filter { holder ->
+    private val teamAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements.filter { holder ->
             holder.id.namespace == MOD_ID_BINGO && holder.id.path.startsWith("draftout/") &&
                 !holder.id.path.startsWith("draftout/counter/") && holder.value.requirements().size() > 1
         }
@@ -449,7 +471,7 @@ internal class DraftoutTriggerController(
         for (team in state.getRegisteredTeams()) {
             val online = team.players.mapNotNull { playerManager.getPlayer(it.uuid)?.player }
             if (online.size < 2) continue
-            for (holder in teamAdvancements) {
+            for (holder in teamAdvancementsCache.get()) {
                 val done = online.flatMap { it.advancements.getOrStartProgress(holder).completedCriteria }.toSet()
                 for (player in online) {
                     val progress = player.advancements.getOrStartProgress(holder)
@@ -506,7 +528,7 @@ internal class DraftoutTriggerController(
         setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes, baseline.mobKills), showCounts = true)
         setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes, baseline.arthropodKills), showCounts = true)
 
-        setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancements
+        setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancementsCache.get()
             .filter { player.advancements.getOrStartProgress(it).isDone }
             .associate { it.id.toString() to 1 })
     }

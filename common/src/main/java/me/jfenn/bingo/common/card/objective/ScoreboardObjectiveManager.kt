@@ -10,6 +10,7 @@ import me.jfenn.bingo.common.card.objective.display.ObjectiveDisplay.Companion.F
 import me.jfenn.bingo.common.card.objective.display.ObjectiveDisplay.Companion.FORMAT_MIN
 import me.jfenn.bingo.common.card.objective.display.ObjectiveDisplayService
 import me.jfenn.bingo.common.data.ScopedData
+import me.jfenn.bingo.common.draft.DraftoutTriggerController
 import me.jfenn.bingo.common.state.BingoState
 import me.jfenn.bingo.common.text.TextProvider
 import me.jfenn.bingo.common.utils.formatTitle
@@ -47,10 +48,22 @@ internal class ScoreboardObjectiveManager(
         ).takeIf { init(it) }
     }
 
+    /**
+     * Creates the counters of the draftout goals if they are missing: resetting the worlds between rounds removes
+     * all scoreboard objectives, and the next card can be generated before DraftoutTriggerController recreates them.
+     */
+    private fun createOwnScoreboard(name: String): IObjectiveHandle? {
+        if (name !in DraftoutTriggerController.SCORES) return null
+        return runCatching { scoreboardManager.createDummyObjective(name) }
+            .onFailure { log.error("[ScoreboardObjectiveManager] Unable to create scoreboard $name", it) }
+            .getOrNull()
+    }
+
     private fun init(objective: BingoObjective): Boolean {
         if (objective !is BingoObjective.ScoreboardEntry) return false
 
         val scoreboard = scoreboardManager.getByName(objective.data.scoreboardName)
+            ?: createOwnScoreboard(objective.data.scoreboardName)
 
         if (scoreboard == null) {
             log.objectiveError(objective.id, "Could not find scoreboard ${objective.data.scoreboardName} - is it not created yet?")
