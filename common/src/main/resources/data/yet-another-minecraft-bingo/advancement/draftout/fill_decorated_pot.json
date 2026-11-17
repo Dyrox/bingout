@@ -1,38 +1,7 @@
 {
   "criteria": {
-    "c0": {
-      "trigger": "minecraft:item_used_on_block",
-      "conditions": {
-        "location": {
-          "type": "minecraft:location_check",
-          "predicate": {
-            "block": {
-              "blocks": "minecraft:decorated_pot",
-              "nbt": "{item:{count:64}}"
-            }
-          }
-        }
-      }
-    },
-    "c1": {
-      "trigger": "minecraft:item_used_on_block",
-      "conditions": {
-        "location": {
-          "type": "minecraft:location_check",
-          "predicate": {
-            "block": {
-              "blocks": "minecraft:decorated_pot",
-              "nbt": "{item:{count:16}}"
-            }
-          }
-        }
-      }
+    "granted": {
+      "trigger": "minecraft:impossible"
     }
-  },
-  "requirements": [
-    [
-      "c0",
-      "c1"
-    ]
-  ]
+  }
 }

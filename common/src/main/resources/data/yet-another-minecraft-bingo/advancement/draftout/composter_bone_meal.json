@@ -7,10 +7,7 @@
           "type": "minecraft:location_check",
           "predicate": {
             "block": {
-              "blocks": "minecraft:composter",
-              "state": {
-                "level": "8"
-              }
+              "blocks": "minecraft:composter"
             }
           }
         }

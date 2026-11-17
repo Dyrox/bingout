@@ -111,6 +111,19 @@ internal class DraftoutTriggerController(
          * Called by the workstation mixins when a player takes the output of a stonecutter, anvil, grindstone,
          * loom, smithing table or cartography table (just opening the block doesn't count, like Draftout).
          */
+        /** Called by the decorated pot mixin after a player put an item into a pot */
+        @JvmStatic
+        fun onDecoratedPotFilled(player: Player, item: ItemStack) {
+            val serverPlayer = player as? ServerPlayer ?: return
+            val controller = instance ?: return
+            // "full" like Draftout: as many items as the item stacks to (64, 16 or 1)
+            if (item.isEmpty || item.count < item.maxStackSize) return
+            if (controller.state.state != GameState.PLAYING) return
+            val handle = controller.playerManager.getPlayer(serverPlayer.uuid) ?: return
+            if (!controller.teamService.isPlaying(handle)) return
+            controller.grant(serverPlayer, "fill_decorated_pot")
+        }
+
         @JvmStatic
         fun onWorkstationResultTaken(player: Player) {
             val serverPlayer = player as? ServerPlayer ?: return

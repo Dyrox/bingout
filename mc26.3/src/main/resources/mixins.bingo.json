@@ -6,6 +6,7 @@
     "mixins": [
         "BlockableEventLoopAccessor",
         "ChunkMapAccessor",
+        "DecoratedPotBlockMixin",
         "DistanceManagerAccessor",
         "EndPortalBlockMixin",
         "FoodDataAccessor",

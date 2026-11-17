@@ -167,9 +167,10 @@ def register(g: Gen):
            one_of([stat("custom", s) for s in ["tune_noteblock", "play_noteblock"]]), tier="D", icon="note_block",
            decoration="ADVANCEMENT")
     g.goal("USE_COMPOSTER", "Fill Composter and get Bone Meal", "填满堆肥桶并取出骨粉",
+           # a composter only counts as "used" (any_block_use) when taking out its bone meal; the trigger runs
+           # after that, when its level is already back to 0, so the location can't require level 8
            advancement(g.adv("composter_bone_meal", {"c": crit("any_block_use", location=[
-               loc_check({
-                   "blocks": "minecraft:composter", "state": {"level": "8"}})])})),
+               loc_check({"blocks": "minecraft:composter"})])})),
            tier="C", icon="composter", decoration="ADVANCEMENT")
     g.goal("LOCK_MAP", "Lock a Map using Cartography Table", "用制图台锁定地图",
            advancement(g.adv_impossible("lock_map")), tier="B", icon="filled_map", decoration="ADVANCEMENT")
@@ -182,10 +183,8 @@ def register(g: Gen):
                                                          "nbt": "{Items:[{Slot:0b},{Slot:1b},{Slot:2b},{Slot:3b}]}"})})),
            tier="C", icon="campfire", decoration="ADVANCEMENT")
     g.goal("FILL_DECORATED_POT", "Fill a Decorated Pot", "装满饰纹陶罐",
-           advancement(g.adv_any("fill_decorated_pot", [
-               ubo({"blocks": "minecraft:decorated_pot", "nbt": "{item:{count:64}}"}),
-               ubo({"blocks": "minecraft:decorated_pot", "nbt": "{item:{count:16}}"}),
-           ])), tier="C", icon="decorated_pot", decoration="ADVANCEMENT")
+           # full = the item's own max stack size (64, 16 or 1), checked by the decorated pot mixin
+           advancement(g.adv_impossible("fill_decorated_pot")), tier="C", icon="decorated_pot", decoration="ADVANCEMENT")
     g.goal("FILL_INVENTORY_UNIQUE_ITEMS", "Fill Inventory with unique items", "用 36 种不同物品填满背包",
            advancement(g.adv_impossible("fill_inventory_unique")), tier="A", icon="chest", decoration="ADVANCEMENT")
     g.goal("OBTAIN_STACK_OF_64", "Obtain a stack of any Item", "获得一组 64 个物品",
