@@ -26,6 +26,7 @@ import me.jfenn.bingo.platform.block.BlockPosition
 import me.jfenn.bingo.platform.event.IEventBus
 import me.jfenn.bingo.platform.text.Formatting
 import me.jfenn.bingo.platform.text.IText
+import me.jfenn.bingo.common.draft.DraftoutPlayerData
 import me.jfenn.bingo.platform.utils.UuidAsString
 import java.time.Duration
 import java.util.*
@@ -66,6 +67,8 @@ data class BingoState internal constructor(
      * (in PlayerController)
      */
     val players: MutableMap<UuidAsString, PlayerState> = mutableMapOf(),
+    /** Draftout counter state of each player (DraftoutTriggerController) */
+    internal val draftoutPlayers: MutableMap<UuidAsString, DraftoutPlayerData> = mutableMapOf(),
     /**
      * Stores players that have opted into spectating with "/join spectators"
      * (will not be warned when starting the game, do not block ready-up)

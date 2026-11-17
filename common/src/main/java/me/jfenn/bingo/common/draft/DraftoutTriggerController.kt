@@ -123,25 +123,8 @@ internal class DraftoutTriggerController(
         }
     }
 
-    /** Statistics recorded for each player at the start of the game (so that counts are relative) */
-    private class Baseline(
-        val crafted: Map<Item, Int>,
-        val undeadKills: Map<EntityType<*>, Int>,
-        val arthropodKills: Map<EntityType<*>, Int>,
-        val mobKills: Map<EntityType<*>, Int>,
-    )
-
-    private class PlayerState {
-        var maxEffects = 0
-        var maxEffectIds = emptyMap<String, Int>()
-        var pumpkinTicks = 0
-        var maxLeashed = 0
-        var maxLeashedIds = emptyMap<String, Int>()
-        var lastDimension: String? = null
-    }
-
-    private val baselines = mutableMapOf<UUID, Baseline>()
-    private val playerStates = mutableMapOf<UUID, PlayerState>()
+    /** Saved with the game state, so that counters survive reloading the world / restarting the server */
+    private val playerStates get() = state.draftoutPlayers
     private var tickCount = 0
 
     /**
@@ -260,13 +243,13 @@ internal class DraftoutTriggerController(
         return state.cards.any { card -> card.objectives.keys.any { it.startsWith(DRAFTOUT_PREFIX) } }
     }
 
-    private fun createBaseline(player: ServerPlayer): Baseline {
+    private fun createBaseline(player: ServerPlayer): DraftoutPlayerData.Baseline {
         val stats = player.stats
-        return Baseline(
-            crafted = BuiltInRegistries.ITEM.associateWith { stats.getValue(Stats.ITEM_CRAFTED, it) }.filterValues { it > 0 },
-            undeadKills = undeadTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
-            arthropodKills = arthropodTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
-            mobKills = mobTypes.associateWith { stats.getValue(Stats.ENTITY_KILLED, it) },
+        return DraftoutPlayerData.Baseline(
+            crafted = BuiltInRegistries.ITEM.associate { BuiltInRegistries.ITEM.getKey(it).toString() to stats.getValue(Stats.ITEM_CRAFTED, it) }
+                .filterValues { it > 0 },
+            kills = mobTypes.associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) }
+                .filter { (id, count) -> id.isNotEmpty() && count > 0 },
         )
     }
 
@@ -313,7 +296,7 @@ internal class DraftoutTriggerController(
         return path.removeSuffix(suffix)
     }
 
-    private fun checkEquipment(player: ServerPlayer, playerState: PlayerState) {
+    private fun checkEquipment(player: ServerPlayer, playerState: DraftoutPlayerData) {
         val armor = ARMOR_SLOTS.map { player.getItemBySlot(it) }
 
         // 4 different armor materials
@@ -352,7 +335,7 @@ internal class DraftoutTriggerController(
         if (player.cooldowns.isOnCooldown(ItemStack(Items.SHIELD))) grant(player, "shield_disabled")
     }
 
-    private fun checkNearbyEntities(player: ServerPlayer, playerState: PlayerState) {
+    private fun checkNearbyEntities(player: ServerPlayer, playerState: DraftoutPlayerData) {
         val level = player.level()
         val nearby = level.getEntities(player, AABB(player.blockPosition()).inflate(64.0))
 
@@ -390,7 +373,7 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun checkMisc(player: ServerPlayer, playerState: PlayerState) {
+    private fun checkMisc(player: ServerPlayer, playerState: DraftoutPlayerData) {
         if (player.foodData.foodLevel <= 0) grant(player, "empty_hunger")
 
         updateMaxEffects(player, playerState)
@@ -406,7 +389,7 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun checkDimension(player: ServerPlayer, playerState: PlayerState) {
+    private fun checkDimension(player: ServerPlayer, playerState: DraftoutPlayerData) {
         val dimension = player.level().dimension().toString()
         val previous = playerState.lastDimension
         playerState.lastDimension = dimension
@@ -421,7 +404,7 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun updateMaxEffects(player: ServerPlayer, playerState: PlayerState) {
+    private fun updateMaxEffects(player: ServerPlayer, playerState: DraftoutPlayerData) {
         val effects = player.activeEffects
         if (effects.size > playerState.maxEffects) {
             playerState.maxEffects = effects.size
@@ -492,7 +475,7 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun updateScores(handle: IPlayerHandle, player: ServerPlayer, playerState: PlayerState, includeSlow: Boolean) {
+    private fun updateScores(handle: IPlayerHandle, player: ServerPlayer, playerState: DraftoutPlayerData, includeSlow: Boolean) {
         setCounter(handle, SCORE_BRED, completedCriteria(player, "counter/bred"))
         setCounter(handle, SCORE_SPY, completedCriteria(player, "counter/spy"))
         setCounter(handle, SCORE_COMPOST, completedCriteria(player, "counter/compost"))
@@ -507,21 +490,21 @@ internal class DraftoutTriggerController(
 
         if (!includeSlow) return
 
-        val baseline = baselines.getOrPut(player.uuid) { createBaseline(player) }
+        val baseline = playerState.baseline ?: createBaseline(player).also { playerState.baseline = it }
         val stats = player.stats
 
         fun itemId(item: Item) = BuiltInRegistries.ITEM.getKey(item).toString()
 
         setCounter(handle, SCORE_CRAFTED, BuiltInRegistries.ITEM
-            .filter { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[it] ?: 0) }
+            .filter { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[itemId(it)] ?: 0) }
             .associate { itemId(it) to 1 })
 
-        fun kills(types: List<EntityType<*>>, base: Map<EntityType<*>, Int>) = types
-            .associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) - (base[it] ?: 0) }
+        fun kills(types: List<EntityType<*>>) = types
+            .associate { type -> (entityId(type) ?: "").let { id -> id to stats.getValue(Stats.ENTITY_KILLED, type) - (baseline.kills[id] ?: 0) } }
             .filter { (id, count) -> id.isNotEmpty() && count > 0 }
-        setCounter(handle, SCORE_UNDEAD, kills(undeadTypes, baseline.undeadKills), showCounts = true)
-        setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes, baseline.mobKills), showCounts = true)
-        setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes, baseline.arthropodKills), showCounts = true)
+        setCounter(handle, SCORE_UNDEAD, kills(undeadTypes), showCounts = true)
+        setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes), showCounts = true)
+        setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes), showCounts = true)
 
         setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancementsCache.get()
             .filter { player.advancements.getOrStartProgress(it).isDone }
@@ -530,7 +513,6 @@ internal class DraftoutTriggerController(
 
     private fun resetPlayers() {
         details.clear()
-        baselines.clear()
         playerStates.clear()
         for (player in playerManager.getPlayers()) {
             for (name in SCORES) setScore(player, name, 0)
@@ -547,8 +529,9 @@ internal class DraftoutTriggerController(
         for (name in SCORES) score(name)
 
         events.onEnter(GameState.PLAYING) { from ->
-            // don't reset when resuming a game from POSTGAME
-            if (from != GameState.POSTGAME) resetPlayers()
+            // only reset when a new game starts: not when resuming from POSTGAME, nor when the state is re-entered
+            // after loading the world / restarting the server (PLAYING -> PLAYING), which used to clear the counters
+            if (from != GameState.POSTGAME && from != GameState.PLAYING) resetPlayers()
         }
 
         events.onGameTick {
@@ -563,7 +546,7 @@ internal class DraftoutTriggerController(
                 if (!teamService.isPlaying(handle)) continue
                 val player = handle.player
                 if (!player.isAlive) continue
-                val playerState = playerStates.getOrPut(player.uuid) { PlayerState() }
+                val playerState = playerStates.getOrPut(player.uuid) { DraftoutPlayerData() }
 
                 try {
                     if (runChecks) {
