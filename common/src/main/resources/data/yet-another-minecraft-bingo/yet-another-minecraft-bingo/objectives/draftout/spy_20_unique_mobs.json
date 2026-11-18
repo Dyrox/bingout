@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_spy",
-  "min": 20
+  "min": 20,
+  "permanent": true
 }

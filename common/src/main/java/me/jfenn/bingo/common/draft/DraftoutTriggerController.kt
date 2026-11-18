@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
 import net.minecraft.tags.EntityTypeTags
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
@@ -103,6 +104,7 @@ internal class DraftoutTriggerController(
         private const val CHECK_INTERVAL = 5
         private val ARMOR_SLOTS = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
         private val ARMOR_SUFFIXES = listOf("_helmet", "_chestplate", "_leggings", "_boots")
+        private val ARMOR_MATERIALS = setOf("leather", "chainmail", "copper", "golden", "iron", "diamond", "netherite")
 
         /** The controller of the running game, for the mixin hooks below */
         private var instance: DraftoutTriggerController? = null
@@ -111,6 +113,26 @@ internal class DraftoutTriggerController(
          * Called by the workstation mixins when a player takes the output of a stonecutter, anvil, grindstone,
          * loom, smithing table or cartography table (just opening the block doesn't count, like Draftout).
          */
+        /**
+         * Called by the name tag mixin after a player named a mob: "Name a Sheep 'jeb_'", "Name a Ghast 'Dinnerbone'"
+         * (only the player who used the name tag, like Draftout - not everyone near a named mob)
+         */
+        @JvmStatic
+        fun onNameTagUsed(player: Player, target: Entity) {
+            val serverPlayer = player as? ServerPlayer ?: return
+            val controller = instance ?: return
+            if (controller.state.state != GameState.PLAYING) return
+            val handle = controller.playerManager.getPlayer(serverPlayer.uuid) ?: return
+            if (!controller.teamService.isPlaying(handle)) return
+            val name = target.customName?.string ?: return
+            val type = controller.entityId(target) ?: return
+            if (name == "Dinnerbone" || name == "Grumm") {
+                if (type == "minecraft:iron_golem") controller.grant(serverPlayer, "name_iron_golem_dinnerbone")
+                if (type == "minecraft:ghast") controller.grant(serverPlayer, "name_ghast_dinnerbone")
+            }
+            if (name == "jeb_" && type == "minecraft:sheep") controller.grant(serverPlayer, "name_sheep_jeb")
+        }
+
         /** Called by the decorated pot mixin after a player put an item into a pot */
         @JvmStatic
         fun onDecoratedPotFilled(player: Player, item: ItemStack) {
@@ -302,11 +324,16 @@ internal class DraftoutTriggerController(
 
     // ---------- per-tick checks ----------
 
-    private fun armorMaterial(stack: ItemStack): String? {
+    /**
+     * The material of an armor piece worn in the slot ARMOR_SLOTS[slot] (e.g. "iron" for iron_chestplate), or null
+     * for anything that isn't a real armor piece of that slot (elytra, carved pumpkin, heads, ...)
+     */
+    private fun armorMaterial(stack: ItemStack, slot: Int): String? {
         if (stack.isEmpty) return null
         val path = BuiltInRegistries.ITEM.getKey(stack.item).path
-        val suffix = ARMOR_SUFFIXES.find { path.endsWith(it) } ?: return path
-        return path.removeSuffix(suffix)
+        val suffix = ARMOR_SUFFIXES[slot]
+        if (!path.endsWith(suffix)) return null
+        return path.removeSuffix(suffix).takeIf { it in ARMOR_MATERIALS }
     }
 
     private fun checkEquipment(player: ServerPlayer, playerState: DraftoutPlayerData) {
@@ -314,7 +341,7 @@ internal class DraftoutTriggerController(
 
         // 4 different armor materials
         if (armor.none { it.isEmpty }) {
-            val materials = armor.mapNotNull { armorMaterial(it) }.toSet()
+            val materials = armor.mapIndexedNotNull { slot, stack -> armorMaterial(stack, slot) }.toSet()
             if (materials.size == 4) grant(player, "wear_unique_armor")
         }
 
@@ -367,13 +394,6 @@ internal class DraftoutTriggerController(
             }
 
             if (entity.distanceToSqr(player) < 16.0 * 16.0) {
-                val name = entity.customName?.string
-                if (name == "Dinnerbone" || name == "Grumm") {
-                    if (type == "minecraft:iron_golem") grant(player, "name_iron_golem_dinnerbone")
-                    if (type == "minecraft:ghast") grant(player, "name_ghast_dinnerbone")
-                }
-                if (name == "jeb_" && type == "minecraft:sheep") grant(player, "name_sheep_jeb")
-
                 if (entity is FireworkRocketEntity && entity.isShotAtAngle && entity.owner == player) {
                     grant(player, "crossbow_firework")
                 }
@@ -418,7 +438,9 @@ internal class DraftoutTriggerController(
     }
 
     private fun updateMaxEffects(player: ServerPlayer, playerState: DraftoutPlayerData) {
+        // the infinite night vision given by Bingo's "Night Vision" feature doesn't count
         val effects = player.activeEffects
+            .filterNot { it.isInfiniteDuration && it.effect == MobEffects.NIGHT_VISION }
         if (effects.size > playerState.maxEffects) {
             playerState.maxEffects = effects.size
             playerState.maxEffectIds = effects

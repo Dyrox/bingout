@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_undead",
-  "min": 30
+  "min": 30,
+  "permanent": true
 }

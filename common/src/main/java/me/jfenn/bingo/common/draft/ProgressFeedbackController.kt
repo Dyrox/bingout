@@ -74,6 +74,8 @@ internal class ProgressFeedbackController(
             val objective = card.objectives[entry.objectiveId] ?: continue
             if (!seen.add(objective.id) || !isCountedGoal(objective)) continue
             if (objective.hasTeamAchieved(team.key)) continue
+            // in lockout, a goal taken by another team can't be completed anymore
+            if (card.options.isLockoutMode && objective.hasAnyAchieved()) continue
 
             val (count, target) = cardViewService.getProgressCount(team, objective, card) ?: continue
             val key = team.key to objective.id

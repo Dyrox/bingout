@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_crafted",
-  "min": 100
+  "min": 100,
+  "permanent": true
 }

@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_pumpkin",
-  "min": 300
+  "min": 300,
+  "permanent": true
 }

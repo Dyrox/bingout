@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_food",
-  "min": 5
+  "min": 5,
+  "permanent": true
 }

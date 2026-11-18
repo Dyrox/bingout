@@ -262,7 +262,9 @@ def advancement(adv_id):
 
 
 def scoreboard(name, min_):
-    return {"type": "scoreboard", "scoreboardName": name, "min": min_}
+    # permanent: a completed counter goal stays completed even if the score drops later (e.g. a teammate switches
+    # teams); otherwise the lockout tile would be taken back (scoreboard goals don't retain captures by default)
+    return {"type": "scoreboard", "scoreboardName": name, "min": min_, "permanent": True}
 
 
 # ---------- advancement criteria builders ----------

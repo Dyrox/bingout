@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_mob_kills",
-  "min": 100
+  "min": 100,
+  "permanent": true
 }

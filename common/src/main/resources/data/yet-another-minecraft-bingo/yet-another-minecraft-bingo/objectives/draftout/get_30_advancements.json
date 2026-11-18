@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_advancements",
-  "min": 30
+  "min": 30,
+  "permanent": true
 }

@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_effects",
-  "min": 4
+  "min": 4,
+  "permanent": true
 }

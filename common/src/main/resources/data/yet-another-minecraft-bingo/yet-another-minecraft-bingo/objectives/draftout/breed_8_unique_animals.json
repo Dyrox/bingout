@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_bred",
-  "min": 8
+  "min": 8,
+  "permanent": true
 }

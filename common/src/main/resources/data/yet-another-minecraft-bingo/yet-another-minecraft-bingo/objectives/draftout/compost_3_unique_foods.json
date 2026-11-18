@@ -11,5 +11,6 @@
     "itemStyle": "NORMAL"
   },
   "scoreboardName": "draftout_compost",
-  "min": 3
+  "min": 3,
+  "permanent": true
 }
