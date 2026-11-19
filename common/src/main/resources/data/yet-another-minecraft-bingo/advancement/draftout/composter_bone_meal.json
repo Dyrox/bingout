@@ -1,7 +1,7 @@
 {
   "criteria": {
     "c": {
-      "trigger": "minecraft:any_block_use",
+      "trigger": "minecraft:default_block_use",
       "conditions": {
         "location": {
           "type": "minecraft:location_check",

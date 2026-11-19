@@ -285,6 +285,11 @@ internal class DraftoutTriggerController(
                 .filterValues { it > 0 },
             kills = mobTypes.associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) }
                 .filter { (id, count) -> id.isNotEmpty() && count > 0 },
+            // vanilla advancements are only reset by Bingo in lobby mode
+            advancements = countedAdvancementsCache.get()
+                .filter { player.advancements.getOrStartProgress(it).isDone }
+                .map { it.id.toString() }
+                .toSet(),
         )
     }
 
@@ -542,14 +547,31 @@ internal class DraftoutTriggerController(
         setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes), showCounts = true)
 
         setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancementsCache.get()
-            .filter { player.advancements.getOrStartProgress(it).isDone }
+            .filter { it.id.toString() !in baseline.advancements && player.advancements.getOrStartProgress(it).isDone }
             .associate { it.id.toString() to 1 })
+    }
+
+    /** All hidden draftout advancements (counters and goals granted by code or data) */
+    private val draftoutAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements.filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/") }
+    }
+
+    /**
+     * Clears the player's draftout progress from a previous game. Bingo only resets players' advancements in lobby
+     * mode; without a lobby (or for players joining later) "Eat 15 Unique Food" & co. were completed right away.
+     */
+    private fun revokeDraftoutAdvancements(player: ServerPlayer) {
+        for (holder in draftoutAdvancementsCache.get()) {
+            val progress = player.advancements.getOrStartProgress(holder)
+            for (criterion in progress.completedCriteria.toList()) player.advancements.revoke(holder, criterion)
+        }
     }
 
     private fun resetPlayers() {
         details.clear()
         playerStates.clear()
         for (player in playerManager.getPlayers()) {
+            revokeDraftoutAdvancements(player.player)
             for (name in SCORES) setScore(player, name, 0)
         }
     }
@@ -562,6 +584,19 @@ internal class DraftoutTriggerController(
 
         // create the scoreboards up front, so that "scoreboard" objectives can find them
         for (name in SCORES) score(name)
+
+        // a new game: reset before the countdown, so that nothing from the previous game is on the new card
+        // when it starts being checked
+        events.onEnter(GameState.COUNTDOWN) { from ->
+            if (from != GameState.COUNTDOWN) resetPlayers()
+        }
+
+        // players that weren't there when the game started (and had no progress in it yet)
+        events.onPlayerJoin { (player) ->
+            if (state.state != GameState.PLAYING && state.state != GameState.COUNTDOWN) return@onPlayerJoin
+            if (playerStates.containsKey(player.uuid)) return@onPlayerJoin
+            revokeDraftoutAdvancements(player.player)
+        }
 
         events.onEnter(GameState.PLAYING) { from ->
             // only reset when a new game starts: not when resuming from POSTGAME, nor when the state is re-entered

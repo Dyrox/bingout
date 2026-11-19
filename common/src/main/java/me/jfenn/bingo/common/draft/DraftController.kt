@@ -12,6 +12,7 @@ import me.jfenn.bingo.common.MOD_ID_BINGO
 import me.jfenn.bingo.common.card.BingoCard
 import me.jfenn.bingo.common.card.CardGeneratorState
 import me.jfenn.bingo.common.card.CardService
+import me.jfenn.bingo.common.card.data.ObjectiveData
 import me.jfenn.bingo.common.card.filter.ObjectiveFilterList
 import me.jfenn.bingo.common.card.objective.BingoObjectiveManager
 import me.jfenn.bingo.common.card.objective.display.ObjectiveDisplay
@@ -124,9 +125,15 @@ internal class DraftController(
             return mutableListOf()
         }
 
+        // like Bingo's own cards: leave out advancements that a player has already made (they would be completed
+        // right away when players aren't reset between games, e.g. without a lobby)
+        val excluded = objectiveManager.listExcludedIds().toSet()
+        fun isExcluded(id: String) = id in excluded ||
+            (data.objectives[id] as? ObjectiveData.Advancement)?.advancement?.let { it in excluded } == true
+
         val all = (tierList.values + tierList.s + tierList.a + tierList.b + tierList.c + tierList.d)
             .map { it.item }
-            .filter { it != PLACEHOLDER_ID }
+            .filter { it != PLACEHOLDER_ID && !isExcluded(it) }
             .toMutableSet()
 
         // only allow one (random) variant of each group, e.g. one "Obtain 64 <color> Wool"

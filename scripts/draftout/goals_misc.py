@@ -167,9 +167,11 @@ def register(g: Gen):
            one_of([stat("custom", s) for s in ["tune_noteblock", "play_noteblock"]]), tier="D", icon="note_block",
            decoration="ADVANCEMENT")
     g.goal("USE_COMPOSTER", "Fill Composter and get Bone Meal", "填满堆肥桶并取出骨粉",
-           # a composter only counts as "used" (any_block_use) when taking out its bone meal; the trigger runs
-           # after that, when its level is already back to 0, so the location can't require level 8
-           advancement(g.adv("composter_bone_meal", {"c": crit("any_block_use", location=[
+           # "empty a full Composter and collect its Bone Meal" (Draftout wiki). default_block_use only fires for
+           # an empty-hand style use that does something, which for a composter is only taking out the bone meal
+           # (any_block_use also fires when putting items in). It runs after the composter was emptied, so the
+           # location can't require level 8.
+           advancement(g.adv("composter_bone_meal", {"c": crit("default_block_use", location=[
                loc_check({"blocks": "minecraft:composter"})])})),
            tier="C", icon="composter", decoration="ADVANCEMENT")
     g.goal("LOCK_MAP", "Lock a Map using Cartography Table", "用制图台锁定地图",

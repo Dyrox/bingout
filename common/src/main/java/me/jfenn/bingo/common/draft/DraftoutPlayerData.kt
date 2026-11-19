@@ -21,5 +21,7 @@ internal class DraftoutPlayerData(
     class Baseline(
         val crafted: Map<String, Int> = emptyMap(),
         val kills: Map<String, Int> = emptyMap(),
+        /** Vanilla advancements already made before the game ("Get N Advancements" counts the others) */
+        val advancements: Set<String> = emptySet(),
     )
 }
