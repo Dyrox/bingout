@@ -1,0 +1,125 @@
+# Draftout regression test, run by DevScriptRunner in a development launch (about a minute):
+#
+#   mkdir -p mc26.3/run/bingout-dev && touch mc26.3/run/bingout-dev/autoplay
+#   cp scripts/dev/draftout-regression.txt mc26.3/run/bingout-dev/script.txt
+#   ./gradlew :mc26.3:runClient > run.log      # opens/creates the "BingoutDev" world, runs this, then quits
+#   grep "\[bingout-dev\] \(FAIL\|RESULT\)" run.log
+#
+# Delete mc26.3/run/saves/BingoutDev first if an earlier run was interrupted mid-game.
+# ===== game 1 =====
+await pregame 120
+bingo mode draftout false
+bingo mode lockout false
+bingo goal full_card
+bingo dev team red
+bingo dev fake red Ghost
+bingo dev fake blue Rival
+# progress of the offline players from an "earlier game", and the host's statistics before the game
+bingo dev grant Ghost eat/cookie
+bingo dev grant Ghost counter/food
+scoreboard players set Ghost draftout_food 15
+scoreboard players set Rival draftout_effects 6
+advancement grant @s only minecraft:story/root
+bingo dev stat crafted 5 minecraft:oak_planks
+bingo card set b1 yet-another-minecraft-bingo:draftout/eat_cookie
+bingo card set i2 yet-another-minecraft-bingo:draftout/eat_15_unique_food
+bingo card set n3 yet-another-minecraft-bingo:draftout/get_6_status_effects_at_once
+bingo card set g4 yet-another-minecraft-bingo:draftout/craft_20_unique_items
+bingo card set o5 yet-another-minecraft-bingo:draftout/get_10_advancements
+bingo card set b3 yet-another-minecraft-bingo:draftout/shoot_firework_from_crossbow
+bingo card set i5 yet-another-minecraft-bingo:draftout/pearl_through_nether_portal
+bingo card set n1 yet-another-minecraft-bingo:draftout/ride_geyser
+bingo card set g2 yet-another-minecraft-bingo:draftout/leash_4_unique_mobs
+bingo card set o3 yet-another-minecraft-bingo:draftout/name_sheep_jeb
+bingo card set b5 yet-another-minecraft-bingo:draftout/leash_iron_golem
+bingo start ignore_warnings
+await playing 180
+wait 20
+echo --- bug 1: offline team members' progress from an earlier game is cleared
+bingo dev expect achieved red false eat_cookie
+bingo dev expect achieved red false eat_15_unique_food
+bingo dev expect achieved blue false get_6_status_effects_at_once
+bingo dev expect advancement Ghost false eat/cookie
+bingo dev expect score Ghost 0 draftout_food
+bingo dev expect score Rival 0 draftout_effects
+bingo dev expect progress red 0 eat_15_unique_food
+echo --- an offline teammate's progress made in this game still counts
+bingo dev grant Ghost eat/cookie
+wait 5
+bingo dev expect achieved red true eat_cookie
+echo --- bug 2: Bingo resets the player after the baseline was taken
+bingo dev expect progress red 0 craft_20_unique_items
+bingo dev expect progress red 0 get_10_advancements
+bingo dev resetplayer
+wait 10
+bingo dev stat crafted 1 minecraft:oak_planks
+advancement grant @s only minecraft:story/root
+wait 10
+bingo dev expect progress red 1 craft_20_unique_items
+bingo dev expect progress red 1 get_10_advancements
+echo --- bug 5: crossbow firework, name tag, leash
+item replace entity @s weapon.mainhand with minecraft:crossbow[charged_projectiles=[{id:"minecraft:firework_rocket",count:1}]]
+bingo dev use
+wait 5
+bingo dev expect achieved red true shoot_firework_from_crossbow
+item replace entity @s weapon.mainhand with minecraft:name_tag[custom_name="jeb_"]
+execute at @s run summon minecraft:sheep ~1 ~ ~ {NoAI:1b}
+bingo dev interact
+wait 5
+bingo dev expect achieved red true name_sheep_jeb
+bingo dev leash minecraft:cow
+bingo dev leash minecraft:pig
+bingo dev leash minecraft:iron_golem
+wait 10
+bingo dev expect progress red 3 leash_4_unique_mobs
+bingo dev expect achieved red true leash_iron_golem
+echo --- bug 5: ender pearl through a portal (landing in another dimension)
+bingo dev pearl minecraft:the_nether
+wait 40
+bingo dev expect achieved red true pearl_through_nether_portal
+bingo dev pearl minecraft:overworld
+wait 40
+execute in minecraft:the_nether run forceload remove all
+execute in minecraft:overworld run forceload remove all
+echo --- bug 5: geyser
+execute at @s align xz run fill ~-1 110 ~-1 ~1 118 ~1 minecraft:stone
+execute at @s align xz run setblock ~ 110 ~ minecraft:magma_block
+execute at @s align xz run fill ~ 112 ~ ~ 114 ~ minecraft:water
+execute at @s align xz run fill ~ 115 ~ ~ 118 ~ minecraft:air
+execute at @s align xz run setblock ~ 111 ~ minecraft:potent_sulfur[potent_sulfur_state=continuous]
+execute at @s align xz if block ~ 111 ~ minecraft:potent_sulfur[potent_sulfur_state=continuous] run say geyser is continuous
+execute at @s align xz run tp @s ~0.5 112 ~0.5
+wait 60
+bingo dev expect achieved red true ride_geyser
+echo --- bug 3: counter details are saved with the game state
+bingo dev report
+# ===== game 2: the offline teammate's progress from game 1 is not carried over =====
+bingo end
+await pregame 60
+bingo mode draftout false
+bingo mode lockout false
+bingo goal full_card
+bingo dev team red
+bingo dev fake red Ghost
+bingo dev fake blue Rival
+bingo card set b1 yet-another-minecraft-bingo:draftout/eat_cookie
+bingo card set i2 yet-another-minecraft-bingo:draftout/eat_15_unique_food
+bingo start ignore_warnings
+await playing 180
+wait 20
+bingo dev expect achieved red false eat_cookie
+bingo dev expect advancement Ghost false eat/cookie
+bingo dev expect progress red 0 eat_15_unique_food
+# ===== game 3: draft options from an earlier offer are rejected =====
+bingo end
+await pregame 60
+bingo mode draftout true
+bingo dev team red
+bingo dev fake blue Rival
+bingo start ignore_warnings
+await drafting 180
+wait 40
+echo --- bug 4: an option from an earlier offer (expect "That option is from an earlier offer.")
+bingo draft choose not-the-current-turn 0
+wait 10
+exit

@@ -1,5 +1,6 @@
 package me.jfenn.bingo.client
 
+import me.jfenn.bingo.client.dev.DevAutoplay
 import me.jfenn.bingo.client.common.commonClientModule
 import me.jfenn.bingo.client.impl.*
 import me.jfenn.bingo.client.impl.draw.DrawService
@@ -82,5 +83,7 @@ object Main : ClientModInitializer {
         }.also {
             it.koin.commonInit()
         }
+
+        DevAutoplay.init()
     }
 }

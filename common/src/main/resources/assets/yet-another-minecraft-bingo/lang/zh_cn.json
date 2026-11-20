@@ -550,6 +550,7 @@
   "key.category.yet-another-minecraft-bingo.bingo": "Yet Another Bingo",
   "bingo.card.objective_more": "……还有 %s 个",
   "bingo.draft.complete": "选择完成！棋盘已就绪。",
+  "bingo.draft.expired": "这个选项已经过期了。",
   "bingo.draft.no_reroll": "你的队伍已经用过重抽了。",
   "bingo.draft.not_drafting": "当前没有进行中的选择阶段。",
   "bingo.draft.not_your_turn": "现在不是你的队伍选择。",

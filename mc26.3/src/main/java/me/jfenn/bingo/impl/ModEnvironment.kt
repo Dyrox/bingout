@@ -20,4 +20,7 @@ class ModEnvironment : IModEnvironment {
 
     override fun isModLoaded(modId: String): Boolean =
         FabricLoader.getInstance().isModLoaded(modId)
+
+    override val isDevelopment: Boolean
+        get() = FabricLoader.getInstance().isDevelopmentEnvironment
 }

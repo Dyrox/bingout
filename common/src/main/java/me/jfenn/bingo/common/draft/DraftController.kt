@@ -77,8 +77,11 @@ internal class DraftController(
         const val PICK_SECONDS = 10
         const val REROLLS_PER_TEAM = 1
 
-        const val COMMAND_PICK = "bingo draft pick"
-        const val COMMAND_REROLL = "bingo draft reroll"
+        /**
+         * Used by the chat/dialog options: includes the turn, so that clicking an older message (e.g. from before a
+         * reroll, which keeps the turn with the same team) can't pick from the current offer
+         */
+        const val COMMAND_CHOOSE = "bingo draft choose"
 
         init {
             // Insert the drafting state into the game start sequence (only once per JVM)
@@ -93,6 +96,8 @@ internal class DraftController(
         object NotDrafting : Result()
         object NotYourTurn : Result()
         object NoRerolls : Result()
+        /** The option was from an earlier offer */
+        object Expired : Result()
     }
 
     private class Session(
@@ -252,7 +257,7 @@ internal class DraftController(
             session.offer.forEachIndexed { i, id ->
                 val option = text.literal("\n [${i + 1}] ").formatted(Formatting.GREEN, Formatting.BOLD)
                     .append(goalName(id).formatted(Formatting.WHITE))
-                option.setClickEvent(TextAction.RunCommand("/$COMMAND_PICK ${i + 1}"))
+                option.setClickEvent(TextAction.RunCommand("/$COMMAND_CHOOSE ${session.turn} $i"))
                 option.setHoverEvent(HoverAction.ShowText(text.string(StringKey.DraftPick)))
                 message.append(option)
             }
@@ -260,7 +265,7 @@ internal class DraftController(
                 val reroll = text.literal("\n ").append(
                     text.string(StringKey.DraftReroll, rerollsLeft).bracketed().formatted(Formatting.YELLOW)
                 )
-                reroll.setClickEvent(TextAction.RunCommand("/$COMMAND_REROLL"))
+                reroll.setClickEvent(TextAction.RunCommand("/$COMMAND_CHOOSE ${session.turn} ${DraftActionPacket.REROLL}"))
                 message.append(reroll)
             }
             player.sendMessage(message)
@@ -280,13 +285,13 @@ internal class DraftController(
                 }
                 builder.addAction(
                     text.literal("${i + 1}. ").append(name),
-                    IDialogAction.RunCommand("$COMMAND_PICK ${i + 1}"),
+                    IDialogAction.RunCommand("$COMMAND_CHOOSE ${session.turn} $i"),
                 )
             }
             if (rerollsLeft > 0) {
                 builder.addAction(
                     text.string(StringKey.DraftReroll, rerollsLeft),
-                    IDialogAction.RunCommand(COMMAND_REROLL),
+                    IDialogAction.RunCommand("$COMMAND_CHOOSE ${session.turn} ${DraftActionPacket.REROLL}"),
                 )
             }
             dialogManager.showDialog(player, builder.build())
@@ -319,6 +324,9 @@ internal class DraftController(
             state.changeState(eventBus, GameAction.START)
             return
         }
+
+        // tiles depend on the card options and data packs, which can change between games
+        tileCache.clear()
 
         val random = Random(card.seed)
         val session = Session(
@@ -385,7 +393,7 @@ internal class DraftController(
 
     fun choose(player: IPlayerHandle, turn: String, option: Int): Result {
         val current = session ?: return Result.NotDrafting
-        if (current.turn != turn) return Result.NotDrafting
+        if (current.turn != turn) return Result.Expired
         return if (option == DraftActionPacket.REROLL) reroll(player) else pick(player, option)
     }
 

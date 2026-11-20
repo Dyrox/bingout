@@ -15,6 +15,7 @@ import me.jfenn.bingo.platform.IMapService
 import me.jfenn.bingo.platform.item.IItemStack
 import me.jfenn.bingo.platform.item.IItemStackFactory
 import me.jfenn.bingo.platform.text.Formatting
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 internal class MapItemService(
@@ -51,7 +52,8 @@ internal class MapItemService(
         return stack.asFilledMap()?.mapId == previewMap.mapId
     }
 
-    private val timeFormat = DateTimeFormatter.ofPattern("H:mm dd-MM-yyyy")
+    // an Instant has no hour/day without a time zone (formatting it threw, so no memento card was given)
+    private val timeFormat = DateTimeFormatter.ofPattern("H:mm dd-MM-yyyy").withZone(ZoneId.systemDefault())
 
     fun createMementoMapItem(team: BingoTeam): IItemStack {
         val teamMap = teamService.getTeamMap(team)

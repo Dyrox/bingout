@@ -6,6 +6,7 @@
     "mixins": [
         "BlockableEventLoopAccessor",
         "ChunkMapAccessor",
+        "CrossbowItemMixin",
         "DecoratedPotBlockMixin",
         "DistanceManagerAccessor",
         "EndPortalBlockMixin",
@@ -21,6 +22,7 @@
         "NameTagItemMixin",
         "PlayerAdvancementsPreventSpectatorsMixin",
         "PlayerManagerMixin",
+        "PotentSulfurBlockEntityMixin",
         "RaidsAccessor",
         "ServerBossEventMixin",
         "ServerChunkCacheAccessor",
@@ -30,6 +32,7 @@
         "ServerLevelAccessor",
         "ServerPlayerMixin",
         "ServerRecipeBookMixin",
+        "ThrownEnderpearlMixin",
         "WorkstationResultSlotMixin",
         "WorldGenSettingsAccessor"
     ],

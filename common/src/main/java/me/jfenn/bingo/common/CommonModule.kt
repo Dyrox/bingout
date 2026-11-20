@@ -45,6 +45,8 @@ import me.jfenn.bingo.common.menu.tooltips.TooltipController
 import me.jfenn.bingo.common.menu.tooltips.TooltipState
 import me.jfenn.bingo.common.options.OptionsService
 import me.jfenn.bingo.common.ready.ReadyCommand
+import me.jfenn.bingo.common.dev.DevCommand
+import me.jfenn.bingo.common.dev.DevScriptRunner
 import me.jfenn.bingo.common.draft.DraftCommand
 import me.jfenn.bingo.common.draft.DraftController
 import me.jfenn.bingo.common.draft.DraftoutTriggerController
@@ -136,6 +138,7 @@ val commonModule = module {
     singleOf(::BingoCommand)
     singleOf(::BingoCardCommand)
     singleOf(::BingoDebugCommand)
+    singleOf(::DevCommand)
     singleOf(::BingoLobbyCommand)
     singleOf(::BingoOptionsCommands)
     singleOf(::BingoPrefsCommand)
@@ -349,6 +352,7 @@ val commonModule = module {
         scopedOf(::DraftoutTriggerController)
         scopedOf(::ProgressFeedbackController)
         scopedOf(::ProgressDetailsService)
+        scopedOf(::DevScriptRunner)
 
         scopedOf(::ResetOnLeaveController)
 
@@ -380,6 +384,7 @@ fun Koin.commonInit() {
     get<BingoCardCommand>()
     if (Build.isDebug)
         get<BingoDebugCommand>()
+        get<DevCommand>()
     get<BingoLobbyCommand>()
     get<BingoOptionsCommands>()
     get<BingoPrefsCommand>()
@@ -405,6 +410,9 @@ fun Koin.commonInit() {
 }
 
 fun Scope.commonInit() {
+    // ticks before ScoredItemCheck: the card is checked against this tick's draftout counters, and players left over
+    // from an earlier game are cleared before the card reads their progress
+    get<DraftoutTriggerController>()
     get<ScoredItemCheck>() // must be registered before MenuController
 
     get<TooltipController>()
@@ -446,8 +454,8 @@ fun Scope.commonInit() {
     get<TimerPacketController>()
     get<WaitUntilLoadedController>()
     get<DraftController>()
-    get<DraftoutTriggerController>()
     get<ProgressFeedbackController>()
+    get<DevScriptRunner>()
 
     get<ResetOnLeaveController>()
 

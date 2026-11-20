@@ -26,6 +26,13 @@ The layout follows the original Draftout `DraftScreen` structure (status and cou
 
 Goal definitions, icons, and draft translations remain generated through `python3 scripts/draftout/generate.py`.
 
+## Dev test tools
+
+Only active in development launches (`gradle runClient`), never in release builds:
+
+- `/bingo dev ...` (op): set up situations that are slow to reach by playing — `team`, `fake` (offline team member), `grant` (also for offline players), `stat`, `resetplayer` (like Bingo's lobby-mode reset), `use`, `interact`, `leash`, `pearl` — and check results with `expect achieved|progress|advancement|score`.
+- Test scripts: with `mc26.3/run/bingout-dev/autoplay` present, the client opens (or creates) the plain test world `BingoutDev`, publishes it to LAN so it keeps running behind menus, runs `mc26.3/run/bingout-dev/script.txt` line by line (`wait`, `await <state>`, `echo`, `exit`, commands), and quits on `exit`. Results are logged with `[bingout-dev]` to the console. See `scripts/dev/draftout-regression.txt`.
+
 ## GitHub CI and releases
 
 `.github/workflows/build-release.yml` builds the Minecraft 26.3 target on Java 25. Pushes to `main`, pull requests, and manual Actions runs produce the `bingout-jars` artifact. Each run embeds `ci-<run-number>-<attempt>` in the version. It runs the 407 resource checks plus DraftController regressions; the two known upstream configuration failures are outside this targeted suite.

@@ -54,7 +54,10 @@ object MobFaceRenderer {
         val size get() = max(width, height)
     }
 
+    /** Faces (or null when one can't be built) by entity id, for the current world */
     private val cache = mutableMapOf<String, Face?>()
+    /** The world the cache was built in: joining another world (with other resource/data packs) rebuilds it */
+    private var cacheLevel: Any? = null
 
     private const val PREVIEW_ENTITY_ID = -0x4D0B
 
@@ -143,6 +146,12 @@ object MobFaceRenderer {
     }
 
     private fun getFace(entityId: String): Face? {
+        // the preview entities need a world; without one, nothing is cached so that it's tried again later
+        val level = Minecraft.getInstance().level ?: return null
+        if (level !== cacheLevel) {
+            cache.clear()
+            cacheLevel = level
+        }
         return cache.getOrPut(entityId) {
             runCatching { build(entityId) }
                 .onFailure { log.warn("[MobFaceRenderer] Could not build the face of {}", entityId, it) }
@@ -176,5 +185,8 @@ object MobFaceRenderer {
         return true
     }
 
-    fun clearCache() = cache.clear()
+    fun clearCache() {
+        cache.clear()
+        cacheLevel = null
+    }
 }

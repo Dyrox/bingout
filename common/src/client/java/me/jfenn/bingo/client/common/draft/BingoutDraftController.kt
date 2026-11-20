@@ -25,6 +25,10 @@ internal class BingoutDraftController(
 
     private fun close() {
         if (screen != null && client.screen === screen) client.screen = null
+        forget()
+    }
+
+    private fun forget() {
         screen = null
         view = null
     }
@@ -47,7 +51,9 @@ internal class BingoutDraftController(
                 if (client.screen !== screen) client.screen = screen
             }
         }
-        eventBus.register(ClientServerEvent.Disconnect) { close() }
+        // Minecraft replaces the screen itself when disconnecting (and this runs on the network thread, where closing
+        // it throws "Trying to return to in-game GUI during disconnection")
+        eventBus.register(ClientServerEvent.Disconnect) { forget() }
         eventBus.register(packets.gameResetV1) { close() }
     }
 }

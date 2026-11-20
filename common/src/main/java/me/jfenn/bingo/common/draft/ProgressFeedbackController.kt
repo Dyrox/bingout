@@ -1,7 +1,6 @@
 package me.jfenn.bingo.common.draft
 
 import me.jfenn.bingo.api.state.GameState
-import me.jfenn.bingo.common.MOD_ID_BINGO
 import me.jfenn.bingo.common.card.BingoCard
 import me.jfenn.bingo.common.card.objective.BingoObjective
 import me.jfenn.bingo.common.event.ScopedEvents
@@ -33,11 +32,14 @@ internal class ProgressFeedbackController(
 ) : BingoComponent() {
 
     companion object {
-        private const val DRAFTOUT_PREFIX = "$MOD_ID_BINGO:draftout/"
-
         /** Counters that change continuously rather than one event at a time */
         private val CONTINUOUS_SCOREBOARDS = setOf(DraftoutTriggerController.SCORE_PUMPKIN)
+
+        /** Interval (in ticks) between checks: fast enough to feel instant, without going over the card every tick */
+        private const val CHECK_INTERVAL = 5
     }
+
+    private var tickCount = 0
 
     /** Highest count seen so far, per team and objective */
     private val lastCounts = mutableMapOf<Pair<BingoTeamKey, String>, Int>()
@@ -46,7 +48,7 @@ internal class ProgressFeedbackController(
     private val lastDetailIds = mutableMapOf<Pair<BingoTeamKey, String>, Set<String>>()
 
     private fun isCountedGoal(objective: BingoObjective): Boolean {
-        if (!objective.id.startsWith(DRAFTOUT_PREFIX)) return false
+        if (!objective.id.startsWith(DraftoutTriggerController.DRAFTOUT_PREFIX)) return false
         return when (objective) {
             is BingoObjective.ScoreboardEntry -> objective.data.scoreboardName !in CONTINUOUS_SCOREBOARDS
             is BingoObjective.SomeOfEntry -> objective.valueMin > 1
@@ -126,6 +128,7 @@ internal class ProgressFeedbackController(
 
         events.onGameTick {
             if (state.state != GameState.PLAYING) return@onGameTick
+            if (++tickCount % CHECK_INTERVAL != 0) return@onGameTick
             for (team in state.getRegisteredTeams()) {
                 val card = state.getCard(team) ?: continue
                 checkTeam(team, card)

@@ -3,8 +3,10 @@ package me.jfenn.bingo.common.draft
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.MOD_ID_BINGO
 import me.jfenn.bingo.common.event.ScopedEvents
+import me.jfenn.bingo.common.event.model.TeamChangedEvent
 import me.jfenn.bingo.common.scope.BingoComponent
 import me.jfenn.bingo.common.state.BingoState
+import me.jfenn.bingo.common.team.OfflinePlayerCache
 import me.jfenn.bingo.common.team.TeamService
 import me.jfenn.bingo.platform.IPlayerHandle
 import me.jfenn.bingo.platform.IPlayerManager
@@ -28,10 +30,8 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
-import net.minecraft.world.entity.Leashable
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.entity.projectile.FireworkRocketEntity
 import net.minecraft.world.inventory.AnvilMenu
 import net.minecraft.world.inventory.CartographyTableMenu
 import net.minecraft.world.inventory.GrindstoneMenu
@@ -42,7 +42,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.MapItem
-import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import org.slf4j.Logger
 import java.util.*
@@ -56,6 +56,9 @@ import java.util.*
  *   which is referenced by a "scoreboard" objective.
  *
  * Generated data lives in `scripts/draftout/` (see `generate.py`).
+ *
+ * Registered before ScoredItemCheck (CommonModule), so that the card is checked against this tick's counters, and
+ * players from an earlier game are cleared before the card reads their progress.
  */
 internal class DraftoutTriggerController(
     events: ScopedEvents,
@@ -65,6 +68,7 @@ internal class DraftoutTriggerController(
     private val state: BingoState,
     private val teamService: TeamService,
     private val playerManager: IPlayerManager,
+    private val offlinePlayerCache: OfflinePlayerCache,
     private val scoreboardManager: IScoreboardManager,
     private val details: ProgressDetailsService,
 ) : BingoComponent() {
@@ -99,62 +103,76 @@ internal class DraftoutTriggerController(
             SCORE_ADVANCEMENTS, SCORE_MOB_KILLS,
         )
 
-        private const val DRAFTOUT_PREFIX = "$MOD_ID_BINGO:draftout/"
-        /** Interval (in ticks) between the world/inventory scans for boolean goals */
+        /** Prefix of the draftout objectives and their hidden advancements */
+        const val DRAFTOUT_PREFIX = "$MOD_ID_BINGO:draftout/"
+
+        /** Interval (in ticks) between the heavier world/inventory/statistics scans */
         private const val CHECK_INTERVAL = 5
         private val ARMOR_SLOTS = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
         private val ARMOR_SUFFIXES = listOf("_helmet", "_chestplate", "_leggings", "_boots")
         private val ARMOR_MATERIALS = setOf("leather", "chainmail", "copper", "golden", "iron", "diamond", "netherite")
 
-        /** The controller of the running game, for the mixin hooks below */
+        /** How far leashed mobs can be (leads break further away) */
+        private const val LEASH_RANGE = 16.0
+        /** How far mobs targeting the player are looked for */
+        private const val TARGET_RANGE = 64.0
+
+        /** The controller of the running server, for the mixin hooks below */
         private var instance: DraftoutTriggerController? = null
 
         /**
-         * Called by the workstation mixins when a player takes the output of a stonecutter, anvil, grindstone,
-         * loom, smithing table or cartography table (just opening the block doesn't count, like Draftout).
+         * Runs a mixin hook for a player of the running game. Errors are logged instead of being thrown into the
+         * vanilla code that called the hook (which could disconnect the player).
          */
+        private inline fun hook(entity: Entity?, what: String, action: DraftoutTriggerController.(ServerPlayer) -> Unit) {
+            val player = entity as? ServerPlayer ?: return
+            val controller = instance ?: return
+            try {
+                if (controller.isInGame(player)) controller.action(player)
+            } catch (e: Exception) {
+                controller.log.error("[DraftoutTriggerController] Error while handling $what", e)
+            }
+        }
+
         /**
-         * Called by the name tag mixin after a player named a mob: "Name a Sheep 'jeb_'", "Name a Ghast 'Dinnerbone'"
+         * The player took the output of a stonecutter, anvil, grindstone, loom, smithing table or cartography table
+         * (just opening the block doesn't count, like Draftout).
+         */
+        @JvmStatic
+        fun onWorkstationResultTaken(player: Player) = hook(player, "a workstation result") { onWorkstationUsed(it) }
+
+        /**
+         * The player named a mob with a name tag: "Name a Sheep 'jeb_'", "Name a Ghast 'Dinnerbone'"
          * (only the player who used the name tag, like Draftout - not everyone near a named mob)
          */
         @JvmStatic
-        fun onNameTagUsed(player: Player, target: Entity) {
-            val serverPlayer = player as? ServerPlayer ?: return
-            val controller = instance ?: return
-            if (controller.state.state != GameState.PLAYING) return
-            val handle = controller.playerManager.getPlayer(serverPlayer.uuid) ?: return
-            if (!controller.teamService.isPlaying(handle)) return
-            val name = target.customName?.string ?: return
-            val type = controller.entityId(target) ?: return
-            if (name == "Dinnerbone" || name == "Grumm") {
-                if (type == "minecraft:iron_golem") controller.grant(serverPlayer, "name_iron_golem_dinnerbone")
-                if (type == "minecraft:ghast") controller.grant(serverPlayer, "name_ghast_dinnerbone")
-            }
-            if (name == "jeb_" && type == "minecraft:sheep") controller.grant(serverPlayer, "name_sheep_jeb")
-        }
+        fun onNameTagUsed(player: Player, target: Entity) = hook(player, "a name tag") { onNamed(it, target) }
 
-        /** Called by the decorated pot mixin after a player put an item into a pot */
+        /** The player put an item into a decorated pot */
         @JvmStatic
-        fun onDecoratedPotFilled(player: Player, item: ItemStack) {
-            val serverPlayer = player as? ServerPlayer ?: return
-            val controller = instance ?: return
+        fun onDecoratedPotFilled(player: Player, item: ItemStack) = hook(player, "a decorated pot") {
             // "full" like Draftout: as many items as the item stacks to (64, 16 or 1)
-            if (item.isEmpty || item.count < item.maxStackSize) return
-            if (controller.state.state != GameState.PLAYING) return
-            val handle = controller.playerManager.getPlayer(serverPlayer.uuid) ?: return
-            if (!controller.teamService.isPlaying(handle)) return
-            controller.grant(serverPlayer, "fill_decorated_pot")
+            if (!item.isEmpty && item.count >= item.maxStackSize) grant(it, "fill_decorated_pot")
         }
 
+        /** A firework rocket was shot from a crossbow */
         @JvmStatic
-        fun onWorkstationResultTaken(player: Player) {
-            val serverPlayer = player as? ServerPlayer ?: return
-            val controller = instance ?: return
-            try {
-                controller.onWorkstationUsed(serverPlayer)
-            } catch (e: Exception) {
-                controller.log.error("[DraftoutTriggerController] Error while handling a workstation result", e)
-            }
+        fun onCrossbowFirework(shooter: Entity) = hook(shooter, "a crossbow shot") { grant(it, "crossbow_firework") }
+
+        /**
+         * An erupting geyser (potent sulfur) is launching the player. Players are moved by their own client, so this is
+         * the server's only sign of it: their velocity on the server doesn't change.
+         */
+        @JvmStatic
+        fun onGeyserLaunch(entity: Entity) = hook(entity, "a geyser") { player ->
+            if (!player.abilities.flying && !player.isPassenger) grant(player, "ride_geyser")
+        }
+
+        /** An ender pearl is about to teleport its owner to where it landed, possibly through a nether portal */
+        @JvmStatic
+        fun onPearlTeleport(owner: Entity?, pearlLevel: Level) = hook(owner, "an ender pearl") { player ->
+            val dimensions = setOf(player.level().dimension(), pearlLevel.dimension())
+            if (dimensions == setOf(Level.OVERWORLD, Level.NETHER)) grant(player, "pearl_portal")
         }
     }
 
@@ -190,25 +208,58 @@ internal class DraftoutTriggerController(
         }
     }
 
-    /** Every entity type except players (for "Kill 100 Mobs") */
-    private val mobTypes by lazy {
-        BuiltInRegistries.ENTITY_TYPE.filter { entityId(it) != "minecraft:player" }
+    /** All hidden draftout advancements (counters and goals granted by code or data) */
+    private val draftoutAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements.filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/") }
     }
 
-    private val undeadTypes by lazy {
-        BuiltInRegistries.ENTITY_TYPE.filter { BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(it).`is`(EntityTypeTags.UNDEAD) }
+    /**
+     * Goals made of several criteria (e.g. "Visit All Nether Biomes": one per biome) count what the whole team
+     * has done, like the counters: each criterion is shared with the online teammates, so the goal completes
+     * once the team has covered all of them. (Counters are combined through their scores instead.)
+     */
+    private val teamAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements.filter { holder ->
+            holder.id.namespace == MOD_ID_BINGO && holder.id.path.startsWith("draftout/") &&
+                !holder.id.path.startsWith("draftout/counter/") && holder.value.requirements().size() > 1
+        }
     }
-    private val arthropodTypes by lazy {
-        BuiltInRegistries.ENTITY_TYPE.filter { BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(it).`is`(EntityTypeTags.ARTHROPOD) }
+
+    /**
+     * "draftout/mine/..." advancements, by the block criteria they contain (e.g. "obsidian" -> mine/obsidian).
+     * Mining goals count any break by the player, regardless of the tool (like Draftout).
+     */
+    private val mineAdvancementsCache = AdvancementCache { advancements ->
+        advancements.allAdvancements
+            .filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/mine/") }
+            .flatMap { holder -> holder.value.criteria().keys.map { it to holder } }
+            .groupBy({ it.first }, { it.second })
     }
-    private val sulfurSpike: Block? by lazy {
-        BuiltInRegistries.BLOCK.getOptional(Identifier.parse("minecraft:sulfur_spike")).orElse(null)
+
+    // registry contents, with their ids (looked up once: the counters scan them several times a second)
+
+    private val items: List<Pair<Item, String>> by lazy {
+        BuiltInRegistries.ITEM.map { it to BuiltInRegistries.ITEM.getKey(it).toString() }
     }
+
+    private fun entityTypes(filter: (EntityType<*>) -> Boolean): List<Pair<EntityType<*>, String>> =
+        BuiltInRegistries.ENTITY_TYPE.filter(filter).map { it to BuiltInRegistries.ENTITY_TYPE.getKey(it).toString() }
+
+    /** Every entity type except players (for "Kill 100 Mobs") */
+    private val mobTypes by lazy { entityTypes { BuiltInRegistries.ENTITY_TYPE.getKey(it).toString() != "minecraft:player" } }
+    private val undeadTypes by lazy { entityTypes { BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(it).`is`(EntityTypeTags.UNDEAD) } }
+    private val arthropodTypes by lazy { entityTypes { BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(it).`is`(EntityTypeTags.ARTHROPOD) } }
 
     // ---------- helpers ----------
 
-    private fun entityId(type: EntityType<*>?): String? = type?.let { BuiltInRegistries.ENTITY_TYPE.getKey(it).toString() }
-    private fun entityId(entity: Entity?): String? = entityId(entity?.type)
+    private fun entityId(entity: Entity?): String? = entity?.let { BuiltInRegistries.ENTITY_TYPE.getKey(it.type).toString() }
+
+    /** Whether [player] is playing in the running game */
+    private fun isInGame(player: ServerPlayer): Boolean {
+        if (state.state != GameState.PLAYING) return false
+        val handle = playerManager.getPlayer(player.uuid) ?: return false
+        return teamService.isPlaying(handle)
+    }
 
     /**
      * The counter's scoreboard objective, looked up by name each time: resetting the worlds between rounds removes
@@ -239,16 +290,71 @@ internal class DraftoutTriggerController(
         }
     }
 
-    /**
-     * "draftout/mine/..." advancements, by the block criteria they contain (e.g. "obsidian" -> mine/obsidian).
-     * Mining goals count any break by the player, regardless of the tool (like Draftout).
-     */
-    private val mineAdvancementsCache = AdvancementCache { advancements ->
-        advancements.allAdvancements
-            .filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/mine/") }
-            .flatMap { holder -> holder.value.criteria().keys.map { it to holder } }
-            .groupBy({ it.first }, { it.second })
+    /** Whether any card in the game uses draftout goals (otherwise all checks are skipped) */
+    private fun hasDraftoutGoals(): Boolean {
+        return state.cards.any { card -> card.objectives.keys.any { it.startsWith(DRAFTOUT_PREFIX) } }
     }
+
+    // ---------- players of the current game ----------
+
+    private fun revokeDraftoutAdvancements(player: ServerPlayer) {
+        for (holder in draftoutAdvancementsCache.get()) {
+            val progress = player.advancements.getOrStartProgress(holder)
+            for (criterion in progress.completedCriteria.toList()) player.advancements.revoke(holder, criterion)
+        }
+    }
+
+    /**
+     * Clears what the player did in earlier games - the hidden draftout advancements and the counter scores - and
+     * starts tracking them in this one. Bingo only resets online players' advancements, and only in lobby mode, while
+     * the card also reads the saved progress of offline team members: without this, last game's "Eat 15 Unique Food"
+     * was completed as soon as the next game started.
+     */
+    private fun startTracking(handle: IPlayerHandle) {
+        if (playerStates.containsKey(handle.uuid)) return
+        val player = handle.player
+        revokeDraftoutAdvancements(player)
+        for (name in SCORES) setScore(handle, name, 0)
+        // an offline player's advancements were loaded from their save file; nothing else would write them back
+        if (playerManager.getPlayer(handle.uuid) == null) player.advancements.save()
+        playerStates[handle.uuid] = DraftoutPlayerData()
+    }
+
+    /** Team members (online or offline) that aren't tracked yet, e.g. added to a team while offline */
+    private fun trackNewTeamMembers() {
+        for (team in state.getRegisteredTeams()) {
+            for (member in team.players) {
+                if (!playerStates.containsKey(member.uuid)) {
+                    startTracking(offlinePlayerCache.getOfflinePlayer(member.profile))
+                }
+            }
+        }
+    }
+
+    /** A new game: forget everything from the previous one, for everyone the card can read */
+    private fun resetPlayers() {
+        details.clear()
+        playerStates.clear()
+        for (player in playerManager.getPlayers()) startTracking(player)
+        trackNewTeamMembers()
+    }
+
+    private fun createBaseline(player: ServerPlayer): DraftoutPlayerData.Baseline {
+        val stats = player.stats
+        return DraftoutPlayerData.Baseline(
+            crafted = items.associate { (item, id) -> id to stats.getValue(Stats.ITEM_CRAFTED, item) }
+                .filterValues { it > 0 }.toMutableMap(),
+            kills = mobTypes.associate { (type, id) -> id to stats.getValue(Stats.ENTITY_KILLED, type) }
+                .filterValues { it > 0 }.toMutableMap(),
+            // vanilla advancements are only reset by Bingo in lobby mode
+            advancements = countedAdvancementsCache.get()
+                .filter { player.advancements.getOrStartProgress(it).isDone }
+                .map { it.id.toString() }
+                .toMutableSet(),
+        )
+    }
+
+    // ---------- events ----------
 
     private fun onBlockBroken(player: ServerPlayer, blockId: String) {
         val criterion = blockId.removePrefix("minecraft:")
@@ -267,33 +373,18 @@ internal class DraftoutTriggerController(
             is SmithingMenu -> "smithing_table"
             else -> return
         }
-        if (state.state != GameState.PLAYING) return
-        val handle = playerManager.getPlayer(player.uuid) ?: return
-        if (!teamService.isPlaying(handle)) return
         grant(player, "use/$station")
     }
 
-    /** Whether any card in the game uses draftout goals (otherwise all checks are skipped) */
-    private fun hasDraftoutGoals(): Boolean {
-        return state.cards.any { card -> card.objectives.keys.any { it.startsWith(DRAFTOUT_PREFIX) } }
+    private fun onNamed(player: ServerPlayer, target: Entity) {
+        val name = target.customName?.string ?: return
+        val type = entityId(target) ?: return
+        if (name == "Dinnerbone" || name == "Grumm") {
+            if (type == "minecraft:iron_golem") grant(player, "name_iron_golem_dinnerbone")
+            if (type == "minecraft:ghast") grant(player, "name_ghast_dinnerbone")
+        }
+        if (name == "jeb_" && type == "minecraft:sheep") grant(player, "name_sheep_jeb")
     }
-
-    private fun createBaseline(player: ServerPlayer): DraftoutPlayerData.Baseline {
-        val stats = player.stats
-        return DraftoutPlayerData.Baseline(
-            crafted = BuiltInRegistries.ITEM.associate { BuiltInRegistries.ITEM.getKey(it).toString() to stats.getValue(Stats.ITEM_CRAFTED, it) }
-                .filterValues { it > 0 },
-            kills = mobTypes.associate { (entityId(it) ?: "") to stats.getValue(Stats.ENTITY_KILLED, it) }
-                .filter { (id, count) -> id.isNotEmpty() && count > 0 },
-            // vanilla advancements are only reset by Bingo in lobby mode
-            advancements = countedAdvancementsCache.get()
-                .filter { player.advancements.getOrStartProgress(it).isDone }
-                .map { it.id.toString() }
-                .toSet(),
-        )
-    }
-
-    // ---------- deaths ----------
 
     private fun onDeath(player: ServerPlayer, source: DamageSource) {
         val msgId = source.msgId
@@ -327,7 +418,7 @@ internal class DraftoutTriggerController(
         for (goal in goals) grant(player, "death/$goal")
     }
 
-    // ---------- per-tick checks ----------
+    // ---------- periodic checks ----------
 
     /**
      * The material of an armor piece worn in the slot ARMOR_SLOTS[slot] (e.g. "iron" for iron_chestplate), or null
@@ -363,6 +454,8 @@ internal class DraftoutTriggerController(
         }
     }
 
+    private val shieldStack = ItemStack(Items.SHIELD)
+
     private fun checkInventory(player: ServerPlayer) {
         val inventory = player.inventory
         val main = (0 until 36).map { inventory.getItem(it) }
@@ -377,67 +470,27 @@ internal class DraftoutTriggerController(
             .any { MapItem.getSavedData(it, player.level())?.locked == true }
         if (hasLockedMap) grant(player, "lock_map")
 
-        if (player.cooldowns.isOnCooldown(ItemStack(Items.SHIELD))) grant(player, "shield_disabled")
+        if (player.cooldowns.isOnCooldown(shieldStack)) grant(player, "shield_disabled")
     }
 
     private fun checkNearbyEntities(player: ServerPlayer, playerState: DraftoutPlayerData) {
         val level = player.level()
-        val nearby = level.getEntities(player, AABB(player.blockPosition()).inflate(64.0))
+        val box = AABB(player.blockPosition())
 
-        var leashedTypes = mutableSetOf<String>()
-        for (entity in nearby) {
-            val type = entityId(entity) ?: continue
-
-            if (entity is Leashable && entity.leashHolder == player) {
-                leashedTypes.add(type)
-                if (type == "minecraft:iron_golem") grant(player, "leash_iron_golem")
-            }
-
-            if (entity is Mob && entity.target == player) {
-                if (type == "minecraft:enderman") grant(player, "enrage_enderman")
-                if (type == "minecraft:zombified_piglin") grant(player, "enrage_zombified_piglin")
-            }
-
-            if (entity.distanceToSqr(player) < 16.0 * 16.0) {
-                if (entity is FireworkRocketEntity && entity.isShotAtAngle && entity.owner == player) {
-                    grant(player, "crossbow_firework")
-                }
-            }
-        }
-
+        // "Leash N unique Mobs at once" (boats can be leashed too, but aren't mobs)
+        val leashedTypes = level.getEntitiesOfClass(Mob::class.java, box.inflate(LEASH_RANGE)) { it.leashHolder == player }
+            .mapNotNull { entityId(it) }
+            .toSet()
+        if ("minecraft:iron_golem" in leashedTypes) grant(player, "leash_iron_golem")
         if (leashedTypes.size > playerState.maxLeashed) {
             playerState.maxLeashed = leashedTypes.size
             playerState.maxLeashedIds = leashedTypes.associateWith { 1 }
         }
-    }
 
-    private fun checkMisc(player: ServerPlayer, playerState: DraftoutPlayerData) {
-        if (player.foodData.foodLevel <= 0) grant(player, "empty_hunger")
-
-        updateMaxEffects(player, playerState)
-
-        // launched upwards by a geyser (sulfur spike)
-        val spike = sulfurSpike
-        if (spike != null && player.deltaMovement.y > 0.6 && !player.isFallFlying) {
-            val pos = player.blockPosition()
-            val nearSpike = (1..6).any { dy ->
-                (-1..1).any { dx -> (-1..1).any { dz -> player.level().getBlockState(pos.offset(dx, -dy, dz)).`is`(spike) } }
-            }
-            if (nearSpike) grant(player, "ride_geyser")
-        }
-    }
-
-    private fun checkDimension(player: ServerPlayer, playerState: DraftoutPlayerData) {
-        val dimension = player.level().dimension().toString()
-        val previous = playerState.lastDimension
-        playerState.lastDimension = dimension
-
-        if (previous != null && previous != dimension) {
-            val dimensions = setOf(previous, dimension)
-            val isNetherTravel = dimensions.any { it.contains("the_nether") } && dimensions.any { it.contains("overworld") }
-            val lastDamage = player.lastDamageSource?.typeHolder()?.registeredName
-            if (isNetherTravel && lastDamage == "minecraft:ender_pearl") {
-                grant(player, "pearl_portal")
+        for (mob in level.getEntitiesOfClass(Mob::class.java, box.inflate(TARGET_RANGE)) { it.target == player }) {
+            when (entityId(mob)) {
+                "minecraft:enderman" -> grant(player, "enrage_enderman")
+                "minecraft:zombified_piglin" -> grant(player, "enrage_zombified_piglin")
             }
         }
     }
@@ -454,6 +507,8 @@ internal class DraftoutTriggerController(
         }
     }
 
+    // ---------- counters ----------
+
     private fun completedCriteria(player: ServerPlayer, name: String): Map<String, Int> {
         val holder = server.advancements.get(Identifier.parse(DRAFTOUT_PREFIX + name)) ?: return emptyMap()
         return player.advancements.getOrStartProgress(holder).completedCriteria
@@ -462,26 +517,79 @@ internal class DraftoutTriggerController(
     }
 
     /**
-     * Remembers which things the player counted (for the card tooltip); the scores of these team counters
+     * Remembers which things the player counted (for the card tooltip); the scores of the team counters
      * are set for the whole team in [updateTeamScores].
      */
     private fun setCounter(handle: IPlayerHandle, name: String, values: Map<String, Int>, showCounts: Boolean = false) {
         details.set(handle.uuid, name, values, showCounts)
     }
 
+    /** Counters that are cheap to compute (advancement criteria, per-player state): updated every tick */
+    private fun updateFastCounters(handle: IPlayerHandle, player: ServerPlayer, playerState: DraftoutPlayerData) {
+        setCounter(handle, SCORE_BRED, completedCriteria(player, "counter/bred"))
+        setCounter(handle, SCORE_SPY, completedCriteria(player, "counter/spy"))
+        setCounter(handle, SCORE_COMPOST, completedCriteria(player, "counter/compost"))
+        // foods actually eaten ("consume_item"): the "used" statistic also counts planting carrots, placing berries,
+        // composting, filling decorated pots or emptying fish buckets
+        setCounter(handle, SCORE_FOOD, completedCriteria(player, "counter/food"))
+        details.set(handle.uuid, SCORE_EFFECTS, playerState.maxEffectIds)
+        setScore(handle, SCORE_EFFECTS, playerState.maxEffects)
+        setScore(handle, SCORE_PUMPKIN, playerState.pumpkinTicks / 20)
+        details.set(handle.uuid, SCORE_LEASH, playerState.maxLeashedIds)
+        setScore(handle, SCORE_LEASH, playerState.maxLeashed)
+    }
+
+    /** Counters relative to the statistics/advancements at the start of the game (every CHECK_INTERVAL ticks) */
+    private fun updateStatCounters(handle: IPlayerHandle, player: ServerPlayer, baseline: DraftoutPlayerData.Baseline) {
+        val stats = player.stats
+
+        // how much the value went up since the baseline; a value below the baseline lowers it (the player was reset)
+        fun sinceBaseline(base: MutableMap<String, Int>, id: String, value: Int): Int {
+            val before = base[id] ?: 0
+            if (value < before) {
+                if (value > 0) base[id] = value else base.remove(id)
+                return 0
+            }
+            return value - before
+        }
+
+        setCounter(handle, SCORE_CRAFTED, items
+            .filter { (item, id) -> sinceBaseline(baseline.crafted, id, stats.getValue(Stats.ITEM_CRAFTED, item)) > 0 }
+            .associate { (_, id) -> id to 1 })
+
+        fun kills(types: List<Pair<EntityType<*>, String>>) = types
+            .associate { (type, id) -> id to sinceBaseline(baseline.kills, id, stats.getValue(Stats.ENTITY_KILLED, type)) }
+            .filterValues { it > 0 }
+        setCounter(handle, SCORE_UNDEAD, kills(undeadTypes), showCounts = true)
+        setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes), showCounts = true)
+        setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes), showCounts = true)
+
+        val made = mutableMapOf<String, Int>()
+        for (holder in countedAdvancementsCache.get()) {
+            val id = holder.id.toString()
+            when {
+                // revoked since the baseline (e.g. by Bingo's player reset): counts once it is made again
+                !player.advancements.getOrStartProgress(holder).isDone -> baseline.advancements.remove(id)
+                id !in baseline.advancements -> made[id] = 1
+            }
+        }
+        setCounter(handle, SCORE_ADVANCEMENTS, made)
+    }
+
     /**
      * Sets every online teammate's score to the team's combined value, so that the scoreboard goal
      * (which uses the best player of the team) counts what the whole team did.
      */
-    /**
-     * Goals made of several criteria (e.g. "Visit All Nether Biomes": one per biome) count what the whole team
-     * has done, like the counters: each criterion is shared with the online teammates, so the goal completes
-     * once the team has covered all of them. (Counters are combined through their scores instead.)
-     */
-    private val teamAdvancementsCache = AdvancementCache { advancements ->
-        advancements.allAdvancements.filter { holder ->
-            holder.id.namespace == MOD_ID_BINGO && holder.id.path.startsWith("draftout/") &&
-                !holder.id.path.startsWith("draftout/counter/") && holder.value.requirements().size() > 1
+    private fun updateTeamScores() {
+        for (team in state.getRegisteredTeams()) {
+            val playerIds = team.players.map { it.uuid }
+            val online = playerIds.mapNotNull { playerManager.getPlayer(it) }
+            if (online.isEmpty()) continue
+            for (name in TEAM_SCORES) {
+                val combined = details.get(playerIds, name) ?: continue
+                val value = if (combined.showCounts) combined.values.values.sum() else combined.values.size
+                for (handle in online) setScore(handle, name, value)
+            }
         }
     }
 
@@ -502,78 +610,22 @@ internal class DraftoutTriggerController(
         }
     }
 
-    private fun updateTeamScores() {
-        for (team in state.getRegisteredTeams()) {
-            val playerIds = team.players.map { it.uuid }
-            val online = playerIds.mapNotNull { playerManager.getPlayer(it) }
-            if (online.isEmpty()) continue
-            for (name in TEAM_SCORES) {
-                val combined = details.get(playerIds, name) ?: continue
-                val value = if (combined.showCounts) combined.values.values.sum() else combined.values.size
-                for (handle in online) setScore(handle, name, value)
-            }
-        }
-    }
-
-    private fun updateScores(handle: IPlayerHandle, player: ServerPlayer, playerState: DraftoutPlayerData, includeSlow: Boolean) {
-        setCounter(handle, SCORE_BRED, completedCriteria(player, "counter/bred"))
-        setCounter(handle, SCORE_SPY, completedCriteria(player, "counter/spy"))
-        setCounter(handle, SCORE_COMPOST, completedCriteria(player, "counter/compost"))
-        // foods actually eaten ("consume_item"): the "used" statistic also counts planting carrots, placing berries,
-        // composting, filling decorated pots or emptying fish buckets
-        setCounter(handle, SCORE_FOOD, completedCriteria(player, "counter/food"))
-        details.set(handle.uuid, SCORE_EFFECTS, playerState.maxEffectIds)
-        setScore(handle, SCORE_EFFECTS, playerState.maxEffects)
-        setScore(handle, SCORE_PUMPKIN, playerState.pumpkinTicks / 20)
-        details.set(handle.uuid, SCORE_LEASH, playerState.maxLeashedIds)
-        setScore(handle, SCORE_LEASH, playerState.maxLeashed)
-
-        if (!includeSlow) return
-
+    private fun tickPlayer(handle: IPlayerHandle, runChecks: Boolean) {
+        val player = handle.player
+        startTracking(handle)
+        val playerState = playerStates.getValue(player.uuid)
+        // taken right away, so that nothing done in the first ticks of the game is part of it
         val baseline = playerState.baseline ?: createBaseline(player).also { playerState.baseline = it }
-        val stats = player.stats
 
-        fun itemId(item: Item) = BuiltInRegistries.ITEM.getKey(item).toString()
-
-        setCounter(handle, SCORE_CRAFTED, BuiltInRegistries.ITEM
-            .filter { stats.getValue(Stats.ITEM_CRAFTED, it) > (baseline.crafted[itemId(it)] ?: 0) }
-            .associate { itemId(it) to 1 })
-
-        fun kills(types: List<EntityType<*>>) = types
-            .associate { type -> (entityId(type) ?: "").let { id -> id to stats.getValue(Stats.ENTITY_KILLED, type) - (baseline.kills[id] ?: 0) } }
-            .filter { (id, count) -> id.isNotEmpty() && count > 0 }
-        setCounter(handle, SCORE_UNDEAD, kills(undeadTypes), showCounts = true)
-        setCounter(handle, SCORE_MOB_KILLS, kills(mobTypes), showCounts = true)
-        setCounter(handle, SCORE_ARTHROPOD, kills(arthropodTypes), showCounts = true)
-
-        setCounter(handle, SCORE_ADVANCEMENTS, countedAdvancementsCache.get()
-            .filter { it.id.toString() !in baseline.advancements && player.advancements.getOrStartProgress(it).isDone }
-            .associate { it.id.toString() to 1 })
-    }
-
-    /** All hidden draftout advancements (counters and goals granted by code or data) */
-    private val draftoutAdvancementsCache = AdvancementCache { advancements ->
-        advancements.allAdvancements.filter { it.id.namespace == MOD_ID_BINGO && it.id.path.startsWith("draftout/") }
-    }
-
-    /**
-     * Clears the player's draftout progress from a previous game. Bingo only resets players' advancements in lobby
-     * mode; without a lobby (or for players joining later) "Eat 15 Unique Food" & co. were completed right away.
-     */
-    private fun revokeDraftoutAdvancements(player: ServerPlayer) {
-        for (holder in draftoutAdvancementsCache.get()) {
-            val progress = player.advancements.getOrStartProgress(holder)
-            for (criterion in progress.completedCriteria.toList()) player.advancements.revoke(holder, criterion)
+        if (runChecks) {
+            checkEquipment(player, playerState)
+            checkInventory(player)
+            checkNearbyEntities(player, playerState)
+            if (player.foodData.foodLevel <= 0) grant(player, "empty_hunger")
+            updateStatCounters(handle, player, baseline)
         }
-    }
-
-    private fun resetPlayers() {
-        details.clear()
-        playerStates.clear()
-        for (player in playerManager.getPlayers()) {
-            revokeDraftoutAdvancements(player.player)
-            for (name in SCORES) setScore(player, name, 0)
-        }
+        updateMaxEffects(player, playerState)
+        updateFastCounters(handle, player, playerState)
     }
 
     init {
@@ -591,45 +643,40 @@ internal class DraftoutTriggerController(
             if (from != GameState.COUNTDOWN) resetPlayers()
         }
 
-        // players that weren't there when the game started (and had no progress in it yet)
-        events.onPlayerJoin { (player) ->
-            if (state.state != GameState.PLAYING && state.state != GameState.COUNTDOWN) return@onPlayerJoin
-            if (playerStates.containsKey(player.uuid)) return@onPlayerJoin
-            revokeDraftoutAdvancements(player.player)
-        }
-
         events.onEnter(GameState.PLAYING) { from ->
             // only reset when a new game starts: not when resuming from POSTGAME, nor when the state is re-entered
             // after loading the world / restarting the server (PLAYING -> PLAYING), which used to clear the counters
             if (from != GameState.POSTGAME && from != GameState.PLAYING) resetPlayers()
         }
 
+        // players that weren't part of the game yet (joining for the first time, or put on a team)
+        events.onPlayerJoin { (player) ->
+            if (state.state == GameState.PLAYING || state.state == GameState.COUNTDOWN) startTracking(player)
+        }
+        eventBus.register(TeamChangedEvent) { (player, team) ->
+            if (team != null && (state.state == GameState.PLAYING || state.state == GameState.COUNTDOWN)) startTracking(player)
+        }
+
         events.onGameTick {
             if (state.state != GameState.PLAYING) return@onGameTick
             tickCount++
             if (!hasDraftoutGoals()) return@onGameTick
-            // Counters are updated every tick (so that "n/N" progress on the card is live);
-            // the heavier world/inventory scans run every CHECK_INTERVAL ticks.
+            // Counters are updated every tick (so that the progress on the card is live);
+            // the heavier world/inventory/statistics scans run every CHECK_INTERVAL ticks.
             val runChecks = tickCount % CHECK_INTERVAL == 0
 
-            for (handle in playerManager.getPlayers()) {
-                if (!teamService.isPlaying(handle)) continue
-                val player = handle.player
-                if (!player.isAlive) continue
-                val playerState = playerStates.getOrPut(player.uuid) { DraftoutPlayerData() }
+            try {
+                trackNewTeamMembers()
+            } catch (e: Exception) {
+                log.error("[DraftoutTriggerController] Error while clearing new team members", e)
+            }
 
+            for (handle in playerManager.getPlayers()) {
+                if (!teamService.isPlaying(handle) || !handle.player.isAlive) continue
                 try {
-                    if (runChecks) {
-                        checkEquipment(player, playerState)
-                        checkInventory(player)
-                        checkNearbyEntities(player, playerState)
-                        checkMisc(player, playerState)
-                        checkDimension(player, playerState)
-                    }
-                    updateMaxEffects(player, playerState)
-                    updateScores(handle, player, playerState, includeSlow = true)
+                    tickPlayer(handle, runChecks)
                 } catch (e: Exception) {
-                    log.error("[DraftoutTriggerController] Error while checking ${player.scoreboardName}", e)
+                    log.error("[DraftoutTriggerController] Error while checking ${handle.playerName}", e)
                 }
             }
 

@@ -16,6 +16,7 @@ class DraftCommand(
             DraftController.Result.NotDrafting -> error(text.string(StringKey.DraftNotDrafting))
             DraftController.Result.NotYourTurn -> error(text.string(StringKey.DraftNotYourTurn))
             DraftController.Result.NoRerolls -> error(text.string(StringKey.DraftNoReroll))
+            DraftController.Result.Expired -> error(text.string(StringKey.DraftExpired))
         }
     }
 
