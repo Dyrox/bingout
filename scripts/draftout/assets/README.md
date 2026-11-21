@@ -9,7 +9,7 @@ overlays and counts, checked against the original jar's goal renderers and base
 classes. Reference: <https://draftoutmc.com/wiki/goals>.
 
 Run `python3 scripts/draftout/generate.py` from the repository root (requires
-Pillow). `gen_icons.py` exports the card images into the datapack images directory;
+Pillow and NumPy). `gen_icons.py` exports the card images into the datapack images directory;
 the normal goal generator assigns `display.image`. The server sends these images
 to Bingo clients and uses the same art on map cards.
 
@@ -20,8 +20,16 @@ animation support. Original item-plus-overlay icons use Bingo's existing item
 renders from `common/images.zip`, and number labels use Bingo's existing font.
 
 The original mod has colored-sheep artwork for ten colors. Bingo's six additional
-color variants retain their exact wool color and use the original skull overlay.
-Goal rules and the number of generated objectives are unchanged.
+colors (white, light gray, gray, black, brown, pink) are recolored from that artwork:
+each pixel is fitted across the ten originals as a constant part plus a wool shade, then
+tinted with the game's own sheep wool color. Goal rules and the number of generated
+objectives are unchanged.
+
+So that no two goals share an icon, `gen_icons.py` (`RECIPE_CHANGES`) also gives
+"Kill all Raid Mobs" the original kill-art layout (the Bad Omen art plus a sword) instead
+of the plain Bad Omen art, and "Eat every type of Soup" a 2×2 grid of the four soups
+instead of rabbit stew. Count labels have a thin dark outline, so they stay readable on
+light art such as white wool.
 
 Vanilla selection dialogs still use `display.item`: those dialogs do not consume
 Bingo's custom card-image packets. This change affects card/HUD/map artwork.

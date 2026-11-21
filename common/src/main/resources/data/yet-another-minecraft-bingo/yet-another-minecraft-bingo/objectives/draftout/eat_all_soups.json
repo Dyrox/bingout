@@ -6,7 +6,9 @@
       "fallback": "Eat every type of Soup"
     },
     "item": "minecraft:rabbit_stew",
-    "decoration": "ADVANCEMENT"
+    "decoration": "NONE",
+    "image": "yet-another-minecraft-bingo:draftout/eat_all_soups",
+    "itemStyle": "NORMAL"
   },
   "advancement": "yet-another-minecraft-bingo:draftout/eat/all_soups"
 }
