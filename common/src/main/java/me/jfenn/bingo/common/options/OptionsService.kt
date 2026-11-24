@@ -130,6 +130,16 @@ internal class OptionsService(
         eventBus.emit(OptionsChangedEvent)
     }
 
+    fun setDraftRerollCount(
+        count: Int,
+        card: BingoCard = cardViewService.getPlayerCard(ctx.player),
+    ) {
+        require(count >= 0) { "Draft reroll count must not be negative" }
+        card.options.draftRerollCount = count
+        ctx.sendFeedback(text.string(StringKey.OptionsDraftRerollCountSet, count))
+        eventBus.emit(OptionsChangedEvent)
+    }
+
     fun setCardDifficulty(
         card: BingoCard = cardViewService.getPlayerCard(ctx.player),
         itemDistInput: List<Int>,

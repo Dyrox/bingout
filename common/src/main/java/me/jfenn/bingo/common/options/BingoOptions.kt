@@ -142,6 +142,7 @@ data class BingoOptions(
                 yield(card.isInventoryMode.toString())
                 yield(card.isHiddenItemsMode.toString())
                 yield(card.isDraftMode.toString())
+                if (card.isDraftMode) yield(card.draftRerollCount.toString())
                 yield(",")
             }
             // features

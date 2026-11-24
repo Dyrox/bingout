@@ -42,7 +42,7 @@ import kotlin.random.Random
  * "Draftout" mode: before the game starts, two teams take turns picking the goals on the card.
  *
  * Each turn offers [OFFER_SIZE] random goals from the "draftout" tier list; the team picks one within
- * [PICK_SECONDS] seconds (or a random one is chosen). Each team may reroll its offer once per draft.
+ * [PICK_SECONDS] seconds (or a random one is chosen). Each team has a configurable number of rerolls per draft.
  *
  * The draft runs in the [DRAFTING] game state, inserted between LOADING and COUNTDOWN, so players are
  * already at their spawnpoint (and frozen) and can scout the world while drafting.
@@ -75,7 +75,6 @@ internal class DraftController(
         const val BOARD_SIZE = 25
         const val OFFER_SIZE = 2
         const val PICK_SECONDS = 10
-        const val REROLLS_PER_TEAM = 1
 
         /**
          * Used by the chat/dialog options: includes the turn, so that clicking an older message (e.g. from before a
@@ -105,6 +104,7 @@ internal class DraftController(
         val teams: List<BingoTeamKey>,
         val pool: MutableList<String>,
         val random: Random,
+        val rerollLimit: Int,
     ) {
         val picks = mutableListOf<String>()
         var offer = listOf<String>()
@@ -225,7 +225,7 @@ internal class DraftController(
                 ticksRemaining = session.ticksRemaining,
                 currentTeam = session.teams.indexOf(session.currentTeam),
                 teams = session.teams.map(::teamName),
-                rerolls = session.teams.map { REROLLS_PER_TEAM - (session.rerollsUsed[it] ?: 0) },
+                rerolls = session.teams.map { session.rerollLimit - (session.rerollsUsed[it] ?: 0) },
                 offers = offers,
                 picks = picks,
             ))
@@ -244,7 +244,7 @@ internal class DraftController(
     private fun showOffer(session: Session) {
         sync(session)
         val team = session.currentTeam
-        val rerollsLeft = REROLLS_PER_TEAM - (session.rerollsUsed[team] ?: 0)
+        val rerollsLeft = session.rerollLimit - (session.rerollsUsed[team] ?: 0)
         val title = text.string(StringKey.DraftTitle, session.picks.size + 1, BOARD_SIZE)
 
         for (player in allPlayers().filter { !packets.draftStateV1.isSupported(it) }) {
@@ -334,6 +334,7 @@ internal class DraftController(
             teams = teams.map { it.key }.shuffled(random),
             pool = buildPool(random),
             random = random,
+            rerollLimit = card.options.draftRerollCount.coerceAtLeast(0),
         )
         this.session = session
 
@@ -414,7 +415,7 @@ internal class DraftController(
         if (team == null || !team.includesPlayer(player.profile)) return Result.NotYourTurn
 
         val used = session.rerollsUsed[teamKey] ?: 0
-        if (used >= REROLLS_PER_TEAM) return Result.NoRerolls
+        if (used >= session.rerollLimit) return Result.NoRerolls
         session.rerollsUsed[teamKey] = used + 1
 
         // rerolled goals are discarded for the rest of the draft

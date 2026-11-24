@@ -137,6 +137,14 @@ class BingoOptionsCommands(
             literal("options") {
                 requires { hasConfigureGame() }
 
+                literal("draft_reroll_count") {
+                    integer("count", min = 0) { countArg ->
+                        executes {
+                            withOptionsService { it.setDraftRerollCount(getArgument(countArg)) }
+                        }
+                    }
+                }
+
                 literal("play_to") {
                     literal("cards") {
                         integer("count", min = 1) { countArg ->

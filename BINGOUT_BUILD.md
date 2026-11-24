@@ -18,6 +18,10 @@ mc26.x/build/libs/bingout-2.16.0-build.<build-id>+mc26.x.jar
 
 The same version is embedded in `fabric.mod.json` and the generated version constant. `-sources.jar` is not installable. To repeat a build with an intentional fixed version, pass `-Pbuild_id=<previous-id>`; that overwrites that particular version's files. Ordinary builds get a fresh ID.
 
+## Draft reroll count
+
+`/bingo options draft_reroll_count 2` sets the total rerolls per team for the next draft. The default is 1; 0 disables rerolls. Requires game configuration permission, like the other options, and can be set before a game or during play for the next draft. The setting is saved with the card options; both teams start with the same allowance. Existing `/bingo reroll` behavior is unchanged.
+
 ## Shared draft screen
 
 Both teams and spectators receive the current two offers, all selected goals, both teams' remaining rerolls, the picking team, and server time remaining. Only the picking team can act. The server checks team membership, reroll limits, and an opaque offer token that changes after every pick and reroll. UI actions now use the vanilla `bingo draft choose <turn> <option>` command transport; the older C2S packet endpoint remains compatible. Pending clicks unlock for retry after one second without a new turn. Clients with the new packet protocol use the compact translucent screen; older clients keep the chat/dialog fallback.

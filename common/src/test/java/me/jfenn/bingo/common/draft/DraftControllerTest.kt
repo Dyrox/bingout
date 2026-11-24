@@ -1,5 +1,6 @@
 package me.jfenn.bingo.common.draft
 
+import me.jfenn.bingo.common.options.BingoCardOptions
 import me.jfenn.bingo.common.map.CardViewService
 import io.mockk.*
 import me.jfenn.bingo.api.state.GameState
@@ -47,6 +48,7 @@ class DraftControllerTest {
             every { team.includesPlayer(any<PlayerProfile>()) } answers { firstArg<PlayerProfile>() == player.profile }
         }
     }
+    private val options = BingoCardOptions(isDraftMode = true)
     private val controller: DraftController
 
     init {
@@ -65,7 +67,7 @@ class DraftControllerTest {
         val card = mockk<BingoCard>(relaxed = true)
         every { card.id } returns UUID.randomUUID()
         every { card.seed } returns 1234L
-        every { card.options.isDraftMode } returns true
+        every { card.options } returns options
         every { state.getActiveCard() } returns card
         every { state.getCard(any<UUID>()) } returns card
         val manager = mockk<BingoObjectiveManager>(relaxed = true)
@@ -115,6 +117,42 @@ class DraftControllerTest {
         send(player, next.turn, DraftActionPacket.REROLL)
         assertEquals(next.turn, snapshot().turn)
         assertTrue(snapshot().picks.isEmpty())
+    }
+
+    @Test fun `zero rerolls disables rerolling without blocking picks`() {
+        options.draftRerollCount = 0
+        start.captured(DraftController.DRAFTING)
+        val before = snapshot()
+        assertEquals(listOf(0, 0), before.rerolls)
+        assertEquals(DraftController.Result.NoRerolls, send(picker(), before.turn, DraftActionPacket.REROLL))
+        assertEquals(before.turn, snapshot().turn)
+        assertEquals(DraftController.Result.Ok, send(picker(), before.turn, 0))
+        assertEquals(1, snapshot().picks.size)
+    }
+
+    @Test fun `configured rerolls are independent per team and persist across turns`() {
+        options.draftRerollCount = 2
+        start.captured(DraftController.DRAFTING)
+        val firstTeam = snapshot().currentTeam
+        val firstPlayer = picker()
+        assertEquals(listOf(2, 2), snapshot().rerolls)
+        // Later settings changes cannot change the allowance of a draft already underway.
+        options.draftRerollCount = 9
+        assertEquals(DraftController.Result.Ok, send(firstPlayer, snapshot().turn, DraftActionPacket.REROLL))
+        assertEquals(1, snapshot().rerolls[firstTeam])
+        assertEquals(2, snapshot().rerolls[1 - firstTeam])
+        send(firstPlayer, snapshot().turn, 0)
+        val secondPlayer = picker()
+        repeat(2) {
+            assertEquals(DraftController.Result.Ok, send(secondPlayer, snapshot().turn, DraftActionPacket.REROLL))
+        }
+        assertEquals(DraftController.Result.NoRerolls, send(secondPlayer, snapshot().turn, DraftActionPacket.REROLL))
+        send(secondPlayer, snapshot().turn, 0)
+        assertEquals(firstPlayer, picker())
+        assertEquals(1, snapshot().rerolls[firstTeam])
+        assertEquals(DraftController.Result.Ok, send(firstPlayer, snapshot().turn, DraftActionPacket.REROLL))
+        assertEquals(listOf(0, 0), snapshot().rerolls)
+        assertEquals(DraftController.Result.NoRerolls, send(firstPlayer, snapshot().turn, DraftActionPacket.REROLL))
     }
 
     @Test fun `complete draft alternates teams updates everyone and closes all screens`() {

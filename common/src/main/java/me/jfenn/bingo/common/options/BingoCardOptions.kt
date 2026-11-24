@@ -28,6 +28,8 @@ data class BingoCardOptions(
     var isConsumeItemsMode: Boolean = false,
     /** Two teams draft the goals on the card before the game starts (see [me.jfenn.bingo.common.draft.DraftController]) */
     var isDraftMode: Boolean = false,
+    /** Total rerolls available to each team for the whole draft; captured when drafting starts. */
+    var draftRerollCount: Int = 1,
 ) {
     fun isValid(): Boolean {
         return kotlin.runCatching { assertValid() }.isSuccess
