@@ -1,12 +1,16 @@
 from gen_lib import *
 
+# "Kill N Unique Hostile Mobs": Draftout counts the monsters of https://minecraft.wiki/w/Monster#List_of_monsters
+# (Java Edition, neutral ones like the enderman and piglins included), ...
 HOSTILE = [
     "blaze", "bogged", "breeze", "cave_spider", "creaking", "creeper", "drowned", "elder_guardian",
-    "ender_dragon", "endermite", "evoker", "ghast", "guardian", "hoglin", "husk", "magma_cube", "parched",
-    "phantom", "piglin_brute", "pillager", "ravager", "shulker", "silverfish", "skeleton", "slime", "spider",
-    "stray", "vex", "vindicator", "warden", "witch", "wither", "wither_skeleton", "zoglin", "zombie",
-    "zombie_villager", "sulfur_cube",
+    "ender_dragon", "enderman", "endermite", "evoker", "ghast", "giant", "guardian", "hoglin", "husk",
+    "illusioner", "magma_cube", "parched", "phantom", "piglin", "piglin_brute", "pillager", "ravager", "shulker",
+    "silverfish", "skeleton", "slime", "spider", "stray", "sulfur_cube", "vex", "vindicator", "warden", "witch",
+    "wither", "wither_skeleton", "zoglin", "zombie", "zombie_villager", "zombified_piglin",
 ]
+# ... and these mounts, if they have a hostile passenger
+HOSTILE_MOUNTS = ["camel_husk", "skeleton_horse", "zombie_horse", "zombie_nautilus"]
 BREEDABLE = [
     "armadillo", "axolotl", "bee", "camel", "cat", "chicken", "cow", "donkey", "fox", "frog", "goat",
     "hoglin", "horse", "llama", "mooshroom", "ocelot", "panda", "pig", "rabbit", "sheep", "sniffer",
@@ -106,7 +110,11 @@ def register(g: Gen, spy_mobs):
             "player_killed_entity", entity={"type": "minecraft:sheep", "components": {"minecraft:sheep/color": c}})})
         g.goal(f"KILL_COLORED_SHEEP__{c}", f"Kill {title(c)} Sheep", f"击杀{COLOR_ZH[c]}羊", advancement(adv),
                tier="C", icon=f"{c}_wool", decoration="ADVANCEMENT", group=grp)
-    hostile_kills = [stat("killed", m) for m in HOSTILE]
+    hostile_kills = [stat("killed", m) for m in HOSTILE] + [
+        advancement(g.adv(f"kill_hostile_mount/{m}", {"c": crit(
+            "player_killed_entity", entity={"type": mc(m), "passenger": {"type": [mc(h) for h in HOSTILE]}})}))
+        for m in HOSTILE_MOUNTS
+    ]
     for n, tier in [(7, "C"), (10, "B"), (13, "A"), (15, "S")]:
         g.goal(f"KILL_{n}_UNIQUE_HOSTILE_MOBS", f"Kill {n} Unique Hostile Mobs", f"击杀 {n} 种敌对生物",
                some_of(hostile_kills, n), tier=tier, icon="iron_sword", decoration="ADVANCEMENT")

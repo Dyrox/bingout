@@ -1,0 +1,66 @@
+# Draftout goals that need real gameplay, run by DevScriptRunner in a development launch (about a minute;
+# see draftout-regression.txt for how to run it). The host's own client really moves and falls.
+bingo dev abort
+await pregame 60
+bingo mode draftout false
+bingo mode lockout false
+bingo goal full_card
+bingo dev team red
+bingo card set b1 yet-another-minecraft-bingo:draftout/die_by_falling_off_vine
+bingo card set i2 yet-another-minecraft-bingo:draftout/die_by_cactus
+bingo card set n3 yet-another-minecraft-bingo:draftout/lock_map
+bingo card set g4 yet-another-minecraft-bingo:draftout/use_cartography_table
+bingo card set o5 yet-another-minecraft-bingo:draftout/kill_15_unique_hostile_mobs
+bingo start ignore_warnings
+await playing 180
+wait 20
+gamemode survival @s
+clear @s
+echo --- Bingo's own card maps are locked maps, but don't count as locking a map
+bingo dev memento
+wait 10
+bingo dev expect advancement me false lock_map
+clear @s
+echo --- lock a normal map
+item replace entity @s weapon.mainhand with minecraft:map
+bingo dev use
+wait 5
+bingo dev lockmap
+wait 10
+bingo dev expect achieved red true use_cartography_table
+bingo dev expect advancement me true lock_map
+echo --- lock a buried treasure map (a minecraft:buried_treasure_map item in 26.x, from a shipwreck map chest)
+advancement revoke @s only yet-another-minecraft-bingo:draftout/lock_map
+clear @s
+loot give @s loot minecraft:chests/shipwreck_map
+wait 5
+bingo dev lockmap
+wait 10
+bingo dev expect advancement me true lock_map
+clear @s
+echo --- unique hostile mobs: neutral monsters count, mounts only with a hostile passenger
+execute at @s run summon minecraft:enderman ~3 ~ ~ {NoAI:1b}
+damage @e[type=minecraft:enderman,limit=1,sort=nearest] 1000 minecraft:player_attack by @s
+execute at @s run summon minecraft:zombified_piglin ~3 ~ ~ {NoAI:1b}
+damage @e[type=minecraft:zombified_piglin,limit=1,sort=nearest] 1000 minecraft:player_attack by @s
+execute at @s run summon minecraft:zombie_horse ~3 ~ ~ {NoAI:1b}
+damage @e[type=minecraft:zombie_horse,limit=1,sort=nearest] 1000 minecraft:player_attack by @s
+wait 10
+bingo dev expect progress red 2 kill_15_unique_hostile_mobs
+execute at @s run summon minecraft:zombie_horse ~3 ~ ~ {NoAI:1b,Passengers:[{id:"minecraft:zombie",NoAI:1b}]}
+damage @e[type=minecraft:zombie_horse,limit=1,sort=nearest] 1000 minecraft:player_attack by @s
+wait 10
+bingo dev expect progress red 3 kill_15_unique_hostile_mobs
+kill @e[type=minecraft:zombie]
+echo --- fall off a single vine block, 60 blocks above a stone platform
+clear @s
+execute at @s run fill ~-2 150 ~-2 ~2 150 ~2 minecraft:stone
+execute at @s run fill ~ 151 ~ ~ 215 ~ minecraft:air
+execute at @s run setblock ~1 210 ~ minecraft:stone
+execute at @s run setblock ~ 210 ~ minecraft:vine[east=true]
+execute at @s align xz run tp @s ~0.5 210 ~0.5
+wait 100
+bingo dev expect achieved red true die_by_falling_off_vine
+bingo dev expect achieved red false die_by_cactus
+bingo end
+exit

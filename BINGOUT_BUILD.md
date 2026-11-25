@@ -34,8 +34,8 @@ Goal definitions, icons, and draft translations remain generated through `python
 
 Only active in development launches (`gradle runClient`), never in release builds:
 
-- `/bingo dev ...` (op): set up situations that are slow to reach by playing — `team`, `fake` (offline team member), `grant` (also for offline players), `stat`, `resetplayer` (like Bingo's lobby-mode reset), `use`, `interact`, `leash`, `pearl` — and check results with `expect achieved|progress|advancement|score`.
-- Test scripts: with `mc26.3/run/bingout-dev/autoplay` present, the client opens (or creates) the plain test world `BingoutDev`, publishes it to LAN so it keeps running behind menus, runs `mc26.3/run/bingout-dev/script.txt` line by line (`wait`, `await <state>`, `echo`, `exit`, commands), and quits on `exit`. Results are logged with `[bingout-dev]` to the console. See `scripts/dev/draftout-regression.txt`.
+- `/bingo dev ...` (op): set up situations that are slow to reach by playing — `abort` (back to the pregame from any state), `team`, `fake` (offline team member), `grant` (also for offline players), `stat`, `resetplayer` (like Bingo's lobby-mode reset), `use` (like a right click), `interact`, `leash`, `pearl`, `lockmap` (cartography table + glass pane), `memento` (a Bingo card map) — and check results with `expect achieved|progress|advancement|score` (`me` for your own player).
+- Test scripts: with `mc26.3/run/bingout-dev/autoplay` present, the client opens (or creates) the plain test world `BingoutDev`, publishes it to LAN so it keeps running behind menus, respawns right away after dying, runs `mc26.3/run/bingout-dev/script.txt` line by line (`wait`, `await <state>`, `echo`, `exit`, commands), and quits on `exit`. Results are logged with `[bingout-dev]` to the console. See `scripts/dev/draftout-regression.txt` (counters, offline teammates, drafting) and `scripts/dev/draftout-goals.txt` (falling off vines, locking maps, unique hostile mobs).
 
 ## GitHub CI and releases
 

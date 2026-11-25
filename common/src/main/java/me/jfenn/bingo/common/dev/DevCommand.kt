@@ -1,5 +1,7 @@
 package me.jfenn.bingo.common.dev
 
+import me.jfenn.bingo.api.state.GameState
+import me.jfenn.bingo.common.NBT_BINGO_IGNORE
 import me.jfenn.bingo.common.Permission
 import me.jfenn.bingo.common.commands.hasPermission
 import me.jfenn.bingo.common.data.ScopedData
@@ -17,22 +19,30 @@ import me.jfenn.bingo.platform.IPlayerManager
 import me.jfenn.bingo.platform.IStatManager
 import me.jfenn.bingo.platform.commands.ICommandManager
 import me.jfenn.bingo.platform.commands.IExecutionContext
+import me.jfenn.bingo.platform.event.IEventBus
+import me.jfenn.bingo.platform.item.IItemStackFactory
 import me.jfenn.bingo.platform.player.PlayerProfile
 import me.jfenn.bingo.platform.scoreboard.IScoreboardManager
 import net.minecraft.core.BlockPos
 import net.minecraft.core.UUIDUtil
+import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
 import net.minecraft.resources.ResourceKey
 import net.minecraft.stats.Stats
+import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.SimpleMenuProvider
 import net.minecraft.world.entity.EntitySpawnReason
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl
+import net.minecraft.world.inventory.CartographyTableMenu
+import net.minecraft.world.inventory.ContainerLevelAccess
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.MapItem
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
 import org.slf4j.Logger
@@ -62,8 +72,9 @@ internal class DevCommand(
         return state.teams.values.first { it.key == key }
     }
 
-    /** An online player, or a (possibly made-up) offline one */
+    /** An online player, or a (possibly made-up) offline one ("me": the player running the command) */
     private fun IExecutionContext.findPlayer(name: String): IPlayerHandle {
+        if (name == "me") return playerOrThrow
         scope.get<IPlayerManager>().getPlayers().find { it.playerName == name }?.let { return it }
         val profile = state.teams.values.flatMap { it.players }.find { it.name == name }?.profile
             ?: PlayerProfile(UUIDUtil.createOfflinePlayerUUID(name), name)
@@ -172,11 +183,62 @@ internal class DevCommand(
                     }
                 }
 
-                // use the held item on the server (e.g. shoot a loaded crossbow)
+                // use the held item like a right click (e.g. shoot a loaded crossbow, fill an empty map)
                 literal("use") {
                     executes {
                         val player = playerOrThrow.player
-                        player.mainHandItem.use(player.level(), player, InteractionHand.MAIN_HAND)
+                        player.gameMode.useItem(player, player.level(), player.mainHandItem, InteractionHand.MAIN_HAND)
+                    }
+                }
+
+                // back to PREGAME from any state (e.g. a draft left over from an earlier test run)
+                literal("abort") {
+                    executes {
+                        if (state.state != GameState.PREGAME) {
+                            state.reset()
+                            state.changeState(scope.get<IEventBus>(), GameState.PREGAME)
+                        }
+                    }
+                }
+
+                // lock the first unlocked map (filled or explorer map) in your inventory with a glass pane in a
+                // cartography table menu, shift-clicking the result like a player
+                literal("lockmap") {
+                    executes {
+                        val player = playerOrThrow.player
+                        val inventory = player.inventory
+                        val slot = (0 until inventory.containerSize).firstOrNull {
+                            val stack = inventory.getItem(it)
+                            stack.has(DataComponents.MAP_ID) && MapItem.getSavedData(stack, player.level())?.locked == false
+                        } ?: error(text.literal("No unlocked map in your inventory"))
+                        val map = inventory.removeItem(slot, 1)
+                        log.info("[bingout-dev] Locking {} {}", BuiltInRegistries.ITEM.getKey(map.item), map.get(DataComponents.MAP_ID))
+                        val access = ContainerLevelAccess.create(player.level(), player.blockPosition())
+                        player.openMenu(SimpleMenuProvider({ id, inv, _ -> CartographyTableMenu(id, inv, access) }, Component.empty()))
+                        val menu = player.containerMenu as? CartographyTableMenu ?: error(text.literal("Couldn't open a cartography table"))
+                        menu.getSlot(0).set(map)
+                        menu.getSlot(1).set(ItemStack(Items.GLASS_PANE))
+                        if (!menu.getSlot(2).hasItem()) error(text.literal("The cartography table has no result"))
+                        menu.quickMoveStack(player, 2)
+                        player.closeContainer()
+                    }
+                }
+
+                // a memento card like the one Bingo gives after a game: your team's (locked) card map, tagged
+                // bingo_ignore (the real one needs the game over info)
+                literal("memento") {
+                    executes {
+                        val player = playerOrThrow
+                        val teamService = scope.get<TeamService>()
+                        val team = teamService.getPlayerTeam(player) ?: error(text.literal("You're not in a team"))
+                        val stack = scope.get<IItemStackFactory>().createFilledMap().apply {
+                            mapId = teamService.getTeamMap(team).mapId
+                            addCustomTag(NBT_BINGO_IGNORE)
+                        }
+                        player.giveItemStack(stack)
+                        val map = player.player.inventory.let { inv -> (0 until inv.containerSize).map { inv.getItem(it) } }
+                            .firstOrNull { it.has(DataComponents.MAP_ID) }
+                        log.info("[bingout-dev] Memento card given, locked map: {}", map?.let { MapItem.getSavedData(it, player.player.level())?.locked })
                     }
                 }
 

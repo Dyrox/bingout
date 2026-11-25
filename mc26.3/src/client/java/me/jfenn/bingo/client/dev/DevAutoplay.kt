@@ -4,6 +4,7 @@ import me.jfenn.bingo.common.dev.DevSignals
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.gui.screens.DeathScreen
 import net.minecraft.client.gui.screens.TitleScreen
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen
 import net.minecraft.client.input.MouseButtonEvent
@@ -19,6 +20,7 @@ import kotlin.io.path.exists
  * - opens the plain test world [WORLD] from the title screen (creating it the first time; without Bingo's lobby data
  *   pack, so isLobbyMode=false),
  * - publishes it to LAN, so that the integrated server keeps running behind menus (Bingo's screens pause the game),
+ * - respawns right away after dying (tests can kill the player, and a test script only starts with a live player),
  * - quits the game when a test script asks to (see DevScriptRunner).
  */
 object DevAutoplay {
@@ -57,6 +59,11 @@ object DevAutoplay {
                 Screens.getWidgets(screen)
                     .find { (it.message.contents as? TranslatableContents)?.key == "selectWorld.create" }
                     ?.onClick(MouseButtonEvent(0.0, 0.0, MouseButtonInfo(0, 0)), false)
+            }
+
+            if (screen is DeathScreen) {
+                mc.player?.respawn()
+                mc.gui.setScreen(null)
             }
 
             val server = mc.singleplayerServer

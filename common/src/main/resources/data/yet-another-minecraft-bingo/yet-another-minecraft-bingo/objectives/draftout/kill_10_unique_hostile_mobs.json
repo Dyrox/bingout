@@ -59,6 +59,11 @@
     {
       "type": "stats",
       "statType": "minecraft:killed",
+      "statName": "minecraft:enderman"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
       "statName": "minecraft:endermite"
     },
     {
@@ -70,6 +75,11 @@
       "type": "stats",
       "statType": "minecraft:killed",
       "statName": "minecraft:ghast"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:giant"
     },
     {
       "type": "stats",
@@ -89,6 +99,11 @@
     {
       "type": "stats",
       "statType": "minecraft:killed",
+      "statName": "minecraft:illusioner"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
       "statName": "minecraft:magma_cube"
     },
     {
@@ -100,6 +115,11 @@
       "type": "stats",
       "statType": "minecraft:killed",
       "statName": "minecraft:phantom"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
+      "statName": "minecraft:piglin"
     },
     {
       "type": "stats",
@@ -149,6 +169,11 @@
     {
       "type": "stats",
       "statType": "minecraft:killed",
+      "statName": "minecraft:sulfur_cube"
+    },
+    {
+      "type": "stats",
+      "statType": "minecraft:killed",
       "statName": "minecraft:vex"
     },
     {
@@ -194,7 +219,23 @@
     {
       "type": "stats",
       "statType": "minecraft:killed",
-      "statName": "minecraft:sulfur_cube"
+      "statName": "minecraft:zombified_piglin"
+    },
+    {
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/kill_hostile_mount/camel_husk"
+    },
+    {
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/kill_hostile_mount/skeleton_horse"
+    },
+    {
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/kill_hostile_mount/zombie_horse"
+    },
+    {
+      "type": "advancement",
+      "advancement": "yet-another-minecraft-bingo:draftout/kill_hostile_mount/zombie_nautilus"
     }
   ],
   "min": 10,

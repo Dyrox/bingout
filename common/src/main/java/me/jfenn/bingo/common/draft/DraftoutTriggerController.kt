@@ -2,6 +2,7 @@ package me.jfenn.bingo.common.draft
 
 import me.jfenn.bingo.api.state.GameState
 import me.jfenn.bingo.common.MOD_ID_BINGO
+import me.jfenn.bingo.common.NBT_BINGO_IGNORE
 import me.jfenn.bingo.common.event.ScopedEvents
 import me.jfenn.bingo.common.event.model.TeamChangedEvent
 import me.jfenn.bingo.common.scope.BingoComponent
@@ -13,7 +14,6 @@ import me.jfenn.bingo.platform.IPlayerManager
 import me.jfenn.bingo.platform.event.IEventBus
 import me.jfenn.bingo.platform.event.game.ScopeStopped
 import me.jfenn.bingo.platform.event.model.BreakBlockEvent
-import me.jfenn.bingo.platform.event.model.PlayerDeathEvent
 import me.jfenn.bingo.platform.scoreboard.IObjectiveHandle
 import me.jfenn.bingo.platform.scoreboard.IScoreboardManager
 import net.minecraft.core.component.DataComponents
@@ -174,6 +174,14 @@ internal class DraftoutTriggerController(
             val dimensions = setOf(player.level().dimension(), pearlLevel.dimension())
             if (dimensions == setOf(Level.OVERWORLD, Level.NETHER)) grant(player, "pearl_portal")
         }
+
+        /**
+         * The player is dying (no totem saved them): the death goals. Not on Fabric's death event, which comes at the
+         * end of ServerPlayer.die: by then the combat log is cleared (CombatTracker.recheckStatus), and only the log
+         * knows that the fall started on vines ("fell off some vines").
+         */
+        @JvmStatic
+        fun onPlayerDie(player: ServerPlayer, source: DamageSource) = hook(player, "a death") { onDeath(it, source) }
     }
 
     /** Saved with the game state, so that counters survive reloading the world / restarting the server */
@@ -456,6 +464,9 @@ internal class DraftoutTriggerController(
 
     private val shieldStack = ItemStack(Items.SHIELD)
 
+    private fun isBingoItem(stack: ItemStack) =
+        stack.get(DataComponents.CUSTOM_DATA)?.copyTag()?.contains(NBT_BINGO_IGNORE) == true
+
     private fun checkInventory(player: ServerPlayer) {
         val inventory = player.inventory
         val main = (0 until 36).map { inventory.getItem(it) }
@@ -464,9 +475,12 @@ internal class DraftoutTriggerController(
 
         if (main.none { it.isEmpty } && main.map { it.item }.toSet().size == 36) grant(player, "fill_inventory_unique")
 
+        // Any map item: explorer maps (buried treasure, woodland mansion, ...) are items of their own in 26.x.
+        // Bingo's own card maps (the team card of players without the card HUD, the memento card after a game) are
+        // locked maps too.
         val hasLockedMap = (0 until inventory.containerSize)
             .map { inventory.getItem(it) }
-            .filter { it.`is`(Items.FILLED_MAP) }
+            .filter { it.has(DataComponents.MAP_ID) && !isBingoItem(it) }
             .any { MapItem.getSavedData(it, player.level())?.locked == true }
         if (hasLockedMap) grant(player, "lock_map")
 
@@ -696,16 +710,6 @@ internal class DraftoutTriggerController(
                 onBlockBroken(event.player.player, blockId)
             } catch (e: Exception) {
                 log.error("[DraftoutTriggerController] Error while handling block break", e)
-            }
-        }
-
-        eventBus.register(PlayerDeathEvent) { event ->
-            if (state.state != GameState.PLAYING) return@register
-            if (!teamService.isPlaying(event.player)) return@register
-            try {
-                onDeath(event.player.player, event.source)
-            } catch (e: Exception) {
-                log.error("[DraftoutTriggerController] Error while handling death", e)
             }
         }
     }

@@ -5,9 +5,11 @@
 #   ./gradlew :mc26.3:runClient > run.log      # opens/creates the "BingoutDev" world, runs this, then quits
 #   grep "\[bingout-dev\] \(FAIL\|RESULT\)" run.log
 #
-# Delete mc26.3/run/saves/BingoutDev first if an earlier run was interrupted mid-game.
+# Gameplay checks (deaths, locking maps, kills) are in draftout-goals.txt.
 # ===== game 1 =====
-await pregame 120
+# back to the pregame from wherever an earlier run stopped (this script itself ends mid-draft)
+bingo dev abort
+await pregame 60
 bingo mode draftout false
 bingo mode lockout false
 bingo goal full_card
