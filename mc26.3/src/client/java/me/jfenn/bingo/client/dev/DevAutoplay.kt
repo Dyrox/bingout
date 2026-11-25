@@ -21,7 +21,8 @@ import kotlin.io.path.exists
  *   pack, so isLobbyMode=false),
  * - publishes it to LAN, so that the integrated server keeps running behind menus (Bingo's screens pause the game),
  * - respawns right away after dying (tests can kill the player, and a test script only starts with a live player),
- * - quits the game when a test script asks to (see DevScriptRunner).
+ * - quits the game when a test script asks to (see DevScriptRunner),
+ * - marks when it started, for scripts/dev/hotswap.sh (resources copied later are newer than the loaded ones).
  */
 object DevAutoplay {
     private const val WORLD = "BingoutDev"
@@ -32,6 +33,10 @@ object DevAutoplay {
         if (!loader.isDevelopmentEnvironment) return
         if (!loader.gameDir.resolve("bingout-dev").resolve("autoplay").exists()) return
         log.info("[DevAutoplay] Opening the test world '{}'", WORLD)
+        loader.gameDir.resolve("bingout-dev").resolve("hotswap-resources-marker").toFile().apply {
+            createNewFile()
+            setLastModified(System.currentTimeMillis())
+        }
 
         var opened = false
         var published = false

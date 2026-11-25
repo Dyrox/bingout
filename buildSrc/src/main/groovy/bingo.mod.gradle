@@ -11,6 +11,11 @@ loom {
     runs {
         client {
             jvmArguments.addAll("-XX:+UseZGC", "-XX:+PerfDisableSharedMem")
+            // -PbingoutDebugPort=<port> (scripts/dev/test.sh): a local debug port, for hot-swapping changed code into the
+            // running client with scripts/dev/hotswap.sh
+            if (project.hasProperty("bingoutDebugPort")) {
+                jvmArguments.add("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:${project.property("bingoutDebugPort")}")
+            }
         }
     }
 }
