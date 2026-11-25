@@ -6,6 +6,7 @@ import me.jfenn.bingo.common.Permission
 import me.jfenn.bingo.common.commands.hasPermission
 import me.jfenn.bingo.common.data.ScopedData
 import me.jfenn.bingo.common.draft.DraftoutTriggerController
+import me.jfenn.bingo.common.card.objective.ObjectiveListService
 import me.jfenn.bingo.common.map.CardViewService
 import me.jfenn.bingo.common.state.BingoState
 import me.jfenn.bingo.common.team.BingoTeam
@@ -188,6 +189,21 @@ internal class DevCommand(
                     executes {
                         val player = playerOrThrow.player
                         player.gameMode.useItem(player, player.level(), player.mainHandItem, InteractionHand.MAIN_HAND)
+                    }
+                }
+
+                // start a game right away with just these goals (draftout names like "lock_map", or full ids), to
+                // test them: see DevQuickStart
+                literal("quick") {
+                    string("goals", greedy = true) { goalsArg ->
+                        executes {
+                            val goals = getArgument(goalsArg).trim().split(Regex("\\s+")).map(::ids)
+                            val known = scope.get<ObjectiveListService>().getAllObjectives().toSet()
+                            val unknown = goals.filter { it !in known }
+                            if (unknown.isNotEmpty()) error(text.literal("Unknown goals: ${unknown.joinToString()}"))
+                            if (goals.size > 25) error(text.literal("A card has 25 tiles"))
+                            scope.get<DevQuickStart>().start(playerOrThrow.uuid, goals)
+                        }
                     }
                 }
 

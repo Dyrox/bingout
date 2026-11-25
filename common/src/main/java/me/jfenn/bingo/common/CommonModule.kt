@@ -46,6 +46,7 @@ import me.jfenn.bingo.common.menu.tooltips.TooltipState
 import me.jfenn.bingo.common.options.OptionsService
 import me.jfenn.bingo.common.ready.ReadyCommand
 import me.jfenn.bingo.common.dev.DevCommand
+import me.jfenn.bingo.common.dev.DevQuickStart
 import me.jfenn.bingo.common.dev.DevScriptRunner
 import me.jfenn.bingo.common.draft.DraftCommand
 import me.jfenn.bingo.common.draft.DraftController
@@ -352,6 +353,7 @@ val commonModule = module {
         scopedOf(::DraftoutTriggerController)
         scopedOf(::ProgressFeedbackController)
         scopedOf(::ProgressDetailsService)
+        scopedOf(::DevQuickStart)
         scopedOf(::DevScriptRunner)
 
         scopedOf(::ResetOnLeaveController)
@@ -455,6 +457,7 @@ fun Scope.commonInit() {
     get<WaitUntilLoadedController>()
     get<DraftController>()
     get<ProgressFeedbackController>()
+    get<DevQuickStart>()
     get<DevScriptRunner>()
 
     get<ResetOnLeaveController>()

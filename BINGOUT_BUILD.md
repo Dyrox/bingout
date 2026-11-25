@@ -34,6 +34,18 @@ Goal definitions, icons, and draft translations remain generated through `python
 
 Only active in development launches (`gradle runClient`), never in release builds:
 
+- Quick test of a few goals: `/bingo dev quick <goals...>` (draftout names like `lock_map`, or full ids) starts a game right away with only these goals on the card (the rest are "not drafted yet" placeholders): no draft, no lockout, no countdown, red team, a clear day, survival mode with an empty inventory. In a test script, the next line waits until it's playing.
+- Run a test script and get its results with `scripts/dev/test.sh <script>` (or `-` to read the script from stdin). It starts the client if needed and leaves it running, so the next script takes seconds; after changing code, use `--restart`. For example:
+
+  ```sh
+  scripts/dev/test.sh - <<'EOF'
+  bingo dev quick eat_cookie
+  bingo dev grant me eat/cookie
+  wait 5
+  bingo dev expect achieved red true eat_cookie
+  EOF
+  ```
+
 - `/bingo dev ...` (op): set up situations that are slow to reach by playing — `abort` (back to the pregame from any state), `team`, `fake` (offline team member), `grant` (also for offline players), `stat`, `resetplayer` (like Bingo's lobby-mode reset), `use` (like a right click), `interact`, `leash`, `pearl`, `lockmap` (cartography table + glass pane), `memento` (a Bingo card map) — and check results with `expect achieved|progress|advancement|score` (`me` for your own player).
 - Test scripts: with `mc26.3/run/bingout-dev/autoplay` present, the client opens (or creates) the plain test world `BingoutDev`, publishes it to LAN so it keeps running behind menus, respawns right away after dying, runs `mc26.3/run/bingout-dev/script.txt` line by line (`wait`, `await <state>`, `echo`, `exit`, commands), and quits on `exit`. Results are logged with `[bingout-dev]` to the console. See `scripts/dev/draftout-regression.txt` (counters, offline teammates, drafting) and `scripts/dev/draftout-goals.txt` (falling off vines, locking maps, unique hostile mobs).
 

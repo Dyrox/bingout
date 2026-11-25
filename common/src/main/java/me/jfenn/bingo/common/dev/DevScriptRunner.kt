@@ -18,7 +18,8 @@ import kotlin.io.path.readLines
  * ending with a "RESULT" line.
  *
  * Script lines:
- * - `<command>`: run as the player (`@console <command>` runs it as the server)
+ * - `<command>`: run as the player (`@console <command>` runs it as the server); after `bingo dev quick ...`, the next
+ *   line waits until that game is playing (see [DevQuickStart])
  * - `wait <ticks>`
  * - `await <state> [seconds]`: wait for a game state (e.g. `await playing`), failing the script after a timeout
  * - `echo <text>`
@@ -32,6 +33,7 @@ internal class DevScriptRunner(
     private val server: MinecraftServer,
     private val state: BingoState,
     private val playerManager: IPlayerManager,
+    private val quickStart: DevQuickStart,
 ) : BingoComponent() {
 
     companion object {
@@ -105,6 +107,7 @@ internal class DevScriptRunner(
     }
 
     private fun step() {
+        if (quickStart.isRunning) return
         if (waitTicks > 0) {
             waitTicks--
             return
@@ -154,8 +157,8 @@ internal class DevScriptRunner(
                 ticks++
                 when {
                     running -> step()
-                    // checked once a second, with a player online for a few seconds (joined and loaded in)
-                    ticks % 20 == 0 && scriptFile.exists() && playerManager.getPlayers().any { it.player.tickCount > 60 } -> load()
+                    // checked 4 times a second, with a player online for a second (joined and loaded in)
+                    ticks % 5 == 0 && scriptFile.exists() && playerManager.getPlayers().any { it.player.tickCount > 20 } -> load()
                 }
             }
         }

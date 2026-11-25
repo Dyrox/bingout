@@ -1,9 +1,5 @@
-# Draftout regression test, run by DevScriptRunner in a development launch (about a minute):
-#
-#   mkdir -p mc26.3/run/bingout-dev && touch mc26.3/run/bingout-dev/autoplay
-#   cp scripts/dev/draftout-regression.txt mc26.3/run/bingout-dev/script.txt
-#   ./gradlew :mc26.3:runClient > run.log      # opens/creates the "BingoutDev" world, runs this, then quits
-#   grep "\[bingout-dev\] \(FAIL\|RESULT\)" run.log
+# Draftout regression test (about a minute): scripts/dev/test.sh scripts/dev/draftout-regression.txt
+# It needs its own setup (offline players' progress from "an earlier game"), so it doesn't use "bingo dev quick".
 #
 # Gameplay checks (deaths, locking maps, kills) are in draftout-goals.txt.
 # ===== game 1 =====
